@@ -1,0 +1,555 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Maverick,熊猫小A,Galileo,blog" />
+    <meta name="generator" content="Maverick 1.0" />
+    <meta name="template" content="Galileo" />
+    <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
+    <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/galileo-e6da2f5ff6.css">
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <script>
+        var ExSearchConfig = {
+            root: "",
+            api: "https://blog.imalan.cn/e612b13f73133307cae957b764702e4b.json"
+        }
+    </script>
+    
+<title>A* 算法求解十五数码问题 - 无文字 | 三无计划</title>
+<meta name="author" content="熊猫小A" />
+<meta name="description" content="这是一门小课的课堂作业，计划通的我就用实验报告水一篇吧~" />
+<meta property="og:title" content="A* 算法求解十五数码问题 - 无文字 | 三无计划" />
+<meta property="og:description" content="这是一门小课的课堂作业，计划通的我就用实验报告水一篇吧~" />
+<meta property="og:site_name" content="无文字 | 三无计划" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.imalan.cn/archives/216/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2018-11-25T13:24:00+08.00" />
+<meta name="twitter:title" content="A* 算法求解十五数码问题 - 无文字 | 三无计划" />
+<meta name="twitter:description" content="这是一门小课的课堂作业，计划通的我就用实验报告水一篇吧~" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="" />
+
+
+    
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//cdn.imalan.cn" />
+<link rel="dns-prefetch" href="//blog.imalan.cn" />
+<link rel="stylesheet" href="/brand_font/embed.css" />
+<style>.brand{font-family:FZCuJinLFW,serif;font-weight: normal!important;}</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=PY43YeeEKx">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=yyLyaqbyRG">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=yyLyaqbyRG">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=yyLyaqbyRG" color="#505050">
+<link rel="shortcut icon" href="/favicon.ico?v=yyLyaqbyRG">
+<meta name="application-name" content="三無計劃">
+<meta name="apple-mobile-web-app-title" content="三無計劃">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+<meta name="baidu-site-verification" content="9BEwwo6Ibg" />
+
+    </head>
+    
+    <body>
+        <div class="container">
+            <header id="ga-header">
+                <div first>
+                    <aside id="ga-logo">
+                        <a href="https://blog.imalan.cn/" target="_self">
+                            <img src="https://blog.imalan.cn/android-chrome-512x512.png" alt="无文字 | 三无计划">
+                        </a>
+                    </aside>
+                    <aside id="ga-nav">
+                        <h1 class="brand">无文字 | 三无计划</h1>
+                        <nav>
+                            <a href="https://blog.imalan.cn/" target="_self">首页</a> · <a href="https://blog.imalan.cn/archives/" target="_self">归档</a> · <a href="https://blog.imalan.cn/links/" target="_self">友链</a> · <a href="https://blog.imalan.cn/about/" target="_self">关于</a> · <a href="#" target="_self" class="search-form-input">搜索</a>
+                        </nav>
+                    </aside>
+                </div>
+                <div second>
+                    <p>无文字是熊猫小A的博客站点，隶属于「三无计划」。</p>
+                    <p class="ga-mono">
+                        抓住我：<a title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i></a>, <a title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i></a>, <a title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i></a>
+                    </p>
+                </div>
+            </header>
+            
+<main>    
+    <section class="ga-section" id="ga-content">
+        <article class="yue">
+            <h1 class="ga-post_title">A* 算法求解十五数码问题</h1>
+            <span class="ga-post_meta ga-mono">
+                <span>熊猫小A</span>
+                <time>
+                    2018-11-25
+                </time>
+                
+                in <a no-style class="category" href="https://blog.imalan.cn/category/偶尔Geek/">
+                    偶尔Geek
+                </a>
+                
+                
+            </span>
+            <div class="ga-content_body">
+                <h2>问题描述</h2>
+<p>数码问题是一类比较经典的图搜索问题，它给定如下表所示的某个初始状态（这里以 4*4 的十五数码问题为例）：</p>
+<table>
+<thead><tr>
+<th>11</th>
+<th>9</th>
+<th>4</th>
+<th>15</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>0</td>
+<td>12</td>
+</tr>
+<tr>
+<td>7</td>
+<td>5</td>
+<td>8</td>
+<td>6</td>
+</tr>
+<tr>
+<td>13</td>
+<td>2</td>
+<td>10</td>
+<td>14</td>
+</tr>
+</tbody>
+</table>
+<p>每次可将 0 上下左右移动一格，要求寻找某个移动策略，使整个局面达到目标状态，例如：</p>
+<table>
+<thead><tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>9</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+</tr>
+<tr>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h2>算法描述</h2>
+<h3>一般图搜索算法</h3>
+<p>视每种状态为一个节点。在某节点下，通过移动 0  的位置可以得到新的节点，这称为“扩展一个节点”。理论上讲，整个牌局可能出现的局面数，也就是节点数是有穷的，因此通过暴力搜索肯定能找到解（若有解的话）。但是 15 数码问题局面总数是 16!，这使暴力搜索没有实践价值。</p>
+<p>一般的图搜索算法通过维护两个表：OPEN 表与 CLOSE 表，分别存放未被扩展过的节点与已经被扩展过的节点，并通过某种策略来优化搜索过程。其基本过程是：</p>
+<ol>
+<li>将初始状态加入 OPEN 表，清空 CLOSE 表</li>
+<li>若 OPEN 表为空，失败，退出</li>
+<li>移除 OPEN 表中的第一个节点，将其加入 CLOSE 表，该节点记为 n</li>
+<li>若 n 是目标节点，搜索成功，退出</li>
+<li>扩展 n 节点，舍弃扩展出的子节点中与 n 的父节点相同的节点，对剩下的子节点做如下处理：<ul>
+<li>若该子节点不在 OPEN 表与 CLOSE 表中，则将其加入 OPEN 表</li>
+<li>否则，记与该子节点相同的已存在的节点为 P，舍弃该子节点，按照<strong>某种原则</strong>判断是否应该修改 P 的父节点指向</li>
+</ul>
+</li>
+<li>按照<strong>某种原则</strong>重排 OPEN 表</li>
+<li>跳转至第二步</li>
+</ol>
+<p>这个过程给出了图搜索算法的一般流程。在进行算法实现时还需要指定重排 OPEN 表的准则：也就是确定哪些节点应该被优先扩展与留在搜索树中。</p>
+<h3>A 算法</h3>
+<p>A 算法通过一个估价函数 f 来对节点进行评价，估计出该节点到达目标节点的“希望”，并有限扩展最有希望的节点。其估价函数定义为：
+$$
+f(n)=g(n)+h(n)
+$$
+其中 n 代表被评价的节点。特别的，定义
+$$
+g^*(n)：从起始节点到n的最优路径的代价
+$$</p>
+<p>$$
+h^*(n)：从n到目标节点的最优路径的代价
+$$</p>
+<p>$$
+f^*(n)：从起始节点到目标节点的最优路径的代价
+$$</p>
+<p>因此 $f(n),g(n),h(n)$ 是 $f^*(n),g^*(n),h^*(n)$ 的估计值。一般选择 $g(n)$ 为起始节点到 n 的实际代价，$h(n)$ 为 n 到目标节点的代价估计。$h(n)$ 是基于某准则制定的启发函数，用于描述 n 到目标节点的“难度”。</p>
+<p>在一般图搜索算法的第 6 步，A 算法对 OPEN 表中的所有节点使用 $f(n)$ 进行评价并由小到大排序，每次都有限扩展 $f(n)$ 最小的节点。另外在第 5 步，当 P 已存在时，若新生成的子节点的 $f(n)$ 相对 P 的更小，则更新 P 的父节点为当前节点，并递归地更新 P 的所有子节点的估价。</p>
+<h3>A* 算法</h3>
+<p>在 A 算法中，若有
+$$
+h(n)\leq h^<em>(n)
+$$
+则称为 A</em> 算法。</p>
+<h2>算法实现</h2>
+<p>这里使用 C++ 进行算法实现。设初始与目标状态为问题描述中的两个表。选取 $h(n)$ 为当前节点中所有数码相对目标位置的曼哈顿距离和。</p>
+<h3>节点类</h3>
+<div class="highlight"><pre><span></span><span class="k">extern</span> <span class="kt">int</span> <span class="n">start</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="n">target</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span>
+<span class="k">extern</span> <span class="kt">int</span> <span class="n">trans</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="k">class</span> <span class="nc">node</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">m_State</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">m_Zero</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>    
+    <span class="n">node</span><span class="o">*</span> <span class="n">m_Parent</span><span class="p">;</span>  
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">node</span><span class="o">*&gt;</span> <span class="n">m_Childern</span><span class="p">;</span>   
+    <span class="kt">int</span> <span class="n">m_H</span><span class="p">;</span> <span class="c1">// 代价    </span>
+    <span class="kt">int</span> <span class="n">m_G</span><span class="p">;</span> <span class="c1">// 深度</span>
+
+    <span class="n">node</span><span class="p">();</span>
+    <span class="n">node</span><span class="p">(</span><span class="kt">int</span> <span class="n">from</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]);</span>
+    <span class="n">node</span><span class="p">(</span><span class="kt">int</span> <span class="n">from</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">],</span> <span class="n">node</span><span class="o">*</span> <span class="n">parent</span><span class="p">);</span>
+
+    <span class="kt">void</span> <span class="nf">init</span><span class="p">(</span><span class="kt">int</span> <span class="n">from</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]);</span>
+    <span class="kt">void</span> <span class="nf">calcH</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="nf">calcG</span><span class="p">();</span>
+    <span class="k">static</span> <span class="kt">void</span> <span class="nf">findZero</span><span class="p">(</span><span class="kt">int</span> <span class="n">state</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">],</span><span class="kt">int</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+    <span class="kt">void</span> <span class="nf">findZero</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="nf">getPrice</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="nf">expand</span><span class="p">();</span>
+    <span class="kt">bool</span> <span class="nf">check</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]);</span>
+
+    <span class="c1">// 重载操作符，判定节点是否等价</span>
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="n">node</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">check</span><span class="p">(</span><span class="n">b</span><span class="p">.</span><span class="n">m_State</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">==</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">check</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]);</span>
+<span class="kt">int</span> <span class="nf">output</span><span class="p">(</span><span class="n">node</span><span class="o">*</span> <span class="n">n</span><span class="p">);</span>
+<span class="n">node</span><span class="o">*</span> <span class="nf">findP</span><span class="p">(</span><span class="kt">int</span> <span class="n">t</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">]);</span>
+<span class="n">node</span><span class="o">*</span> <span class="nf">get</span><span class="p">();</span>
+<span class="kt">void</span> <span class="nf">updateAll</span><span class="p">(</span><span class="n">node</span><span class="o">*</span> <span class="n">n</span><span class="p">);</span>
+</pre></div>
+<p>大部分成员及方法这里只给出声明，实现见附件中的 node.cpp。其中的 <code>expand()</code> 方法值得注意：</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">trans</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="p">{</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span> <span class="p">},{</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span> <span class="p">},{</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span> <span class="p">},{</span> <span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span> <span class="p">}</span> <span class="p">};</span>
+<span class="kt">void</span> <span class="n">node</span><span class="o">::</span><span class="n">expand</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">index</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">newZP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">m_Zero</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">trans</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">m_Zero</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">trans</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="p">};</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">newZP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">newZP</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">3</span> <span class="o">||</span> <span class="n">newZP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">newZP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">3</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+
+        <span class="c1">// 新的数码位置</span>
+        <span class="kt">int</span> <span class="n">newState</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">4</span><span class="p">];</span>
+
+        <span class="c1">// 初始化为当前状态</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">newState</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_State</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 交换 m_Zero 与 newZP 两个位置的数</span>
+        <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">newState</span><span class="p">[</span><span class="n">m_Zero</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">m_Zero</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
+        <span class="n">newState</span><span class="p">[</span><span class="n">m_Zero</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">m_Zero</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">newState</span><span class="p">[</span><span class="n">newZP</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">newZP</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
+        <span class="n">newState</span><span class="p">[</span><span class="n">newZP</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">newZP</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+
+        <span class="c1">// 排除与父节点相同的节点</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">m_Parent</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">m_Parent</span><span class="p">)</span> <span class="o">==</span> <span class="n">newState</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+
+        <span class="n">node</span><span class="o">*</span> <span class="n">P</span> <span class="o">=</span> <span class="n">findP</span><span class="p">(</span><span class="n">newState</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">P</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 新建节点并加入 OPEN</span>
+            <span class="n">node</span> <span class="o">*</span><span class="n">newN</span> <span class="o">=</span> <span class="k">new</span> <span class="n">node</span><span class="p">(</span><span class="n">newState</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="n">OPEN</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">newN</span><span class="p">);</span>
+            <span class="n">m_Childern</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">newN</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// 已存在，若当前节点代价更小，更改已存在的节点指针及其子节点代价</span>
+            <span class="n">node</span> <span class="o">*</span><span class="n">newN</span> <span class="o">=</span> <span class="k">new</span> <span class="n">node</span><span class="p">(</span><span class="n">newState</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">P</span><span class="o">-&gt;</span><span class="n">getPrice</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">newN</span><span class="o">-&gt;</span><span class="n">getPrice</span><span class="p">())</span> <span class="p">{</span>
+                <span class="c1">// 修改 P 的父节点为当前节点</span>
+                <span class="n">P</span><span class="o">-&gt;</span><span class="n">m_Parent</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+                <span class="n">P</span><span class="o">-&gt;</span><span class="n">calcG</span><span class="p">();</span>
+                <span class="n">updateAll</span><span class="p">(</span><span class="n">P</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="k">delete</span> <span class="n">newN</span><span class="p">;</span>
+                <span class="n">newN</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>其中的 <code>updateAll()</code> 递归地更新了 P 的所有子节点的估价。</p>
+<h3>OPEN 表与 CLOSE 表</h3>
+<p>使用 <code>std::vector</code> 作为容器：</p>
+<div class="highlight"><pre><span></span><span class="k">extern</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">node</span><span class="o">*&gt;</span> <span class="n">OPEN</span><span class="p">;</span>
+<span class="k">extern</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">node</span><span class="o">*&gt;</span> <span class="n">CLOSE</span><span class="p">;</span>
+</pre></div>
+<h3>算法执行</h3>
+<p>执行函数：</p>
+<div class="highlight"><pre><span></span><span class="n">node</span><span class="o">*</span> <span class="nf">execute</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// OPEN 为空</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">OPEN</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 获得估价最小的节点</span>
+    <span class="n">node</span> <span class="o">*</span><span class="n">now</span> <span class="o">=</span> <span class="n">get</span><span class="p">();</span>
+
+    <span class="c1">// 删除 OPEN 表中元素</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">node</span><span class="o">*&gt;::</span><span class="n">iterator</span> <span class="n">it</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">it</span> <span class="o">=</span> <span class="n">OPEN</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">OPEN</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">it</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">it</span> <span class="o">==</span> <span class="n">now</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">OPEN</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">it</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 放入 CLOSE 表</span>
+    <span class="n">CLOSE</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">now</span><span class="p">);</span>
+    <span class="c1">// 若抵达目标</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">now</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="k">return</span> <span class="n">now</span><span class="p">;</span>
+
+    <span class="c1">// 扩展该节点</span>
+    <span class="n">now</span><span class="o">-&gt;</span><span class="n">expand</span><span class="p">();</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;OPEN: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">OPEN</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">CLOSE: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">CLOSE</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+
+    <span class="c1">// 递归调用</span>
+    <span class="n">node</span><span class="o">*</span><span class="n">n</span> <span class="o">=</span> <span class="n">execute</span><span class="p">();</span> 
+
+    <span class="c1">// 返回目标</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+
+    <span class="c1">// 查找失败</span>
+    <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="n">OPEN</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+    <span class="n">CLOSE</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+    <span class="n">node</span> <span class="o">*</span><span class="n">st</span> <span class="o">=</span> <span class="k">new</span> <span class="n">node</span><span class="p">(</span><span class="n">start</span><span class="p">);</span>
+    <span class="n">OPEN</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">st</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">output</span><span class="p">(</span><span class="n">execute</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+<h2>测试结果</h2>
+<table>
+<thead><tr>
+<th>G</th>
+<th>H</th>
+<th>OPEN 表大小</th>
+<th>CLOSE 表大小</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>41</td>
+<td>0</td>
+<td>172546</td>
+<td>188600</td>
+</tr>
+</tbody>
+</table>
+<p>最终寻找到的路径步数为 41 步，已扩展节点数 188600 个，待扩展节点数 172546 个，也就是说算法搜索了接近 400000 个节点最终找到了一个路径。路径变换见附件 out.txt（从下到上为转变路径）。</p>
+<h2>讨论与总结</h2>
+<h3>有解性判断</h3>
+<p>对 15 数码问题，并非任何两种状态之间都可以相互转换，当前节点 n 相对目标节点 S 的有解性可以用以下准则判断：(n 逆序数奇偶性==S 逆序数奇偶性)==(0到目标位置的行距%2==0)。其中逆序数为将节点排成一列，其中每个数码前方比自己大的数码个数之和。</p>
+<p>有解性判断可用在初始节点的判断上，当判断其无解后就无需再进行搜索了。但是该性质不能帮助搜索过程中的剪枝，因为一旦初始节点有解，由初始节点扩展出的节点都有解。</p>
+<h3>算法不足</h3>
+<p>影响该算法性能的主要原因是 OPEN 表的排序这一步。实际实现过程中无需对 OPEN 表全局排序，只需要挑出其中估价最小的节点即可，但是这也需要遍历比较。在节点较多时，这是一个瓶颈。</p>
+<p>另外估价函数的设计会使算法性能差别很大。当估价函数的启发性不足时，会生成大量的无用节点，延长搜索时间。</p>
+<hr>
+<p>附件：<a href="/resources/num15/main.cpp">main.cpp</a> | <a href="/resources/num15/node.h">node.h</a> | <a href="/resources/num15/node.cpp">node.cpp</a> | <a href="/resources/num15/out.txt">out.txt</a></p>
+
+            </div>
+        </article>
+        <div id="ga-tags">
+    
+</div>
+
+<!--katex-->
+<link rel="stylesheet" href="https://blog.imalan.cn/assets/katex.min.css">
+<script defer src="https://blog.imalan.cn/assets/katex.min.js"></script>
+<script>
+mathOpts = {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false},
+        {left: "\\(", right: "\\)", display: false}
+    ]
+};
+</script>
+<script defer src="https://blog.imalan.cn/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+    </section>
+
+    
+<section id="ga-content_pager">
+
+    <div class="next">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/219/">RSA 算法介绍与 DEMO</a>
+        <p class="yue">聊聊 RSA 算法，并给出一个 C++ Demo。</p>
+    </div>
+
+
+    <div class="prev">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/213/">使用 Travis CI 自动生成与部署 Hexo 博客</a>
+        <p class="yue">不过即使它万般好，评论系统仍然令人头疼。</p>
+    </div>
+
+</section>
+
+
+    
+        <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+        <div id="vcomments"></div>
+        <script>
+        new Valine({
+            el: '#vcomments',
+            appId: '6chFXPTjrjYnjFk9duROcboN-gzGzoHsz',
+            appKey: 'c1CRooaFmpLs4xi7x3YLm3ma',
+            placeholder: '来畅所欲言吧~',
+            notify: false,
+            visitor: false,
+            
+            recordIP: true
+        })
+        </script>
+    
+
+</main>
+
+            <footer class="ga-mono" id="ga-footer">
+                <section>
+                    <span id="ga-uptime"></span>
+                    <span class="brand">无文字 | 三无计划</span>
+                </section>
+                <section>
+                    <p>Copyright © 2019 熊猫小A</p>
+                    <p>Powered by <a no-style href="https://github.com/AlanDecode/Maverick" target="_blank">Maverick & Galileo</a></p>
+                    
+<p><a no-style href="http://www.miitbeian.gov.cn/" target="_blank">京 ICP 备 18000133 号</a> | 
+<a no-style href="https://www.upyun.com" target="_blank">又拍云</a></p>
+
+                </section>
+                <script>
+                    var site_build_date = "2017-06-29T12:00+08:00"
+                </script>
+                <script src="https://blog.imalan.cn/assets/galileo-a1d6cd30a4.js"></script>
+            </footer>
+        </div>
+        
+        
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                          <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://blog.imalan.cn/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://blog.imalan.cn/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
+
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e4f3a7c02ac2aabc41a1cfa95f61a026";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+if(window.location.hash){
+    var checkExist = setInterval(function() {
+       if ($(window.location.hash).length) {
+          $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+          clearInterval(checkExist);
+       }
+    }, 100);
+}
+</script>
+<script>
+if(window.navigator && navigator.serviceWorker) {
+  caches.keys().then(function(cacheNames) {
+    cacheNames.forEach(function(cacheName) {
+      caches.delete(cacheName);
+    });
+  }).then(function(){
+    console.log('Cache cleaned.');
+  });
+  navigator.serviceWorker.getRegistrations()
+  .then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  }).then(function(){
+    console.log('Service Worker stopped.');
+  });
+}
+</script>
+
+    </body>
+</html>

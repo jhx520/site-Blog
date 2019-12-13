@@ -1,0 +1,315 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Maverick,熊猫小A,Galileo,blog" />
+    <meta name="generator" content="Maverick 1.0" />
+    <meta name="template" content="Galileo" />
+    <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
+    <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/galileo-e6da2f5ff6.css">
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <script>
+        var ExSearchConfig = {
+            root: "",
+            api: "https://blog.imalan.cn/e612b13f73133307cae957b764702e4b.json"
+        }
+    </script>
+    
+<title>使用 CloudFlare 来做 301 跳转 - 无文字 | 三无计划</title>
+<meta name="author" content="熊猫小A" />
+<meta name="description" content="None" />
+<meta property="og:title" content="使用 CloudFlare 来做 301 跳转 - 无文字 | 三无计划" />
+<meta property="og:description" content="None" />
+<meta property="og:site_name" content="无文字 | 三无计划" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.imalan.cn/archives/73/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2018-01-06T12:44:00+08.00" />
+<meta name="twitter:title" content="使用 CloudFlare 来做 301 跳转 - 无文字 | 三无计划" />
+<meta name="twitter:description" content="None" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="" />
+
+
+    
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//cdn.imalan.cn" />
+<link rel="dns-prefetch" href="//blog.imalan.cn" />
+<link rel="stylesheet" href="/brand_font/embed.css" />
+<style>.brand{font-family:FZCuJinLFW,serif;font-weight: normal!important;}</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=PY43YeeEKx">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=yyLyaqbyRG">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=yyLyaqbyRG">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=yyLyaqbyRG" color="#505050">
+<link rel="shortcut icon" href="/favicon.ico?v=yyLyaqbyRG">
+<meta name="application-name" content="三無計劃">
+<meta name="apple-mobile-web-app-title" content="三無計劃">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+<meta name="baidu-site-verification" content="9BEwwo6Ibg" />
+
+    </head>
+    
+    <body>
+        <div class="container">
+            <header id="ga-header">
+                <div first>
+                    <aside id="ga-logo">
+                        <a href="https://blog.imalan.cn/" target="_self">
+                            <img src="https://blog.imalan.cn/android-chrome-512x512.png" alt="无文字 | 三无计划">
+                        </a>
+                    </aside>
+                    <aside id="ga-nav">
+                        <h1 class="brand">无文字 | 三无计划</h1>
+                        <nav>
+                            <a href="https://blog.imalan.cn/" target="_self">首页</a> · <a href="https://blog.imalan.cn/archives/" target="_self">归档</a> · <a href="https://blog.imalan.cn/links/" target="_self">友链</a> · <a href="https://blog.imalan.cn/about/" target="_self">关于</a> · <a href="#" target="_self" class="search-form-input">搜索</a>
+                        </nav>
+                    </aside>
+                </div>
+                <div second>
+                    <p>无文字是熊猫小A的博客站点，隶属于「三无计划」。</p>
+                    <p class="ga-mono">
+                        抓住我：<a title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i></a>, <a title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i></a>, <a title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i></a>
+                    </p>
+                </div>
+            </header>
+            
+<main>    
+    <section class="ga-section" id="ga-content">
+        <article class="yue">
+            <h1 class="ga-post_title">使用 CloudFlare 来做 301 跳转</h1>
+            <span class="ga-post_meta ga-mono">
+                <span>熊猫小A</span>
+                <time>
+                    2018-01-06
+                </time>
+                
+                in <a no-style class="category" href="https://blog.imalan.cn/category/偶尔Geek/">
+                    偶尔Geek
+                </a>
+                
+                
+            </span>
+            <div class="ga-content_body">
+                <p><del>到「来动手吧」之前都是废话。</del></p>
+<p>更换域名之后有许多问题需要处理。比如原来散布在网上的各种链接统统变成了死链，如果就这么鲁莽地开一个新站的话，由于内容与原域名指向的内容重复，非常不利于 SEO（虽然对我这种站来说 SEO 什么的不存在的）。这种全站迁移的情况，不论是百度还是 Google 都建议用 301 永久重定向的方式来告诉搜索引擎：我的内容换地方了！</p>
+<p>本文适用于这种情况：迁移站点，但是原域名无法解析到某个服务器端做跳转（比如原域名没有备案，无法解析到国内服务器，然而穷逼又没钱不想买国外服务器……）。</p>
+<h3>几个名词解释</h3>
+<p>关于 301 重定向，维基百科的解释：</p>
+<blockquote><p><strong>301 Move Permanently</strong> 是<a href="https://www.wikiwand.com/zh/HTTP%E5%8D%8F%E8%AE%AE">HTTP协议</a>中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置，通常会发送<a href="https://www.wikiwand.com/zh/HTTP_Location">HTTP Location</a>来<a href="https://www.wikiwand.com/zh/%E9%87%8D%E5%AE%9A%E5%90%91">重定向</a>到正确的新位置。</p>
+<p>返回 301 请求码进行跳转被<a href="https://www.wikiwand.com/zh/Google">Google</a>认为是将网站地址由 HTTP 迁移到 <a href="https://www.wikiwand.com/zh/HTTPS">HTTPS</a> 的最佳方法。</p>
+</blockquote>
+<p>总的来说就是客户端在请求服务器资源时，比如一个 HTML 静态网页，服务器返回这么一个状态码告诉客户端，这个文件已经不在我这里了，你得去某某地儿找。这种方式对搜索引擎更友好，Google 在爬网页时，遇到了 301 就会自动去新位置索引，并逐渐降低原始链接的展现权重。</p>
+<p>301 重定向与添加 CNAME 记录是不同的概念。虽然最终都会把你带到一个新的资源位置，但是 CNAME 是 DNS 方面的概念，而 301 重定向是 HTTP 协议的概念。最明显的区别在于，301 重定向将改变地址栏的链接，而 CNAME 不会。</p>
+<p>某些提供 DNS 解析的服务措辞可能引起歧义。比如 DNSPOD 在添加域名解析时提供「显性URL」，可以实现 301 跳转的效果，跟别的 DNS 解析设置放一起让人有些混淆。但这实际上并不是在搞域名解析服务，DNSPOD 也只是借助自己的服务器做了一个 301 跳转罢了。并且似乎 DNSPOD 的显性 URL 是付费项目，并且不支持通配符。</p>
+<p>关于 CloudFlare，来自百度的介绍：</p>
+<blockquote><p>Cloudflare以向客户提供网站安全管理、性能优化及相关的技术支持为主要业务。通过基于反向代理的内容传递网络(ContentDeliveryNetwork,CDN)及分布式域名解析服务(DistributedDomainNameServer)，Cloudflare可以帮助受保护站点抵御包括拒绝服务攻击(DenialofService)在内的大多数网络攻击，确保该网站长期在线，同时提升网站的性能、访问速度以改善访客体验。</p>
+</blockquote>
+<p>总的来说，提供 CDN 和 DNS 服务，对许多博主来说应该都不陌生了。CloudFlare 的用法蛮多的，比如利用它来给自己的网站套上一层免费 SSL 等等，不在本文讨论范围。</p>
+<h3>来动手吧</h3>
+<p>很简单。</p>
+<p>打开 CloudFlare 网站：<a href="https://www.cloudflare.com/">https://www.cloudflare.com/</a> 。注册，登录，并点击 Add Websites，输入你要处理的域名。注意必须是顶级域名，比如 a.com 这样的。点击 Begin Scan，CloudFlare 会扫描你原域名的 DNS 记录，扫描完成后点 Continue Setup。</p>
+<p>在 DNS 列表检查是否你原域名所有的 DNS 记录都在，不在的自己补上就好。然后点 Continue。</p>
+<p>选择 Free Website 选项，点 Continue。</p>
+<p>注意这一步很重要，CloudFlare 比较烦的一项就是必须把原域名的域名服务器改成它们的，所以它才需要扫描你的所有 DNS 记录。CloudFlare 的域名服务器为：</p>
+
+<pre><code>amir.ns.cloudflare.com
+lisa.ns.cloudflare.com</code></pre>
+<p>在你的域名注册商那里就可以改，改完后点击 Continue，静待域名服务器更改生效。</p>
+<p><figure class="pswp-item" style="flex: 141.73728813559322" data-width="1338" data-height="472"><img src="../assets/337ada07706f4959f6f7436c5ab3562d.png" alt="" /></figure></p>
+<p>在 Overview 这一栏如上图显示 Active 即可。</p>
+<p>然后在 DNS 这一栏中查看 DNS 记录。<strong>将你要跳转的域名解析到一个有效的 IP，比如 8.8.8.8 。不要解析到国内的服务器 IP，否则依然是分分钟提示你没备案。</strong></p>
+<p>在这里，我要将 blog.imalam.me 跳转到 imalan.cn。所以如图设置：</p>
+<p><figure class="pswp-item" style="flex: 285.7456140350877" data-width="1303" data-height="228"><img src="../assets/774cec84d5b135849e5512f855d427ff.png" alt="" /></figure></p>
+<p>重点来了：<strong>添加 Page Rules</strong> 。</p>
+<p>Page Rules 是 CloudFlare 的一项特色服务，可以根据设定的匹配规则来对请求进行处理，其中就包括重定向，支持通配符匹配。</p>
+<p>这里举例说明，如果我要把 <a href="http://blog.imalan.me/xxxx">http://blog.imalan.me/xxxx</a> 和 <a href="https://blog.imalan.me/xxxx">https://blog.imalan.me/xxxx</a> 统统重定向到 <a href="https://imalan.cn/xxxx，那么就应该这样设置：在">https://imalan.cn/xxxx，那么就应该这样设置：在</a> Page Rules 这一栏，点击 Create Page Rule。</p>
+<p>第一项填要处理的 URL，这里我填 <code>blog.imalan.me/*</code> 。就是指不论是 HTTP 还是 HTTPS，域名是 blog.imalan.me，后面的 <em> 是通配符，匹配任意字串。点击 Add A Setting，选择 Forwarding URL，Status Code 选择 301 。在下面输入要跳转到的 URL。这里我输入：<code>https://imalan.cn/$1</code> 。<code>$1</code> 是前面 </em> 匹配出的字串，按顺序依次编号 <code>$1</code>  ,<code>$2</code> ……。结果如下：</p>
+<p><figure class="pswp-item" style="flex: 75.84507042253522" data-width="1077" data-height="710"><img src="../assets/4f47eea21563d1f8c99f756a8f8daebd.png" alt="" /></figure></p>
+<p>点击 Save and Deploy 就完事了。</p>
+<p>注意如果添加多条 Page Rule 要注意前后顺序，CloudFlare 对每次访问只会按顺序执行符合的第一条 Rule。</p>
+<p>CloudFlare 的其他用法以后看情况（心情）再介绍吧，祝搞机愉快。</p>
+
+            </div>
+        </article>
+        <div id="ga-tags">
+    
+</div>
+
+<!--katex-->
+<link rel="stylesheet" href="https://blog.imalan.cn/assets/katex.min.css">
+<script defer src="https://blog.imalan.cn/assets/katex.min.js"></script>
+<script>
+mathOpts = {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false},
+        {left: "\\(", right: "\\)", display: false}
+    ]
+};
+</script>
+<script defer src="https://blog.imalan.cn/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+    </section>
+
+    
+<section id="ga-content_pager">
+
+    <div class="next">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/20180122sui-bibei-jing-wang-le-xia-xue/">随笔 | 北京忘了下雪</a>
+        <p class="yue">但即使下雪，也无人相伴。</p>
+    </div>
+
+
+    <div class="prev">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/69/">Win10 + VS2015 编译配置 PROJ.4 库</a>
+        <p class="yue">None</p>
+    </div>
+
+</section>
+
+
+    
+        <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+        <div id="vcomments"></div>
+        <script>
+        new Valine({
+            el: '#vcomments',
+            appId: '6chFXPTjrjYnjFk9duROcboN-gzGzoHsz',
+            appKey: 'c1CRooaFmpLs4xi7x3YLm3ma',
+            placeholder: '来畅所欲言吧~',
+            notify: false,
+            visitor: false,
+            
+            recordIP: true
+        })
+        </script>
+    
+
+</main>
+
+            <footer class="ga-mono" id="ga-footer">
+                <section>
+                    <span id="ga-uptime"></span>
+                    <span class="brand">无文字 | 三无计划</span>
+                </section>
+                <section>
+                    <p>Copyright © 2019 熊猫小A</p>
+                    <p>Powered by <a no-style href="https://github.com/AlanDecode/Maverick" target="_blank">Maverick & Galileo</a></p>
+                    
+<p><a no-style href="http://www.miitbeian.gov.cn/" target="_blank">京 ICP 备 18000133 号</a> | 
+<a no-style href="https://www.upyun.com" target="_blank">又拍云</a></p>
+
+                </section>
+                <script>
+                    var site_build_date = "2017-06-29T12:00+08:00"
+                </script>
+                <script src="https://blog.imalan.cn/assets/galileo-a1d6cd30a4.js"></script>
+            </footer>
+        </div>
+        
+        
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                          <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://blog.imalan.cn/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://blog.imalan.cn/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
+
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e4f3a7c02ac2aabc41a1cfa95f61a026";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+if(window.location.hash){
+    var checkExist = setInterval(function() {
+       if ($(window.location.hash).length) {
+          $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+          clearInterval(checkExist);
+       }
+    }, 100);
+}
+</script>
+<script>
+if(window.navigator && navigator.serviceWorker) {
+  caches.keys().then(function(cacheNames) {
+    cacheNames.forEach(function(cacheName) {
+      caches.delete(cacheName);
+    });
+  }).then(function(){
+    console.log('Cache cleaned.');
+  });
+  navigator.serviceWorker.getRegistrations()
+  .then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  }).then(function(){
+    console.log('Service Worker stopped.');
+  });
+}
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Maverick,熊猫小A,Galileo,blog" />
+    <meta name="generator" content="Maverick 1.0" />
+    <meta name="template" content="Galileo" />
+    <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
+    <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/galileo-e6da2f5ff6.css">
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <script>
+        var ExSearchConfig = {
+            root: "",
+            api: "https://blog.imalan.cn/e612b13f73133307cae957b764702e4b.json"
+        }
+    </script>
+    
+<title>CUDA：矩阵乘法与瓦片化处理 - 无文字 | 三无计划</title>
+<meta name="author" content="熊猫小A" />
+<meta name="description" content="None" />
+<meta property="og:title" content="CUDA：矩阵乘法与瓦片化处理 - 无文字 | 三无计划" />
+<meta property="og:description" content="None" />
+<meta property="og:site_name" content="无文字 | 三无计划" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.imalan.cn/archives/100/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2018-03-25T20:45:00+08.00" />
+<meta name="twitter:title" content="CUDA：矩阵乘法与瓦片化处理 - 无文字 | 三无计划" />
+<meta name="twitter:description" content="None" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="" />
+
+
+    
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//cdn.imalan.cn" />
+<link rel="dns-prefetch" href="//blog.imalan.cn" />
+<link rel="stylesheet" href="/brand_font/embed.css" />
+<style>.brand{font-family:FZCuJinLFW,serif;font-weight: normal!important;}</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=PY43YeeEKx">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=yyLyaqbyRG">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=yyLyaqbyRG">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=yyLyaqbyRG" color="#505050">
+<link rel="shortcut icon" href="/favicon.ico?v=yyLyaqbyRG">
+<meta name="application-name" content="三無計劃">
+<meta name="apple-mobile-web-app-title" content="三無計劃">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+<meta name="baidu-site-verification" content="9BEwwo6Ibg" />
+
+    </head>
+    
+    <body>
+        <div class="container">
+            <header id="ga-header">
+                <div first>
+                    <aside id="ga-logo">
+                        <a href="https://blog.imalan.cn/" target="_self">
+                            <img src="https://blog.imalan.cn/android-chrome-512x512.png" alt="无文字 | 三无计划">
+                        </a>
+                    </aside>
+                    <aside id="ga-nav">
+                        <h1 class="brand">无文字 | 三无计划</h1>
+                        <nav>
+                            <a href="https://blog.imalan.cn/" target="_self">首页</a> · <a href="https://blog.imalan.cn/archives/" target="_self">归档</a> · <a href="https://blog.imalan.cn/links/" target="_self">友链</a> · <a href="https://blog.imalan.cn/about/" target="_self">关于</a> · <a href="#" target="_self" class="search-form-input">搜索</a>
+                        </nav>
+                    </aside>
+                </div>
+                <div second>
+                    <p>无文字是熊猫小A的博客站点，隶属于「三无计划」。</p>
+                    <p class="ga-mono">
+                        抓住我：<a title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i></a>, <a title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i></a>, <a title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i></a>
+                    </p>
+                </div>
+            </header>
+            
+<main>    
+    <section class="ga-section" id="ga-content">
+        <article class="yue">
+            <h1 class="ga-post_title">CUDA：矩阵乘法与瓦片化处理</h1>
+            <span class="ga-post_meta ga-mono">
+                <span>熊猫小A</span>
+                <time>
+                    2018-03-25
+                </time>
+                
+                in <a no-style class="category" href="https://blog.imalan.cn/category/偶尔Geek/">
+                    偶尔Geek
+                </a>
+                
+                
+            </span>
+            <div class="ga-content_body">
+                <p>并行计算的另一个入门例子：矩阵乘法，附带粗略地说一说瓦片化处理的原因和在这个例子里的应用。</p>
+<p>定义矩阵乘法：</p>
+<center>$C_{m\times k}=A_{m\times n}\cdot B_{n\times k}$</center><p>其中</p>
+<center>$C_{i,j}=\sum_{k=1}^nA_{i,k}\times B_{k,j}$</center><p>大矩阵乘法在 CPU 上的运算是很耗时的，其特点决定了它更适合并行处理。那么如何在 CUDA 上完成运算呢？</p>
+<p><del>确实应该放图上来，但是实在是太懒不想做图……</del></p>
+<h4>代码</h4>
+<p>设两矩阵大小分别是 $m\times n$ 、$n\times k$ , <code>blocksize</code> 是一个 block 的大小，这个值是可以自己设定的，而且有不少学问，这里按下不表，暂且假设是一个小于 $m$ 和 $k$ 的数。这里略去分配显存和拷贝数据的过程，直接看 Device Code：</p>
+<div class="highlight"><pre><span></span><span class="n">__global__</span> 
+<span class="kt">void</span> <span class="nf">MatMUL</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span><span class="kt">float</span> <span class="o">*</span><span class="n">A</span><span class="p">,</span><span class="kt">float</span> <span class="o">*</span><span class="n">B</span><span class="p">,</span><span class="kt">float</span> <span class="o">*</span><span class="n">C</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">Row</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">blockDim</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">Col</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">Row</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">Col</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kt">float</span> <span class="n">c</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">c</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">Row</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="n">Col</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="n">C</span><span class="p">[</span><span class="n">k</span><span class="o">*</span><span class="n">Row</span> <span class="o">+</span> <span class="n">Col</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">__host__</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="err">……</span>
+    <span class="n">dim3</span> <span class="n">DimGrid</span><span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="n">blocksize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m</span> <span class="o">/</span> <span class="n">blocksize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">dim3</span> <span class="n">DimBlock</span><span class="p">(</span><span class="n">blocksize</span><span class="p">,</span> <span class="n">blocksize</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="c1">//非瓦片化</span>
+    <span class="n">MatMUL</span> <span class="o">&lt;&lt;&lt;</span><span class="n">DimGrid</span><span class="p">,</span> <span class="n">DimBlock</span> <span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">d_A</span><span class="p">,</span> <span class="n">d_B</span><span class="p">,</span> <span class="n">d_C</span><span class="p">);</span>
+    <span class="err">……</span>
+<span class="p">}</span>
+</pre></div>
+<h4>简析</h4>
+<p>从 <code>DimGrid</code> 与<code>DimBlock</code> 可知，这里的线程组织方式是二维的，定位某个线程的方法是：</p>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">Row</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">blockDim</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">Col</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</pre></div>
+<p>对应 $C$ 矩阵中的第 $Row$ 行 $Col$ 列的元素，其值即通过一个循环累加得到。注意虽然 A 与 B 矩阵是二维矩阵，但是它们的存储方式仍然是从上到下从左到右线性存储的，所以可以通过 <code>A[Row*n + i]</code> 这样的方式来访问矩阵元素值。</p>
+<h4>瓦片化处理</h4>
+<p>上面的代码中，GPU 执行过程中读写均发生在 global memory 上，但 global memory 速度慢于 block 内的 shared memory。瓦片化的思想是将某些频繁使用的值放进 shared memory 中，减少对 global memory 的访问次数，以此提高执行速度。但由于 shared memory 的大小有限，无法每次都把所有的数据载上去，因而每次只将 “一片” 元素值载入，故称「瓦片化处理」。</p>
+<p><strong>代码</strong></p>
+<div class="highlight"><pre><span></span><span class="n">__global__</span>
+<span class="kt">void</span> <span class="nf">MatMUL_Tile</span><span class="p">(</span><span class="kt">int</span> <span class="n">m</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">A</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">B</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">C</span><span class="p">)</span> <span class="p">{</span>
+<span class="cp">#define T 7</span>
+    <span class="n">__shared__</span> <span class="kt">float</span> <span class="n">ds_A</span><span class="p">[</span><span class="n">T</span><span class="p">][</span><span class="n">T</span><span class="p">];</span>
+    <span class="n">__shared__</span> <span class="kt">float</span> <span class="n">ds_B</span><span class="p">[</span><span class="n">T</span><span class="p">][</span><span class="n">T</span><span class="p">];</span>
+
+    <span class="kt">int</span> <span class="n">Row</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">y</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">Col</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">tx</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+
+    <span class="kt">float</span> <span class="n">c</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">((</span><span class="n">Row</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">Col</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">))</span> 
+    <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">/</span> <span class="n">T</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">t</span><span class="o">++</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">Row</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="n">tx</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">))</span>    <span class="n">ds_A</span><span class="p">[</span><span class="n">ty</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">Row</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="n">t</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="n">tx</span><span class="p">];</span>
+            <span class="k">else</span>                                <span class="n">ds_A</span><span class="p">[</span><span class="n">ty</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">t</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="n">ty</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">Col</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">))</span>    <span class="n">ds_B</span><span class="p">[</span><span class="n">ty</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span><span class="p">[(</span><span class="n">t</span><span class="o">*</span><span class="n">T</span> <span class="o">+</span> <span class="n">ty</span><span class="p">)</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="n">Col</span><span class="p">];</span>
+            <span class="k">else</span>                                <span class="n">ds_B</span><span class="p">[</span><span class="n">ty</span><span class="p">][</span><span class="n">tx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="n">__syncthreads</span><span class="p">();</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">T</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">c</span> <span class="o">+=</span> <span class="n">ds_A</span><span class="p">[</span><span class="n">ty</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">ds_B</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">tx</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="n">__syncthreads</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="n">C</span><span class="p">[</span><span class="n">Row</span><span class="o">*</span><span class="n">k</span> <span class="o">+</span> <span class="n">Col</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>T 代表每个瓦片的尺寸，它与 block 的大小一致。<code>__syncthreads();</code> 的作用是让 block 内的线程保持一样的执行进度，在遍历过程中瓦片中的值会被后面的操作覆盖，同步所有的线程可以防止读取、写入混乱。</p>
+<p>要特别注意边界条件，保证线程覆盖所有的待计算元素。当瓦片大小与矩阵大小不成整数比时，为覆盖所有元素，瓦片势必有一部分在矩阵之外，这部分瓦片的元素应该赋值为 0，否则可能发生意想不到的后果。</p>
+
+            </div>
+        </article>
+        <div id="ga-tags">
+    
+</div>
+
+<!--katex-->
+<link rel="stylesheet" href="https://blog.imalan.cn/assets/katex.min.css">
+<script defer src="https://blog.imalan.cn/assets/katex.min.js"></script>
+<script>
+mathOpts = {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false},
+        {left: "\\(", right: "\\)", display: false}
+    ]
+};
+</script>
+<script defer src="https://blog.imalan.cn/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+    </section>
+
+    
+<section id="ga-content_pager">
+
+    <div class="next">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/101/">关于最近的一点 Update【2018-03】</a>
+        <p class="yue">简单记点流水账吧。</p>
+    </div>
+
+
+    <div class="prev">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/99/">Hello CUDA！第一个 CUDA 程序</a>
+        <p class="yue">None</p>
+    </div>
+
+</section>
+
+
+    
+        <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+        <div id="vcomments"></div>
+        <script>
+        new Valine({
+            el: '#vcomments',
+            appId: '6chFXPTjrjYnjFk9duROcboN-gzGzoHsz',
+            appKey: 'c1CRooaFmpLs4xi7x3YLm3ma',
+            placeholder: '来畅所欲言吧~',
+            notify: false,
+            visitor: false,
+            
+            recordIP: true
+        })
+        </script>
+    
+
+</main>
+
+            <footer class="ga-mono" id="ga-footer">
+                <section>
+                    <span id="ga-uptime"></span>
+                    <span class="brand">无文字 | 三无计划</span>
+                </section>
+                <section>
+                    <p>Copyright © 2019 熊猫小A</p>
+                    <p>Powered by <a no-style href="https://github.com/AlanDecode/Maverick" target="_blank">Maverick & Galileo</a></p>
+                    
+<p><a no-style href="http://www.miitbeian.gov.cn/" target="_blank">京 ICP 备 18000133 号</a> | 
+<a no-style href="https://www.upyun.com" target="_blank">又拍云</a></p>
+
+                </section>
+                <script>
+                    var site_build_date = "2017-06-29T12:00+08:00"
+                </script>
+                <script src="https://blog.imalan.cn/assets/galileo-a1d6cd30a4.js"></script>
+            </footer>
+        </div>
+        
+        
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                          <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://blog.imalan.cn/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://blog.imalan.cn/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
+
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e4f3a7c02ac2aabc41a1cfa95f61a026";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+if(window.location.hash){
+    var checkExist = setInterval(function() {
+       if ($(window.location.hash).length) {
+          $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+          clearInterval(checkExist);
+       }
+    }, 100);
+}
+</script>
+<script>
+if(window.navigator && navigator.serviceWorker) {
+  caches.keys().then(function(cacheNames) {
+    cacheNames.forEach(function(cacheName) {
+      caches.delete(cacheName);
+    });
+  }).then(function(){
+    console.log('Cache cleaned.');
+  });
+  navigator.serviceWorker.getRegistrations()
+  .then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  }).then(function(){
+    console.log('Service Worker stopped.');
+  });
+}
+</script>
+
+    </body>
+</html>

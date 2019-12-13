@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Maverick,熊猫小A,Galileo,blog" />
+    <meta name="generator" content="Maverick 1.0" />
+    <meta name="template" content="Galileo" />
+    <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
+    <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/galileo-e6da2f5ff6.css">
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <script>
+        var ExSearchConfig = {
+            root: "",
+            api: "https://blog.imalan.cn/e612b13f73133307cae957b764702e4b.json"
+        }
+    </script>
+    
+<title>春天=过敏，以及用 Apple Script 调整 Mac 屏幕亮度 - 无文字 | 三无计划</title>
+<meta name="author" content="熊猫小A" />
+<meta name="description" content="大概这就是闲得慌的人才会干的事吧~" />
+<meta property="og:title" content="春天=过敏，以及用 Apple Script 调整 Mac 屏幕亮度 - 无文字 | 三无计划" />
+<meta property="og:description" content="大概这就是闲得慌的人才会干的事吧~" />
+<meta property="og:site_name" content="无文字 | 三无计划" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.imalan.cn/archives/102/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2018-03-30T21:38:00+08.00" />
+<meta name="twitter:title" content="春天=过敏，以及用 Apple Script 调整 Mac 屏幕亮度 - 无文字 | 三无计划" />
+<meta name="twitter:description" content="大概这就是闲得慌的人才会干的事吧~" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="" />
+
+
+    
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//cdn.imalan.cn" />
+<link rel="dns-prefetch" href="//blog.imalan.cn" />
+<link rel="stylesheet" href="/brand_font/embed.css" />
+<style>.brand{font-family:FZCuJinLFW,serif;font-weight: normal!important;}</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=PY43YeeEKx">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=yyLyaqbyRG">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=yyLyaqbyRG">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=yyLyaqbyRG" color="#505050">
+<link rel="shortcut icon" href="/favicon.ico?v=yyLyaqbyRG">
+<meta name="application-name" content="三無計劃">
+<meta name="apple-mobile-web-app-title" content="三無計劃">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+<meta name="baidu-site-verification" content="9BEwwo6Ibg" />
+
+    </head>
+    
+    <body>
+        <div class="container">
+            <header id="ga-header">
+                <div first>
+                    <aside id="ga-logo">
+                        <a href="https://blog.imalan.cn/" target="_self">
+                            <img src="https://blog.imalan.cn/android-chrome-512x512.png" alt="无文字 | 三无计划">
+                        </a>
+                    </aside>
+                    <aside id="ga-nav">
+                        <h1 class="brand">无文字 | 三无计划</h1>
+                        <nav>
+                            <a href="https://blog.imalan.cn/" target="_self">首页</a> · <a href="https://blog.imalan.cn/archives/" target="_self">归档</a> · <a href="https://blog.imalan.cn/links/" target="_self">友链</a> · <a href="https://blog.imalan.cn/about/" target="_self">关于</a> · <a href="#" target="_self" class="search-form-input">搜索</a>
+                        </nav>
+                    </aside>
+                </div>
+                <div second>
+                    <p>无文字是熊猫小A的博客站点，隶属于「三无计划」。</p>
+                    <p class="ga-mono">
+                        抓住我：<a title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i></a>, <a title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i></a>, <a title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i></a>
+                    </p>
+                </div>
+            </header>
+            
+<main>    
+    <section class="ga-section" id="ga-content">
+        <article class="yue">
+            <h1 class="ga-post_title">春天=过敏，以及用 Apple Script 调整 Mac 屏幕亮度</h1>
+            <span class="ga-post_meta ga-mono">
+                <span>熊猫小A</span>
+                <time>
+                    2018-03-30
+                </time>
+                
+                in <a no-style class="category" href="https://blog.imalan.cn/category/摸鱼日常/">
+                    摸鱼日常
+                </a>
+                
+                
+            </span>
+            <div class="ga-content_body">
+                <p>都说北京四季不分明，每年都在夏天和冬天之间轮替，我说这是瞎扯。每年只要发现自己眼睛痒、鼻子堵、打喷嚏，我就知道不是春天就是秋天又到了。这几天被过敏折腾得不行，随时保持眼泪汪汪的状态，卫生纸消耗速度惊人，赶紧去医院看病开了些抗过敏的药才好转一点。</p>
+<h3>又来折腾 Hackintosh</h3>
+<p>去年末把笔记本从惠普 Probook 440 G3 换成了联想 R720，于是之前一直在用的黑苹果也木有了，新电脑没抽出时间来折腾它。前两天临时起意，就随便搜索了一下这个机型有没有成功的例子，找到了一个类似的：<a href="http://tieba.baidu.com/p/5521219636?pv=1&amp;red_tag=a1580648294">【教程】联想拯救者R720 安装MacOS 10.12.6 双系统教程</a> 。虽然帖子里的机型是 i5-7300 的版本，我的是 i7-7700HQ 的版本，据我估计差别不会太大，而且楼主封装的镜像和引导以及驱动<strong>非常全面</strong> ，弄得我顿时手痒起来。回头一看自己的固态，500G 就用了 200 多 G，闲着也是闲着，分了 100G 出来装 Hackintosh。</p>
+<p>版本是 10.12.6，主要是一般来说，上一版本的驱动会更稳定一些，而且可以找的资料也多一点。过程很顺利，果然联想爆款一向装黑苹果都不难，回头写个过程记录当备忘。总之结果是：</p>
+<ul>
+<li>核显 Intel HD Graphics 630，独立显卡无解。亮度调节 OK</li>
+<li>有线网卡 OK，无线无解</li>
+<li>声卡 OK（扬声器以及耳机）</li>
+<li>电池状态显示 OK</li>
+<li>蓝牙 OK，但没有 AirDrop 和 Handoff</li>
+<li>iMessage、iCloud、App Store 这些内置程序都正常。</li>
+<li>睡眠一睡就死</li>
+<li>触控板依然很垃圾（当然这是硬件的锅）</li>
+</ul>
+<p>算是比较标准的黑苹果状态。就差无线网卡比较蛋疼，家里有一块 BCM94352Z，但不在手边，回头把无线网卡换一个试试能不能把 WiFi 修好。其实我装黑苹果也不是要做什么 iOS 开发啥的，就是很喜欢 macOS 的那种顺畅和人性化的感觉，外观设计和字体渲染也很棒，最最重要的还是 Mac 平台的一些很精致的独占应用。既然没钱买一台真 Mac，暂时就这么曲线救国吧~</p>
+<h3>用 Apple Script 调整 Mac 屏幕亮度</h3>
+<p>一个很烦人的点，跟黑苹果无关，就是 Mac 外接显示器时是没办法（方便地）在不合盖的情况下关闭内建显示器的。我平时主要是用外接显示器的，很少的情况下才会镜像显示器或者扩展显示器。这个问题可以用两种方法解决。</p>
+<h4>糊弄电脑</h4>
+<p>说白了就是让电脑觉得已经盒盖了。方法就是拿一块小磁铁在笔记本 C 面试探，找到一个位置，当磁铁在这个位置时笔记本感应器接收到信号，觉得盖子合上了，于是关闭内建显示器。对我的联想 R720 而言，这个位置在左侧耳机孔附近。</p>
+<p>这个方法的好处是可以真正关闭内建显示器；坏处就是必须有个磁铁一直放在那个位置。</p>
+<h4>糊弄自己</h4>
+<p>原理就是把亮度开到最低，骗自己已经关闭了显示器……</p>
+<p>虽然有点自欺欺人，但是并不是不能接受的做法。不过每次都要用功能键（何况 Hackintosh 很多时候功能键并不奏效）或者去偏好设置里调节多少有些不便，我找了个用 Apple Script 的方法。</p>
+<p>首先打开系统内置的脚本编辑器，新建文稿，输入以下代码：</p>
+
+<pre><code>tell application "System Preferences"
+    activate
+    reveal anchor "displaysDisplayTab" of pane id "com.apple.preference.displays"
+    tell application "System Events"
+        set now to value of slider 1 of group 1 of tab group 1 of window "内建显示器" of process "System Preferences"
+        if now &gt; 0 then
+            set value of slider 1 of group 1 of tab group 1 of window "内建显示器" of process "System Preferences" to 0
+        else if now = 0 then
+            set value of slider 1 of group 1 of tab group 1 of window "内建显示器" of process "System Preferences" to 1
+        end if
+    end tell
+    quit
+end tell</code></pre>
+<p>然后点击文件-导出，文件格式选择应用程序，勾选仅运行，然后起一个好听的名字，比如“嗯嗯这样的话我就可以随便开关屏幕了呢.app”，然后保存。打开系统偏好设置-安全性与隐私，隐私选项卡里，在“辅助功能”这一项里点“+”，添加上面保存的“嗯嗯这样的话我就可以随便开关屏幕了呢.app”。</p>
+<p>以后点击“嗯嗯这样的话我就可以随便开关屏幕了呢.app”就会把内建显示器亮度调成 0，再点就会调成 1，再点就调成 0……</p>
+<div class="scode">注意：以上代码适用于中文系统，如果不是中文系统，那要把代码里的“内建显示器”换成对应的窗口名，比如（我猜）"Built-in Display" 啥的。</div><p>如果借用 Alfred 这类可以运行 Apple Script 的软件，那么可以更加方便，设置触发短语直接运行上面的代码即可。置的亮度值可以自己设定，不一定非得是 0 和 1。这段代码可以给我们许多启示：代表着我们还能用 Apple Script 调整更多的系统偏好设置，exciting！</p>
+
+            </div>
+        </article>
+        <div id="ga-tags">
+    
+</div>
+
+<!--katex-->
+<link rel="stylesheet" href="https://blog.imalan.cn/assets/katex.min.css">
+<script defer src="https://blog.imalan.cn/assets/katex.min.js"></script>
+<script>
+mathOpts = {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false},
+        {left: "\\(", right: "\\)", display: false}
+    ]
+};
+</script>
+<script defer src="https://blog.imalan.cn/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+    </section>
+
+    
+<section id="ga-content_pager">
+
+    <div class="next">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/103/">《千年女优》：像我这样寻找的人</a>
+        <p class="yue">None</p>
+    </div>
+
+
+    <div class="prev">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/101/">关于最近的一点 Update【2018-03】</a>
+        <p class="yue">简单记点流水账吧。</p>
+    </div>
+
+</section>
+
+
+    
+        <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+        <div id="vcomments"></div>
+        <script>
+        new Valine({
+            el: '#vcomments',
+            appId: '6chFXPTjrjYnjFk9duROcboN-gzGzoHsz',
+            appKey: 'c1CRooaFmpLs4xi7x3YLm3ma',
+            placeholder: '来畅所欲言吧~',
+            notify: false,
+            visitor: false,
+            
+            recordIP: true
+        })
+        </script>
+    
+
+</main>
+
+            <footer class="ga-mono" id="ga-footer">
+                <section>
+                    <span id="ga-uptime"></span>
+                    <span class="brand">无文字 | 三无计划</span>
+                </section>
+                <section>
+                    <p>Copyright © 2019 熊猫小A</p>
+                    <p>Powered by <a no-style href="https://github.com/AlanDecode/Maverick" target="_blank">Maverick & Galileo</a></p>
+                    
+<p><a no-style href="http://www.miitbeian.gov.cn/" target="_blank">京 ICP 备 18000133 号</a> | 
+<a no-style href="https://www.upyun.com" target="_blank">又拍云</a></p>
+
+                </section>
+                <script>
+                    var site_build_date = "2017-06-29T12:00+08:00"
+                </script>
+                <script src="https://blog.imalan.cn/assets/galileo-a1d6cd30a4.js"></script>
+            </footer>
+        </div>
+        
+        
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                          <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://blog.imalan.cn/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://blog.imalan.cn/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
+
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e4f3a7c02ac2aabc41a1cfa95f61a026";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+if(window.location.hash){
+    var checkExist = setInterval(function() {
+       if ($(window.location.hash).length) {
+          $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+          clearInterval(checkExist);
+       }
+    }, 100);
+}
+</script>
+<script>
+if(window.navigator && navigator.serviceWorker) {
+  caches.keys().then(function(cacheNames) {
+    cacheNames.forEach(function(cacheName) {
+      caches.delete(cacheName);
+    });
+  }).then(function(){
+    console.log('Cache cleaned.');
+  });
+  navigator.serviceWorker.getRegistrations()
+  .then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  }).then(function(){
+    console.log('Service Worker stopped.');
+  });
+}
+</script>
+
+    </body>
+</html>
