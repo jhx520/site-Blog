@@ -117,7 +117,7 @@
 <p>在 Web 语境下说结构化数据，主要说的是以某种特定的数据结构呈现页面的内容。例如一个介绍了一张菜谱的网页，视觉上的效果各有不同，但其中的重要信息是一致的：菜名、原料与用量、烹制顺序、烹制时间等。结构化数据通过某种标准，帮助各个网站对其内容做好标记，方便第三方服务抓取、分析与展示。</p>
 <p>结构化数据是一种思想，具体实现途径有多种，例如<a href="https://www.w3.org/TR/microdata/"><ruby>微数据<rp>(</rp><rt>Microdata</rt><rp>)</rp></ruby></a>，<a href="http://microformats.org"><ruby>微格式<rp>(</rp><rt>Microformat</rt><rp>)</rp></ruby></a>，<a href="https://json-ld.org/">JSON-LD</a>，RDFa 等。但不论使用哪种途径，都需要一个统一的标准为<ruby>事物<rp>(</rp><rt>Thing</rt><rp>)</rp></ruby>制定必须的属性集合，例如一辆汽车的结构化属性（价格、排量等），一本书的结构化属性（书名、作者、出版时间等）。</p>
 <p>互联网上，<ruby>事实上的<rp>(</rp><rt>de-facto</rt><rp>)</rp></ruby>结构化数据标准是 <a href="https://schema.org">Schema.org</a>，它制定了许多标准，并且仍然在添加更多的标准，例如下图是 Schema.org 制定的一张菜谱需要的结构内容：</p>
-<p><figure class="pswp-item" style="flex: 72.84382284382285" data-width="1250" data-height="858"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/98cd42a165c0deea490c762572a3874a.png" alt="Scheme.org - Recipe" /><figcaption>Scheme.org - Recipe</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 72.84382284382285" data-width="1250" data-height="858"><img src="../assets/98cd42a165c0deea490c762572a3874a.png" alt="Scheme.org - Recipe" /><figcaption>Scheme.org - Recipe</figcaption></figure></p>
 <p>可以想象，如果需要一个网页展示的菜谱更容易被机器理解，就需要在网页中显式地指明上图中列出的数据，而且还是以某种开放的、大家都接受的格式。</p>
 <p>需要特别说明的是，虽然结构化数据经常和 SEO 一块儿讨论，但结构化数据的作用绝不只是 SEO，它是“讲究的 HTML”所必备的。</p>
 <p>现在，我们来聊聊技术细节。对技术不敏感的读者可以止步于此了。</p>
@@ -170,7 +170,7 @@
 <p>Microformat（也叫 μF） 诞生已经 14 年了。它相对 Microdata 而言要更简单一些：使用 class 与 rel 来指定数据类型与数据名。</p>
 <p>虽说互联网上有事实上的标准 Schema.org，但你实际上是可以自定义任何 itemtype 作为 Microdata 的。Microformat 则与此不同，你基本上只能使用 <a href="http://microformats.org/wiki/Main_Page">Wiki</a> 上列出来的东西，要想使用新的则需要经过冗长的流程。Microformat 基本上已经是过去时了，所以并不十分推荐。</p>
 <p>以一篇文章为例，最适合的类型是 <a href="http://microformats.org/wiki/hentry">hentry</a>：</p>
-<p><figure class="pswp-item" style="flex: 67.99065420560747" data-width="582" data-height="428"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/f72108816423d4cf89289b14ddf9fda1.png" alt="Microformat - hentry" /><figcaption>Microformat - hentry</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 67.99065420560747" data-width="582" data-height="428"><img src="../assets/f72108816423d4cf89289b14ddf9fda1.png" alt="Microformat - hentry" /><figcaption>Microformat - hentry</figcaption></figure></p>
 <p>在原有的结构上添加一些 class 名即可完成 Microformat 标注：</p>
 <div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">article</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;h-entry&quot;</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;p-name&quot;</span><span class="p">&gt;</span>Semantic Web: 结构化数据<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
@@ -207,12 +207,12 @@
 <p>注意，JSON-LD 是 Google 推荐的结构化数据标注方式。另还有 RDFa 等标注方式，现在用得较少了，就不单独说明了。</p>
 <h2>0X06: In real world</h2>
 <p>虽然 Google 在「尝试搞明白网页上都在说什么」这件事上做得已经相当不错了，但充分地使用结构化数据为网页做好标记仍然是有意义的。一个明显的优势是做好了标注的网页在 Google 的搜索结果中<strong>可能</strong>会有更好的展示。</p>
-<p><figure class="pswp-item" style="flex: 63.308457711442784" data-width="509" data-height="402"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/d5b479add1aa60d960527a205068d779.png" alt="一个菜单搜索结果" /><figcaption>一个菜单搜索结果</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 63.308457711442784" data-width="509" data-height="402"><img src="../assets/d5b479add1aa60d960527a205068d779.png" alt="一个菜单搜索结果" /><figcaption>一个菜单搜索结果</figcaption></figure></p>
 <p>Google 在<a href="https://developers.google.com/search/docs/guides/mark-up-content">这里</a>列举了它所支持的部分类型，截止本文写作（2019-02-01），支持的类型与可能的结果展示方式如下：</p>
-<p><figure class="pswp-item" style="flex: 82.00899550224888" data-width="1094" data-height="667"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/8946acbe0ab019c65c007c9ea38be944.png" alt="Google 支持的标注类型" /><figcaption>Google 支持的标注类型</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 82.00899550224888" data-width="1094" data-height="667"><img src="../assets/8946acbe0ab019c65c007c9ea38be944.png" alt="Google 支持的标注类型" /><figcaption>Google 支持的标注类型</figcaption></figure></p>
 <p>对每种数据类型，在提供了所有<ruby>必须<rp>(</rp><rt>required</rt><rp>)</rp></ruby>信息的前提下，Google 提倡提供尽量多的<ruby>可用<rp>(</rp><rt>optional</rt><rp>)</rp></ruby>信息。但是值得注意的是，Google 有他自己的一套要求，与 Scheme.org 的要求并不一定一致。</p>
 <p>Google 提供了一个<a href="https://search.google.com/structured-data/testing-tool">结构化数据检查工具</a>，你可以输入网址或者粘贴代码来查看网页标记是否合规，例如你正在看到的这个页面检测结果如下：</p>
-<p><figure class="pswp-item" style="flex: 93.20388349514563" data-width="1920" data-height="1030"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/a45b968fd58627bb866642ba3cb7527c.png" alt="测试结果" /><figcaption>测试结果</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 93.20388349514563" data-width="1920" data-height="1030"><img src="../assets/a45b968fd58627bb866642ba3cb7527c.png" alt="测试结果" /><figcaption>测试结果</figcaption></figure></p>
 <p>至于是否需要在页面中同时应用多种标记，例如同时使用 JSON-LD 与 Microdata，这个视情况而定。只要多个标记的标记内容都是一致的，Google 是可以接受的，但是若标记内容不同，则可能被判定为重复的内容，这不利于 SEO。以我自己的实践来说，考虑到浏览器与搜索引擎支持，目前在博客中支持了 Microdata。JSON-LD 稍后支持。</p>
 <p>除了对网页数据进行语义化标注，Google 还对 GMail <a href="https://developers.google.com/gmail/markup/getting-started">做了支持</a>。如果你曾经使用过 Google 出品的 Index 这个产品，会发现 Google 对邮件的内容分析做得相当好，这一部分是机器学习的功劳，一部分仰赖各个厂商对邮件的标记。例如机票、酒店预订等通知邮件，通过良好的标记都可以帮助 Google 在产品中更直观地展示邮件中的重要信息，甚至帮助用户订车、安排日程等。</p>
 <hr>
@@ -319,7 +319,7 @@ mathOpts = {
                     <script>
                         var site_build_date = "2017-06-29T12:00+08:00"
                     </script>
-                    <script src="https://blog.imalan.cn/assets/galileo-0ad83d4976.js"></script>
+                    <script src="https://blog.imalan.cn/assets/galileo-d8a0a06eff.js"></script>
                 </footer>
             </div>
         </div>
