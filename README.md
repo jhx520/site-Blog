@@ -1,6 +1,6 @@
 # site-Blog
 
-[![Actions Status](https://github.com/AlanDecode/site-Blog/workflows/Build/badge.svg)](https://github.com/AlanDecode/Build/actions)
+[![Actions Status](https://github.com/AlanDecode/site-Blog/workflows/Build/badge.svg)](https://github.com/AlanDecode/site-Blog/actions)
 
 These are source files for my [static blog](https://blog.imalan.cn).
 
