@@ -1,0 +1,357 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Maverick,熊猫小A,Galileo,blog" />
+    <meta name="generator" content="Maverick 1.0" />
+    <meta name="template" content="Galileo" />
+    <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
+    <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/galileo-8b8364b2fe.css">
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <script>
+        var ExSearchConfig = {
+            root: "",
+            api: "https://blog.imalan.cn/5ab16cd1619cb5bf1c66921a5b4646bc.json"
+        }
+    </script>
+    
+<title>用 Workflow 从网易云音乐迁移数据至 Apple Music 或 Spotify - 无文字 | 三无计划</title>
+<meta name="author" content="熊猫小A" />
+<meta name="description" content="注意：由于网易云音乐使用的 API 时常变动，文中 Workflow 无法使用时，请在本文下面留言，并附上具体的无法使用的链接，我看到后会尽快排查。另外因为学业繁忙，可能处理不是很及时，还请谅解2017 年 11 月 29 日更新：修改了转移歌单所使用的网易云音乐 API。新的 Workflow 链接：网易云音乐➡️ Apple Music关于音乐平台的选择，通常可以分为两类人：一是只关心纯净的聆听体验，这类人的音乐平台是Apple Music、Spotify 等；二是在前者之外还喜欢有一些社交元素，比如在评论区参与讨论，这类人的音乐平台则是网易云音乐、虾米等。我之前一直在使用网易云音乐，直到我慢慢意识到听歌是一件非常私人的事，纯净的聆听体验于我可能更重要。" />
+<meta property="og:title" content="用 Workflow 从网易云音乐迁移数据至 Apple Music 或 Spotify - 无文字 | 三无计划" />
+<meta property="og:description" content="注意：由于网易云音乐使用的 API 时常变动，文中 Workflow 无法使用时，请在本文下面留言，并附上具体的无法使用的链接，我看到后会尽快排查。另外因为学业繁忙，可能处理不是很及时，还请谅解2017 年 11 月 29 日更新：修改了转移歌单所使用的网易云音乐 API。新的 Workflow 链接：网易云音乐➡️ Apple Music关于音乐平台的选择，通常可以分为两类人：一是只关心纯净的聆听体验，这类人的音乐平台是Apple Music、Spotify 等；二是在前者之外还喜欢有一些社交元素，比如在评论区参与讨论，这类人的音乐平台则是网易云音乐、虾米等。我之前一直在使用网易云音乐，直到我慢慢意识到听歌是一件非常私人的事，纯净的聆听体验于我可能更重要。" />
+<meta property="og:site_name" content="无文字 | 三无计划" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.imalan.cn/archives/15/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2016-12-14T20:18:00-00.00" />
+<meta name="twitter:title" content="用 Workflow 从网易云音乐迁移数据至 Apple Music 或 Spotify - 无文字 | 三无计划" />
+<meta name="twitter:description" content="注意：由于网易云音乐使用的 API 时常变动，文中 Workflow 无法使用时，请在本文下面留言，并附上具体的无法使用的链接，我看到后会尽快排查。另外因为学业繁忙，可能处理不是很及时，还请谅解2017 年 11 月 29 日更新：修改了转移歌单所使用的网易云音乐 API。新的 Workflow 链接：网易云音乐➡️ Apple Music关于音乐平台的选择，通常可以分为两类人：一是只关心纯净的聆听体验，这类人的音乐平台是Apple Music、Spotify 等；二是在前者之外还喜欢有一些社交元素，比如在评论区参与讨论，这类人的音乐平台则是网易云音乐、虾米等。我之前一直在使用网易云音乐，直到我慢慢意识到听歌是一件非常私人的事，纯净的聆听体验于我可能更重要。" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="" />
+
+
+    
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//cdn.imalan.cn" />
+<link rel="dns-prefetch" href="//blog.imalan.cn" />
+<link rel="stylesheet" href="/brand_font/embed.css" />
+<style>.brand{font-family:FZCuJinLFW,serif;font-weight: normal!important;}</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=PY43YeeEKx">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=yyLyaqbyRG">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=yyLyaqbyRG">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=yyLyaqbyRG" color="#505050">
+<link rel="shortcut icon" href="/favicon.ico?v=yyLyaqbyRG">
+<meta name="application-name" content="三無計劃">
+<meta name="apple-mobile-web-app-title" content="三無計劃">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+<meta name="baidu-site-verification" content="9BEwwo6Ibg" />
+
+    </head>
+    
+    <body>
+        
+            <div id="bg" style="background-image: url(https://blog.imalan.cn/bg/The_Great_Wave_off_Kanagawa.jpg)"></div>
+        
+        <div class="container">
+            <header id="ga-header">
+                <div first>
+                    <aside id="ga-logo">
+                        <a href="https://blog.imalan.cn/" target="_self">
+                            <img src="https://blog.imalan.cn/android-chrome-512x512.png" alt="无文字 | 三无计划">
+                        </a>
+                    </aside>
+                    <aside id="ga-brand">
+                        <h1 class="brand"><a class="no-style" href="https://blog.imalan.cn/">无文字 | 三无计划</a></h1>
+                        <p>只坚持一种正义。我的正义。</p>
+                    </aside>
+                </div>
+                <div second id="ga-nav">
+                    <nav class="navs">
+                        <ul><li><a class="ga-highlight" href="https://blog.imalan.cn/" target="_self">首页</a></li><span class="separator">·</span><li><a class="ga-highlight" href="https://blog.imalan.cn/archives/" target="_self">归档</a></li><span class="separator">·</span><li><a class="ga-highlight" href="https://blog.imalan.cn/links/" target="_self">友链</a></li><span class="separator">·</span><li><a class="ga-highlight" href="https://blog.imalan.cn/about/" target="_self">关于</a></li><span class="separator">·</span><li><a href="#" target="_self" class="search-form-input ga-highlight">搜索</a></li></ul>
+                    </nav>
+                    <nav class="social-links">
+                        <ul><li><a class="no-style" title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i>Twitter</a></li><span class="separator">·</span><li><a class="no-style" title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i>GitHub</a></li><span class="separator">·</span><li><a class="no-style" title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i>Weibo</a></li></ul>
+                    </nav>
+                </div>
+            </header>
+            <div class="wrapper">
+                
+<main>    
+    <section class="ga-section" id="ga-content">
+        <article class="yue">
+            <h1 class="ga-post_title">用 Workflow 从网易云音乐迁移数据至 Apple Music 或 Spotify</h1>
+            <span class="ga-post_meta ga-mono">
+                <span>熊猫小A</span>
+                <time>
+                    2016-12-14
+                </time>
+                
+                in <a no-style class="category" href="https://blog.imalan.cn/category/偶尔Geek/">
+                    偶尔Geek
+                </a>
+                
+                
+            </span>
+            <div class="ga-content_body">
+                <div class="notice">注意：由于网易云音乐使用的 API 时常变动，文中 Workflow 无法使用时，请在本文下面留言，并附上具体的无法使用的链接，我看到后会尽快排查。另外因为学业繁忙，可能处理不是很及时，还请谅解</div><div class="notice">2017 年 11 月 29 日更新：修改了转移歌单所使用的网易云音乐 API。新的 Workflow 链接：<a href="https://workflow.is/workflows/e6a2c81353dd45b3bf3224b027e1a6a7">网易云音乐➡️ Apple Music</a></div><p>关于音乐平台的选择，通常可以分为两类人：一是只关心纯净的聆听体验，这类人的音乐平台是<a href="https://sspai.com/post/tag/Apple%20Music">Apple Music</a>、<a href="https://sspai.com/search/?q=spotify">Spotify</a> 等；二是在前者之外还喜欢有一些社交元素，比如在评论区参与讨论，这类人的音乐平台则是网易云音乐、虾米等。我之前一直在使用网易云音乐，直到我慢慢意识到听歌是一件非常私人的事，纯净的聆听体验于我可能更重要。</p>
+<p>前段时间 Apple Music 推出了针对大学生的特价活动，再加上 Apple Music 相对全面的曲库，想必很多人心里已经在痒痒了，跃跃欲试；另一方面 Spotify 在音乐爱好者之间口碑一向不错，高质量的推荐和基于场景的歌单符合许多人对优秀播放器的定义。但即使这样，我也难以做到从网易云音乐无痛转移，原因则是我在网易云音乐收集的大量歌单。歌单对很多人都很重要，经过长时间聆听、筛选，最终留下来的一定是最能体现自己音乐品味的那部分。这篇文章就为这样一群人而写：想要尝试新的平台、但是无论如何不能放弃自己的珍藏的这群人。</p>
+<p>转移大量的音乐，一首一首手动添加自然是不行，这里介绍借用自动化工具 Workflow 和 IFTTT 进行迁移的方法。</p>
+<h2>如何将歌单转移到 Apple Music</h2>
+<p>先将 <a href="https://sspai.com/post/tag/workflow">Workflow</a> 链接放到这里： <a href="https://workflow.is/workflows/e6a2c81353dd45b3bf3224b027e1a6a7">网易云音乐➡️ Apple Music</a>。</p>
+<p>使用时在网易云音乐客户端里复制歌单分享链接，然后运行这个 Workflow。</p>
+<h3>分析</h3>
+<p>取得对应歌单信息的最好方法是利用平台的 API，API 信息查询官方文档一般能找到。对网易云音乐来说，可以用以下 API 获得歌单信息。</p>
+<p><code>GET http://music.163.com/api/v3/playlist/detail?id=歌单ID&amp;n=5000</code></p>
+<p>这个 API 里只有一个未知参数：歌单 ID 。这个 ID 也很容易取到，我们给别人发送歌单链接的时候，复制出来的链接都是这样的形式：</p>
+
+<pre><code>iOS版：http://music.163.com/playlist/437754500/45408568?userid=45408568
+桌面版：http://music.163.com/#/m/playlist?id=437754500&amp;userid=45408568</code></pre>
+<p>对比这二者，在 Playlist 后面都能发现一串数字，这就是歌单 ID。在实际的情况中，歌单位数不一定是 9 位，可能是其它位数「感谢微博上的 <a href="http://weibo.com/u/3878234899">@Mini_Goooo</a>」。取数的方法很多，可以用 Split Text 按照 <code>/</code> 一个个截断再选择到目标，这里用更简单高效的正则匹配的方法，也就是使用 Match Text 这个动作，Pattern填正则表达式：</p>
+<p><code>\d{4,11}</code></p>
+<p>这个表达式的意思就是取得字串中连续的 4 到 11 位数字。这样取的原因是可以避开前面的的 <code>163</code>，也能囊括目前我遇到的大部分歌单 ID，如果你要转移的歌单 ID 位数不在这个范围内，对应修改上面括号内的数使之符合你的歌单 ID 位数即可。URL 的格式是歌单 ID 在前面，取第一个结果也就取得了歌单 ID。</p>
+<p><figure class="pswp-item" style="flex: 51.0989010989011" data-width="744" data-height="728"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/81629d19defe6490d913d21f5f97a196.jpg" alt="006tLtW4jw1fap2x593h4j30ko0k8ta9.jpg" /><figcaption>006tLtW4jw1fap2x593h4j30ko0k8ta9.jpg</figcaption></figure></p>
+<p>重写 API 到这里：</p>
+<p><code>GET http://music.163.com/api/v3/playlist/detail?id=歌单ID&amp;n=5000</code></p>
+<p>在这个 URL 后面跟上 Get Contents of URL，Method 选择 GET，运行成功将返回 JSON 格式的数据块。我们只用关注里面的几个 Key：</p>
+<ul>
+<li>playlist，里面包含了返回的歌单数据；</li>
+<li>playlist 下名叫 name 的 key ，里面包含了歌单名称；</li>
+<li>playlist 下名叫 tracks 的 key ， 里面包含了每首歌的信息；</li>
+<li>tracks 下又有一个名叫 name 的 key ，里面包含的是歌曲名；</li>
+<li>tracks 下名叫 ar 的 key ，里面包含歌曲的演奏者。</li>
+</ul>
+<p>这些信息在 Apple Music 里创建歌单以及添加歌曲时都会用到。所以用多个 Get Dictionary Value 来取出来。这里解释一下为什么 <code>ar</code> 要取 First Item，这是因为有的歌曲演奏者不止一个，为了防止在运行过程中需要手动选择哪一个，就索性只用第一个演奏者。在实际的 iTunes 匹配时一个演唱者也够了。</p>
+<p>需要遍历的是歌曲，歌曲信息包含在 <code>tracks</code> 里，于是我们需要在 <code>tracks</code> 后面跟上 Repeat With Each ，对每首歌都分别取得歌曲名和演奏者，然后在 iTunes 里匹配，取得的结果添加到Apple Music 里，这就是基本逻辑。这里要指出在使用前请保证 Search iTunes Store 里的 Country 要和你的 Apple Music 的所在区域对应，否则会报错。</p>
+<p>在实际的应用中，有可能出现匹配不到歌曲的情况，这种情况我们也要处理。这里借用了我之前在微博上看到的一个 Workflow 的思路，来源记不清了。总的来说如果没有找到歌曲，Search iTunes Store 这一步必然不返回结果，于是在这一步后面接上一个 Count Items ，如果值等于 0 ，那就在失败记录里添上一条；如果值不等于零就执行添加到 Apple Music 的动作。 Workflow 结束的地方再把这个失败记录展示出来，便于后期再手动添加。整个 Workflow 就解析到这里。</p>
+<p><figure class="pswp-item" style="flex: 14.717425431711145" data-width="750" data-height="2548"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/055460d4cdc65a0316b265db6fec65f7.jpg" alt="006tLtW4jw1fadzkmfz2rj30ku1ysn3q.jpg" /><figcaption>006tLtW4jw1fadzkmfz2rj30ku1ysn3q.jpg</figcaption></figure></p>
+<h3>注意事项与存在的问题</h3>
+<p>经反应有人会遇到这些问题，我把我现在听说过的总结一下。</p>
+<ul>
+<li>提示遇到「未知错误」请检查 Workflow 是否有权限访问你的 Apple Music 资料库，并保证 Search iTunes Store 里的 Country 与你的 Apple Music 所在区域一致。</li>
+<li>提示「The requested operation is not enabled for this device」这应该是一个 Apple Music 方面的 Bug，<strong>你可以尝试重启你的设备，或者关闭再重新开启 iCloud 音乐资料库</strong>。一般来说尝试这两步后就能解决。</li>
+<li>Workflow 中途停止检查你要转移的歌单 ID 位数是否出现了我前文说到的问题，另外这个 Workflow 是用来迁移歌单的，不适用于单曲。适用单曲的版本请看文末。</li>
+</ul>
+<p>网易云音乐是做得很好的国内音乐平台，但由于一些历史遗留原因，歌曲信息有不少错误、缺失、张冠李戴的情况，再加上 Apple Music 自身的曲库问题，歌曲匹配不到的可能性还是很高的。如果你的 Apple Music 是中区的，平常用网易云音乐听的歌又比较小众，失败率就进一步升高。这一点我也没有办法，只能靠这俩公司自己去完善自己的数据库。</p>
+<p>==由于我不再使用 Spotify，因此以下有关 Spotify 的内容暂时不会再更新。内容可能过时，但原理是不会变的，还请自助排查。==</p>
+<h2><del>如何将歌单转移到 Spotify</del></h2>
+<h3><del>分析</del></h3>
+<p><del>有了上文的铺垫，我们已经能够获取到歌单信息了。但是如果要转移到的是 Spotify 还有一点困难：Workflow 中没有对应的 Spotify 的动作。这里可以借助 IFTTT 来完成，用 IFTTT 其实有好处，就是运行速度比较快。</del></p>
+<p><del>首先使用 Workflow 获取到歌单的歌单名称，每首歌的歌曲名和每首歌的演唱者，一首一首地传入 IFTTT。</del></p>
+<p><del>Workflow 链接：<a href="https://workflow.is/workflows/5d3f42b78c8644e8bd25484daaa8a566">网易云音乐 ➡️ Spotify</a></del></p>
+<p><figure class="pswp-item" style="flex: 66.66666666666667" data-width="2048" data-height="1536"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/1e8f01be9c232793bef64dab527b5dc6.jpg" alt="006tLtW4jw1fajsuxcuu3j31kw16odqq.jpg" /><figcaption>006tLtW4jw1fajsuxcuu3j31kw16odqq.jpg</figcaption></figure></p>
+<p><del>然后在 IFTTT 中制作一个 Applet，触发条件就是 Workflow 中的 trigger，执行动作是添加到 Spotify，对应填入歌单名，歌曲名和歌手。点击 Workflow 中 Trigger IFTTT Applet 这一步中的 Create Recipe，跳转到 IFTTT 中，如图填写信息即可。</del></p>
+<p><figure class="pswp-item" style="flex: 48.952879581151834" data-width="1496" data-height="1528"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/b56e545c07c39f6da43c7bb22f781d27.jpg" alt="006tLtW4jw1fajt41sqsaj315k16gdlt.jpg" /><figcaption>006tLtW4jw1fajt41sqsaj315k16gdlt.jpg</figcaption></figure></p>
+<h2>Bonus：如果要转移单曲呢？</h2>
+<p>经过了前面的分析和实践，转移单曲也是很简单了，不过是改变一下使用的 API 和解析数据的方式。</p>
+<h3>转移网易云音乐单曲到 Apple Music</h3>
+<p>Workflow 链接：<a href="https://workflow.is/workflows/58c8487e1a4f48e09fc31e088b46e5f7">网易云音乐 ➡️ Apple Music 单曲版</a></p>
+<p>使用方式，在网易云音乐里复制单曲分享链接，然后运行这个 Workflow。如果添加失败将会将这首歌的信息放进你的提醒事项，方便你后续手动再添加。</p>
+<h3><del>转移网易云音乐单曲到 Spotify</del></h3>
+<p><del>Workflow 链接：<a href="https://workflow.is/workflows/d23109c2cf3a4e098b12ee52ff0f11e1">网易云音乐 ➡️ Spotify 单曲版</a></del></p>
+<p><del>同样需要借助 IFTTT 来添加歌曲。在 Workflow 中取得歌曲信息后如图设置 Trigger：</del></p>
+<p><figure class="pswp-item" style="flex: 62.086092715231786" data-width="750" data-height="604"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/1c8b1b84ca501de0195c1c754e6d1099.jpg" alt="006tLtW4jw1fap31ifh24j30ku0gs764.jpg" /><figcaption>006tLtW4jw1fap31ifh24j30ku0gs764.jpg</figcaption></figure></p>
+<p><del>然后点击 Create Recipe 跳转到 IFTTT 里创建对应的 Applet 即可。</del></p>
+<p><figure class="pswp-item" style="flex: 56.596701649175415" data-width="1510" data-height="1334"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/10470dd786cfcaa917a411be2df672e4.jpg" alt="006tLtW4jw1fap32bq9tzj315y112qal.jpg" /><figcaption>006tLtW4jw1fap32bq9tzj315y112qal.jpg</figcaption></figure></p>
+<h2>结语</h2>
+<p>Apple Music、Spotify、网易云音乐三家各有所长，分享本文的目的是希望大家能更无障碍地愉快玩耍。</p>
+<p>另一方面，Workflow 于我而言是能力非凡的自动化工具，工具放在这里，能做到什么事还是看使用者的能力和脑洞。学习成本是有的，不过当用这个工具真正实现了自己的需求，成就感无与伦比。</p>
+<p>祝大家在音乐世界玩得开心～</p>
+
+            </div>
+        </article>
+        <div id="ga-tags">
+    
+</div>
+
+<!--katex-->
+<link rel="stylesheet" href="https://blog.imalan.cn/assets/katex.min.css">
+<script defer src="https://blog.imalan.cn/assets/katex.min.js"></script>
+<script>
+mathOpts = {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false},
+        {left: "\\(", right: "\\)", display: false}
+    ]
+};
+</script>
+<script defer src="https://blog.imalan.cn/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+    </section>
+
+    
+<section id="ga-content_pager">
+
+    <div class="next">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/33/">我和少数派聊了聊</a>
+        <p class="yue">这篇访谈原载于少数派网站：Matrix Talk | iOS 折腾新手 @特殊字符Alan，如何通过工具有效的提升效率</p>
+    </div>
+
+
+    <div class="prev">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/34/">瓦力 • 娱乐至死</a>
+        <p class="yue">《垃圾星球》</p>
+    </div>
+
+</section>
+
+
+    
+        <script>
+            var initValine = function () {
+                new Valine({
+                    el: '#vcomments',
+                    appId: '6chFXPTjrjYnjFk9duROcboN-gzGzoHsz',
+                    appKey: 'c1CRooaFmpLs4xi7x3YLm3ma',
+                    placeholder: '来畅所欲言吧~',
+                    notify: false,
+                    visitor: false,
+                    
+                    recordIP: true
+                });
+            }
+        </script>
+        <script defer src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js' onload="initValine()"></script>
+        <div id="vcomments"></div>
+    
+
+</main>
+
+                <footer class="ga-mono" id="ga-footer">
+                    <section>
+                        <span id="ga-uptime"></span>
+                        <span class="brand">无文字 | 三无计划</span>
+                    </section>
+                    <section>
+                        <p class="copyright">
+                            <span>Copyright © 2019 熊猫小A</span>
+                            <span>Powered by <a no-style href="https://github.com/AlanDecode/Maverick" target="_blank">Maverick & Galileo</a></span>
+                        </p>
+                        <div class="copyright">
+                            <span class="footer-addon">
+                                
+<a no-style href="http://www.miitbeian.gov.cn/" target="_blank">京 ICP 备 18000133 号</a> | 
+<a no-style href="https://www.upyun.com" target="_blank">又拍云</a>
+
+                            </span>
+                            <nav class="social-links">
+                                <ul><li><a class="no-style" title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i>Twitter</a></li><span class="separator">·</span><li><a class="no-style" title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i>GitHub</a></li><span class="separator">·</span><li><a class="no-style" title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i>Weibo</a></li></ul>
+                            </nav>
+                        </div>
+                    </section>
+                    <script>
+                        var site_build_date = "2017-06-29T12:00+08:00"
+                    </script>
+                    <script src="https://blog.imalan.cn/assets/galileo-0ad83d4976.js"></script>
+                </footer>
+            </div>
+        </div>
+    </div>
+        
+        
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                          <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://blog.imalan.cn/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://blog.imalan.cn/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
+
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e4f3a7c02ac2aabc41a1cfa95f61a026";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+if(window.location.hash){
+    var checkExist = setInterval(function() {
+       if ($(window.location.hash).length) {
+          $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+          clearInterval(checkExist);
+       }
+    }, 100);
+}
+</script>
+<script>
+if(window.navigator && navigator.serviceWorker) {
+  caches.keys().then(function(cacheNames) {
+    cacheNames.forEach(function(cacheName) {
+      caches.delete(cacheName);
+    });
+  }).then(function(){
+    console.log('Cache cleaned.');
+  });
+  navigator.serviceWorker.getRegistrations()
+  .then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  }).then(function(){
+    console.log('Service Worker stopped.');
+  });
+}
+</script>
+
+    </body>
+</html>

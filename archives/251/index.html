@@ -1,0 +1,516 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Maverick,熊猫小A,Galileo,blog" />
+    <meta name="generator" content="Maverick 1.0" />
+    <meta name="template" content="Galileo" />
+    <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
+    <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/galileo-8b8364b2fe.css">
+    <link rel="stylesheet" href="https://blog.imalan.cn/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <script>
+        var ExSearchConfig = {
+            root: "",
+            api: "https://blog.imalan.cn/5ab16cd1619cb5bf1c66921a5b4646bc.json"
+        }
+    </script>
+    
+<title>Gulp 入门记 - 无文字 | 三无计划</title>
+<meta name="author" content="熊猫小A" />
+<meta name="description" content="Gulp 是一个自动化构建工具，本文聊聊我的上手过程。" />
+<meta property="og:title" content="Gulp 入门记 - 无文字 | 三无计划" />
+<meta property="og:description" content="Gulp 是一个自动化构建工具，本文聊聊我的上手过程。" />
+<meta property="og:site_name" content="无文字 | 三无计划" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.imalan.cn/archives/251/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2019-01-23T23:48:00-00.00" />
+<meta name="twitter:title" content="Gulp 入门记 - 无文字 | 三无计划" />
+<meta name="twitter:description" content="Gulp 是一个自动化构建工具，本文聊聊我的上手过程。" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="" />
+
+
+    
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="//cdn.imalan.cn" />
+<link rel="dns-prefetch" href="//blog.imalan.cn" />
+<link rel="stylesheet" href="/brand_font/embed.css" />
+<style>.brand{font-family:FZCuJinLFW,serif;font-weight: normal!important;}</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=PY43YeeEKx">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=yyLyaqbyRG">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=yyLyaqbyRG">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=yyLyaqbyRG" color="#505050">
+<link rel="shortcut icon" href="/favicon.ico?v=yyLyaqbyRG">
+<meta name="application-name" content="三無計劃">
+<meta name="apple-mobile-web-app-title" content="三無計劃">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+<meta name="baidu-site-verification" content="9BEwwo6Ibg" />
+
+    </head>
+    
+    <body>
+        
+            <div id="bg" style="background-image: url(https://blog.imalan.cn/bg/The_Great_Wave_off_Kanagawa.jpg)"></div>
+        
+        <div class="container">
+            <header id="ga-header">
+                <div first>
+                    <aside id="ga-logo">
+                        <a href="https://blog.imalan.cn/" target="_self">
+                            <img src="https://blog.imalan.cn/android-chrome-512x512.png" alt="无文字 | 三无计划">
+                        </a>
+                    </aside>
+                    <aside id="ga-brand">
+                        <h1 class="brand"><a class="no-style" href="https://blog.imalan.cn/">无文字 | 三无计划</a></h1>
+                        <p>只坚持一种正义。我的正义。</p>
+                    </aside>
+                </div>
+                <div second id="ga-nav">
+                    <nav class="navs">
+                        <ul><li><a class="ga-highlight" href="https://blog.imalan.cn/" target="_self">首页</a></li><span class="separator">·</span><li><a class="ga-highlight" href="https://blog.imalan.cn/archives/" target="_self">归档</a></li><span class="separator">·</span><li><a class="ga-highlight" href="https://blog.imalan.cn/links/" target="_self">友链</a></li><span class="separator">·</span><li><a class="ga-highlight" href="https://blog.imalan.cn/about/" target="_self">关于</a></li><span class="separator">·</span><li><a href="#" target="_self" class="search-form-input ga-highlight">搜索</a></li></ul>
+                    </nav>
+                    <nav class="social-links">
+                        <ul><li><a class="no-style" title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i>Twitter</a></li><span class="separator">·</span><li><a class="no-style" title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i>GitHub</a></li><span class="separator">·</span><li><a class="no-style" title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i>Weibo</a></li></ul>
+                    </nav>
+                </div>
+            </header>
+            <div class="wrapper">
+                
+<main>    
+    <section class="ga-section" id="ga-content">
+        <article class="yue">
+            <h1 class="ga-post_title">Gulp 入门记</h1>
+            <span class="ga-post_meta ga-mono">
+                <span>熊猫小A</span>
+                <time>
+                    2019-01-23
+                </time>
+                
+                in <a no-style class="category" href="https://blog.imalan.cn/category/偶尔Geek/">
+                    偶尔Geek
+                </a>
+                
+                
+            </span>
+            <div class="ga-content_body">
+                <p>本文以一例介绍我上手 Gulp 之过程。与之前的文章<a href="https://blog.imalan.cn/archives/243/">初识 Sass | SCSS</a>相同，这篇文章也是开发 VOID 主题过程的技术笔记。</p>
+<p>我一直都为一件事情感到头疼：前端项目的资源缓存问题。页面有所变化后，理论上对应的静态资源例如 JS、CSS 也应该立即更新，但实际上并不那么简单。现代浏览器都有缓存机制，使浏览器不会立即拉取最新的静态文件，以节省网络开销；若站点启用了 CDN，CDN 层面也有缓存机制，而且一般会更长，导致请求不能及时回源。结果就是页面是新页面，样式与业务逻辑却是老的。</p>
+<p>一种解决方式是通过后缀告知浏览器应该刷新资源：</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/style/main.css?v=1.123&quot;</span><span class="p">&gt;</span>
+</pre></div>
+<p>其中的 <code>?v=1.123</code> 代表了静态资源的版本号，如果浏览器足够聪明的话，一旦该版本号有所变化就会重新请求资源，但实际上不同浏览器的处理方式不同。而且许多 CDN 厂商对 v 参数是忽略的。</p>
+<p>另一种解决方法是把版本号写入到文件路径中：</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/style/main.1.123.css&quot;</span><span class="p">&gt;</span>
+</pre></div>
+<p>在 RAW 主题与 VOID 的初期几个版本中我就是用的这种方法。这是一种可行的解决方法，它无视浏览器的缓存机制，因为一旦版本号变换就相当于资源路径变化，这样会强制浏览器刷新。但有一点不足是一旦项目版本变化，不论静态资源本身有没有改动，其路径都有改变，这就带来了不必要的请求开销，没有充分利用浏览器缓存。</p>
+<p>目前广泛采用的解决方式是将文本摘要算法引入到静态资源的版本管理中，页面中引入的静态文件路径形如：</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/style/main-{{hash}}.css&quot;</span><span class="p">&gt;</span>
+</pre></div>
+<p>其中 <code>{{hash}}</code> 指的是文件的哈希值。哈希作为文件的摘要，与文件内容对应，文件改变哈希改变、文件不变哈希不变。这种方法既解决了资源更新的问题，也能充分利用浏览器与 CDN 缓存。实际上，一旦采用这种方式，可以为资源设置很长的缓存过期时间。</p>
+<p>我最初接触 Gulp 正是为了自动化地实现这一过程。</p>
+<h2>什么是 Gulp</h2>
+<p>Gulp 是一个自动化构建工具，开发者可以通过制定一系列规则（gulpfile.js）来搭建一个处理的工作流（workflow），自动化某些重复性工作：例如 CSS 预处理、压缩、JS 混淆加密等等。同时 Gulp 提供了大量的插件帮助开发者完成这一过程。</p>
+<p>首先安装 NodeJS，之后在项目目录下使用 <code>npm init</code> 初始化一个项目。之后安装 Gulp：</p>
+<div class="highlight"><pre><span></span>npm install gulp --global
+npm install gulp --save-dev
+</pre></div>
+<p>这条命令会在当前目录安装 gulp，并且将此信息保存到 package.json 中作为开发依赖。在当前目录下新建一个 gulpfile.js，在其中键入代码：</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
+
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;defualt&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">);</span>
+<span class="p">})</span>
+</pre></div>
+<p>然后在终端中运行 <code>gulp</code>。<code>gulp.task()</code> 声明了一个名为 <code>default</code> 的任务，它的作用是在控制台输出 Hello World，这就是一个最简单的示例，我们要做的便是根据需要自己搭建 <code>function(){}</code> 中的内容。</p>
+<p>Gulp 中有管道（pipe）的概念，它面向的是一个文件流（stream）。一个典型的 Gulp 任务包含了这样的过程：读取源文件 → 执行操作 1 → 执行操作 2 → ··· → 执行操作 n → 输出。</p>
+<p>其中，读取源文件使用 <code>gulp.src</code> 完成：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;src/assets/libs/**/*.js&#39;</span><span class="p">]);</span>
+</pre></div>
+<p>这行代码将 src/assets/libs 目录及其子目录下的所有 JS 文件读了进来，然后什么也没干。传入 <code>gulp.src()</code> 的是一个字符串数组，可以使用多种匹配模式。例如：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;src/assets/libs/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/assets/libs/mathjax&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/assets/libs/mathjax/**/*&#39;</span><span class="p">])</span>
+</pre></div>
+<p>这行代码除了加载 src/assets/libs 目录及其子目录下的所有 JS 文件，还从中剔除了 src/assets/libs/mathjax 子目录及其下的文件。</p>
+<p>执行操作使用 <code>.pipe()</code> 方法串联，例如：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;src/assets/libs/**/*.js&#39;</span><span class="p">])</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">task</span><span class="p">());</span>
+</pre></div>
+<p>传入 <code>pipe()</code> 的是某个操作。这个操作可以自己定义，也可以通过安装 Gulp 插件获得。</p>
+<p>输出文件也属于一种操作，因此也被包裹在 <code>pipe()</code> 方法中：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;src/assets/libs/**/*.js&#39;</span><span class="p">])</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">task</span><span class="p">())</span>
+    <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;build/&#39;</span><span class="p">));</span>
+</pre></div>
+<p>最终的结果便是将那些 JS 处理后输出到 build 文件夹下。</p>
+<p>以上是对 Gulp 的大概了解，接下来看看如何使用 Gulp 为静态文件加上哈希戳，并且同时替换页面中的引用路径。</p>
+<h2>利用 Gulp 为静态文件加戳</h2>
+<p>Gulp 社区是很强大的，它提供了数量巨大的插件供开发者使用。本例中，用到了 <code>gulp-rev</code> 与 <code>gulp-rev-collector</code> 两个插件。</p>
+<p>首先安装 gulp 与这两个插件，在项目目录下：</p>
+<div class="highlight"><pre><span></span>npm install gulp-rev gulp-rev-collector --save-dev
+</pre></div>
+<p>为了清除旧版文件与删除临时文件，再安装一个用于删除的插件 <code>del</code>：</p>
+<div class="highlight"><pre><span></span>npm install del --save-dev
+</pre></div>
+<p>设有如下的目录结构：</p>
+
+<pre><code>dev
+   |-- app.js
+   |-- app.css
+   |-- index.html
+build</code></pre>
+<p>目的是将 app.js，app.css 加哈希戳，输出到 build 目录下，并替换 index.html 中对这两个文件的引用地址为加戳后的路径，将替换后的 index.html 也输出到 build 目录下，如此实现了开发目录与构建目录的分离。</p>
+<p>容易看出，这是两个步骤。一是计算静态文件的哈希，并重命名它们；二是替换 index.html 中的引用。实际上 Gulp 也是这么处理的。</p>
+<p>首先在 gulpfile.js 中引入 Gulp 与对应插件。</p>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">rev</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-rev&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">revCollector</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-rev-collector&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">del</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;del&#39;</span><span class="p">);</span>
+</pre></div>
+<p>声明一个清理原 build 文件夹的任务：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;clean:build&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(){</span>
+    <span class="k">return</span> <span class="nx">del</span><span class="p">([</span><span class="s1">&#39;build&#39;</span><span class="p">]);</span>
+<span class="p">});</span>
+</pre></div>
+<p>声明一个加戳的任务：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;md5&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;dev/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;dev/*.css&#39;</span><span class="p">])</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">rev</span><span class="p">())</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;build/&#39;</span><span class="p">))</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">rev</span><span class="p">.</span><span class="nx">manifest</span><span class="p">())</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;temp/&#39;</span><span class="p">));</span>
+<span class="p">});</span>
+</pre></div>
+<p>尝试使用 <code>gulp md5</code> 执行 <code>md5</code> 这个任务，可以看到初步有一些小变化，目录变成了（省略了一些不重要的目录）：</p>
+
+<pre><code>dev
+   |-- app.js
+   |-- app.css
+   |-- index.html
+build
+   |-- app-d41d8cd98f.js
+   |-- app-d41d8cd98f.css
+temp
+   |-- rev-manifest.json</code></pre>
+<p>一者，build 目录下已经生成了加戳的静态文件，二者，多出了 temp/rev-manifest.json 这个文件。打开该文件，可以看到如下内容：</p>
+<div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;app.css&quot;</span><span class="p">:</span> <span class="s2">&quot;app-d41d8cd98f.css&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;app.js&quot;</span><span class="p">:</span> <span class="s2">&quot;app-d41d8cd98f.js&quot;</span>
+<span class="p">}</span>
+</pre></div>
+<p>实际上这个文件以键值对的形式存储了文件名的映射关系。正是因为有这个文件我们才能进行下一步：静态资源引用路径替换。</p>
+<p>在 gulpfile.js 中声明一个替换任务：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;temp/*.json&#39;</span><span class="p">,</span> <span class="s1">&#39;dev/index.html&#39;</span><span class="p">])</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">revCollector</span><span class="p">())</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;build/&#39;</span><span class="p">));</span>
+<span class="p">});</span>
+</pre></div>
+<p>执行这个任务：<code>gulp replace</code>，目录结构变更为：</p>
+
+<pre><code>dev
+   |-- app.js
+   |-- app.css
+   |-- index.html
+build
+   |-- app-d41d8cd98f.js
+   |-- app-d41d8cd98f.css
+   |-- index.html
+temp
+   |-- rev-manifest.json</code></pre>
+<p><code>dev/index.html</code> 中的引用形如：</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;./app.css&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;./app.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+<p>而 <code>build/index.html</code> 中的内容形如：</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;./app-d41d8cd98f.css&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;./app-d41d8cd98f.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+<p>可见替换已经成功了。</p>
+<p>以上通过手动执行每个任务看到了整个过程。是时候将它们串联起来了。</p>
+<h2>Gulp 任务串行与并行</h2>
+<p>以上的任务是一个明显的串行关系：清理 build 目录 → 文件加戳输出 → 引用路径替换输出。Gulp 默认对所有的任务以最大并发的方式执行，若要得到串行的任务关系，需要显式地指定。</p>
+<p>Gulp 4 之前可以通过这样的方式将任务串起来：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;task_1&#39;</span><span class="p">,</span> <span class="s1">&#39;task_2&#39;</span><span class="p">]);</span>  <span class="c1">// task_1 与 task_2 中需要将文件流 return</span>
+</pre></div>
+<p>Gulp 4 起以上方式不再可行。用以替换的，Gulp 提供了两个方法用以显式地指定并发与串行关系：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="s1">&#39;task_1&#39;</span><span class="p">,</span> <span class="s1">&#39;task_2&#39;</span><span class="p">,</span> <span class="s1">&#39;task_3&#39;</span><span class="p">);</span>  <span class="c1">// 并发</span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">series</span><span class="p">(</span><span class="s1">&#39;task_1&#39;</span><span class="p">,</span> <span class="s1">&#39;task_2&#39;</span><span class="p">,</span> <span class="s1">&#39;task_3&#39;</span><span class="p">);</span> <span class="c1">// 串行</span>
+</pre></div>
+<p>它们可以嵌套：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">series</span><span class="p">(</span><span class="s1">&#39;task_1&#39;</span><span class="p">,</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">parallel</span><span class="p">(</span><span class="s1">&#39;task_2&#39;</span><span class="p">,</span> <span class="s1">&#39;task_3&#39;</span><span class="p">),</span> <span class="s1">&#39;task_4&#39;</span><span class="p">);</span>
+</pre></div>
+<p>效果是先执行 task_1，然后并发执行 task_2、task_3，然后执行 task_4。</p>
+<p>对本文中的例子，声明一个总的 build 任务：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">series</span><span class="p">(</span><span class="s1">&#39;clean:build&#39;</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">));</span>
+</pre></div>
+<p>直接执行该任务即可看到效果。</p>
+<h2>监视更改</h2>
+<p>使用 <code>gulp.watch()</code> 可以实现监视文件，当文件更改时立即执行任务。</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">&#39;dev/*&#39;</span><span class="p">,</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">series</span><span class="p">(</span><span class="s1">&#39;clean:build&#39;</span><span class="p">,</span> <span class="s1">&#39;md5&#39;</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">));</span>
+<span class="p">});</span>
+</pre></div>
+<p>当 dev 目录下的文件更改时，立即执行 <code>'clean:build', 'md5', 'replace'</code> 。</p>
+<h2>拷贝文件</h2>
+<p>其实没必要单独拎出来说，但其中有一个 trick，记录一下。若有这样的目录结构：</p>
+
+<pre><code>dev
+   |-- vendor
+       |-- lib1
+           |-- lib1.js
+           |-- lib1.css
+       |-- lib2
+           |-- lib2.js
+           |-- lib2.css
+       |-- lib3
+           |-- lib3.js
+           |-- lib3.css
+   |-- app.js
+   |-- app.css
+   |-- index.html
+build</code></pre>
+<p>目的是将 dev/vendor 中的<strong>所有</strong>文件夹完整拷贝至 build 目录。实际上，Gulp 的拷贝就是不执行任何中间操作的 src 与 dest，因此很容易：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;move&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;dev/vendor/**/*&#39;</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;build/&#39;</span><span class="p">));</span>
+<span class="p">})</span>
+</pre></div>
+<p>但是，若要仅把 dev/vendor/lib1 与 dev/vendor/lib2 文件夹拷贝至 build 目录，这样的代码是错误的：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;move&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;dev/vendor/lib1/*&#39;</span><span class="p">,</span> <span class="s1">&#39;dev/vendor/lib2/*&#39;</span><span class="p">])</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;build/&#39;</span><span class="p">));</span>  <span class="c1">// 丢失目录结构</span>
+<span class="p">})</span>
+</pre></div>
+<p>因为你会看到这样的结果：</p>
+
+<pre><code>build
+    |-- lib1.js
+    |-- lib1.css
+    |-- lib2.js
+    |-- lib2.css</code></pre>
+<p>很正常的，丢失了目录结构。要解决这个问题，需要用到 <code>gulp.src()</code> 的 <code>base</code> 参数：</p>
+<div class="highlight"><pre><span></span><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;move&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;dev/vendor/lib1/*&#39;</span><span class="p">,</span> <span class="s1">&#39;dev/vendor/lib2/*&#39;</span><span class="p">],</span> <span class="p">{</span>
+                <span class="nx">base</span><span class="o">:</span> <span class="s1">&#39;dev/vendor/&#39;</span>
+            <span class="p">})</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;build/&#39;</span><span class="p">));</span>  <span class="c1">// 保持目录结构</span>
+<span class="p">})</span>
+</pre></div>
+<p>则可以得到正确的结果：</p>
+
+<pre><code>build
+    |-- lib1
+        |-- lib1.js
+        |-- lib1.css
+    |-- lib2
+        |-- lib2.js
+        |-- lib2.css</code></pre>
+<h2>总结</h2>
+<p>以上介绍了我上手 Gulp 的一些过程。VOID 主题现在已经使用 Gulp 自动化构建，效果妙不可言。其使用的 gulpfile.js 见 <a href="https://github.com/AlanDecode/Typecho-Theme-VOID/blob/master/gulpfile.js">GitHub</a>，除了静态文件加戳，还有 CSS 预处理、压缩、合并，JS 混淆、压缩、合并等流程，若有错漏还请赐教。</p>
+<p>昨天晚上到今天上午我一直在研究 Gulp，目前只是初步的上手而已。这样的工具，相见恨晚啊。</p>
+
+            </div>
+        </article>
+        <div id="ga-tags">
+    
+    <span class="ga-tag">
+        <a class="ga-highlight" href="https://blog.imalan.cn/tag/前端/">#前端</a>
+    </span>
+    
+    <span class="ga-tag">
+        <a class="ga-highlight" href="https://blog.imalan.cn/tag/VOID笔记/">#VOID笔记</a>
+    </span>
+    
+</div>
+
+<!--katex-->
+<link rel="stylesheet" href="https://blog.imalan.cn/assets/katex.min.css">
+<script defer src="https://blog.imalan.cn/assets/katex.min.js"></script>
+<script>
+mathOpts = {
+    delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false},
+        {left: "\\(", right: "\\)", display: false}
+    ]
+};
+</script>
+<script defer src="https://blog.imalan.cn/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+    </section>
+
+    
+<section id="ga-content_pager">
+
+    <div class="next">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/323/">Typecho Theme Q 纪念碑</a>
+        <p class="yue">Typecho Theme Q 是我写的一款 Typecho 主题。</p>
+    </div>
+
+
+    <div class="prev">
+        <a class="ga-highlight" href="https://blog.imalan.cn/archives/247/">VOID：现在可以公开的情报</a>
+        <p class="yue">🐒 猴子打字机原理的产物</p>
+    </div>
+
+</section>
+
+
+    
+        <script>
+            var initValine = function () {
+                new Valine({
+                    el: '#vcomments',
+                    appId: '6chFXPTjrjYnjFk9duROcboN-gzGzoHsz',
+                    appKey: 'c1CRooaFmpLs4xi7x3YLm3ma',
+                    placeholder: '来畅所欲言吧~',
+                    notify: false,
+                    visitor: false,
+                    
+                    recordIP: true
+                });
+            }
+        </script>
+        <script defer src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js' onload="initValine()"></script>
+        <div id="vcomments"></div>
+    
+
+</main>
+
+                <footer class="ga-mono" id="ga-footer">
+                    <section>
+                        <span id="ga-uptime"></span>
+                        <span class="brand">无文字 | 三无计划</span>
+                    </section>
+                    <section>
+                        <p class="copyright">
+                            <span>Copyright © 2019 熊猫小A</span>
+                            <span>Powered by <a no-style href="https://github.com/AlanDecode/Maverick" target="_blank">Maverick & Galileo</a></span>
+                        </p>
+                        <div class="copyright">
+                            <span class="footer-addon">
+                                
+<a no-style href="http://www.miitbeian.gov.cn/" target="_blank">京 ICP 备 18000133 号</a> | 
+<a no-style href="https://www.upyun.com" target="_blank">又拍云</a>
+
+                            </span>
+                            <nav class="social-links">
+                                <ul><li><a class="no-style" title="Twitter" href="https://twitter.com/AlanDecode" target="_blank"><i class="gi gi-twitter"></i>Twitter</a></li><span class="separator">·</span><li><a class="no-style" title="GitHub" href="https://github.com/AlanDecode" target="_blank"><i class="gi gi-github"></i>GitHub</a></li><span class="separator">·</span><li><a class="no-style" title="Weibo" href="https://weibo.com/5245109677/" target="_blank"><i class="gi gi-weibo"></i>Weibo</a></li></ul>
+                            </nav>
+                        </div>
+                    </section>
+                    <script>
+                        var site_build_date = "2017-06-29T12:00+08:00"
+                    </script>
+                    <script src="https://blog.imalan.cn/assets/galileo-0ad83d4976.js"></script>
+                </footer>
+            </div>
+        </div>
+    </div>
+        
+        
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                          <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://blog.imalan.cn/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://blog.imalan.cn/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
+
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?e4f3a7c02ac2aabc41a1cfa95f61a026";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>
+if(window.location.hash){
+    var checkExist = setInterval(function() {
+       if ($(window.location.hash).length) {
+          $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+          clearInterval(checkExist);
+       }
+    }, 100);
+}
+</script>
+<script>
+if(window.navigator && navigator.serviceWorker) {
+  caches.keys().then(function(cacheNames) {
+    cacheNames.forEach(function(cacheName) {
+      caches.delete(cacheName);
+    });
+  }).then(function(){
+    console.log('Cache cleaned.');
+  });
+  navigator.serviceWorker.getRegistrations()
+  .then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  }).then(function(){
+    console.log('Service Worker stopped.');
+  });
+}
+</script>
+
+    </body>
+</html>
