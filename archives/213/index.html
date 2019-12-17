@@ -11,13 +11,13 @@
     <meta name="template" content="Galileo" />
     <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
     <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
-    <link rel="stylesheet" href="https://blog.imalan.cn/assets/galileo-8b8364b2fe.css">
-    <link rel="stylesheet" href="https://blog.imalan.cn/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-8b8364b2fe.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
     <script>
         var ExSearchConfig = {
             root: "",
-            api: "https://blog.imalan.cn/5ab16cd1619cb5bf1c66921a5b4646bc.json"
+            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/5ab16cd1619cb5bf1c66921a5b4646bc.json"
         }
     </script>
     
@@ -110,7 +110,7 @@
 <p>或许有同学接触过 GitHub 的 Webhooks 功能，即当代码仓库发生某些操作时，GitHub 会向指定的地址发送请求，当服务端收到这些请求时即可进行下一步操作，例如拉取最新代码-生成-部署。Travis CI 所做的事情与之是类似的。</p>
 <h2>思路</h2>
 <p>基本的思路如图（诚意手绘）：</p>
-<p><figure class="pswp-item" style="flex: 94.69820554649266" data-width="1161" data-height="613"><img src="../assets/f6f24895b64448a63431fde2d0c27a09.jpg" alt="原理流程" /><figcaption>原理流程</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 94.69820554649266" data-width="1161" data-height="613"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/f6f24895b64448a63431fde2d0c27a09.jpg" alt="原理流程" /><figcaption>原理流程</figcaption></figure></p>
 <p>例如我的代码仓库 <a href="https://github.com/AlanDecode/alandecode.github.io">alandecode.github.io</a> ，其 master 分支用于存储 Hexo 生成的静态文件，即博客网页；source 分支则用于存储博客源码，一般包括了 <code>_config.yml</code>、<code>source</code>、<code>themes</code>、<code>package.json</code> 、<code>scaffolds</code> 等文件与目录。</p>
 <p>整个工作循环是这样的：在 source 分支下编写新的文章并保存，commit 后 push 至 GitHub 上的 source 分支。Travis CI 探测到 push 操作，即从 source 分支拉取新的源代码，并在自己的服务器上执行生成过程，并将生成结果 push 至代码仓库的 master 分支，完成部署过程。</p>
 <h2>实现</h2>
@@ -143,13 +143,13 @@ git push --set-upstream origin <span class="nb">source</span>
 <p>此时 source 分支应该已经推送至 GitHub 了。由于以后我们只会修改 source 分支，为了方便将 source 分支设置为默认分支：GitHub 仓库 Settings → Branches → Default Branch 设置为 source。</p>
 <h4>获取 Access Token</h4>
 <p>点击 GitHub 右上角头像 → Settings → Developer settings → Personal access tokens，点击 Generate new token，设置 token 名称，并勾选 repo 前面的框。</p>
-<p><figure class="pswp-item" style="flex: 116.05504587155963" data-width="1265" data-height="545"><img src="../assets/14ad1d8e0f4de8e8efd7f9acbb838ffd.png" alt="access-token.png" /><figcaption>access-token.png</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 116.05504587155963" data-width="1265" data-height="545"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/14ad1d8e0f4de8e8efd7f9acbb838ffd.png" alt="access-token.png" /><figcaption>access-token.png</figcaption></figure></p>
 <p>点击 Generate，然后将新生成的 token 记下。保管好它，你以后不会再看到这个 token 第二次了。</p>
 <h3>Travis CI 侧</h3>
 <p>去 <a href="https://www.travis-ci.org/">Travis CI 官网</a>，使用 GitHub 账号登录，然后添加仓库：待仓库列表同步完成后将 xxxx.github.io 勾选。</p>
-<p><figure class="pswp-item" style="flex: 108.29268292682927" data-width="1332" data-height="615"><img src="../assets/3a96d1a0961d8412b8335a4d74f81555.png" alt="add-repo.png" /><figcaption>add-repo.png</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 108.29268292682927" data-width="1332" data-height="615"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/3a96d1a0961d8412b8335a4d74f81555.png" alt="add-repo.png" /><figcaption>add-repo.png</figcaption></figure></p>
 <p>然后点击旁边的 Settings 按钮，如图设置：</p>
-<p><figure class="pswp-item" style="flex: 97.5" data-width="1521" data-height="780"><img src="../assets/a4dfd8b8dec5a44e1ee53e1bd186c24f.png" alt="travis-settings.png" /><figcaption>travis-settings.png</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 97.5" data-width="1521" data-height="780"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/a4dfd8b8dec5a44e1ee53e1bd186c24f.png" alt="travis-settings.png" /><figcaption>travis-settings.png</figcaption></figure></p>
 <p>下方 Environment Variables 填写 name 为 travis，然后 Value 为 GitHub 获得的 Access Token，取消勾选 Display value in build log，点击 add。</p>
 <h3>添加 travis 配置文件</h3>
 <p>回到 xxxx.github.io 目录下，创建一个 .travis.yml 的文件，内容为：</p>
@@ -180,7 +180,7 @@ git commit -m <span class="s1">&#39;update&#39;</span>
 git push
 </pre></div>
 <p>稍等片刻，在 Travis CI 的控制面板将可以看到构建历史：</p>
-<p><figure class="pswp-item" style="flex: 111.51586368977674" data-width="1898" data-height="851"><img src="../assets/e5f8b4dd4437c10ce99433772ed1694f.png" alt="build-history.png" /><figcaption>build-history.png</figcaption></figure></p>
+<p><figure class="pswp-item" style="flex: 111.51586368977674" data-width="1898" data-height="851"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/e5f8b4dd4437c10ce99433772ed1694f.png" alt="build-history.png" /><figcaption>build-history.png</figcaption></figure></p>
 <p>若状态为 passed 则说明部署成功。</p>
 <h2>总结</h2>
 <p>如此下来，Hexo 生成、部署繁琐的问题也没有了。不过即使它万般好，评论系统仍然令人头疼。</p>
@@ -193,8 +193,8 @@ git push
 </div>
 
 <!--katex-->
-<link rel="stylesheet" href="https://blog.imalan.cn/assets/katex.min.css">
-<script defer src="https://blog.imalan.cn/assets/katex.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>
 <script>
 mathOpts = {
     delimiters: [
@@ -205,7 +205,7 @@ mathOpts = {
     ]
 };
 </script>
-<script defer src="https://blog.imalan.cn/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+<script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
     </section>
 
     
@@ -271,7 +271,7 @@ mathOpts = {
                     <script>
                         var site_build_date = "2017-06-29T12:00+08:00"
                     </script>
-                    <script src="https://blog.imalan.cn/assets/galileo-d8a0a06eff.js"></script>
+                    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-d8a0a06eff.js"></script>
                 </footer>
             </div>
         </div>
@@ -315,8 +315,8 @@ mathOpts = {
         </div>
     </div>
 
-    <script src="https://blog.imalan.cn/assets/ExSearch/jquery.min.js"></script>
-    <script src="https://blog.imalan.cn/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
 
     
 <script>
