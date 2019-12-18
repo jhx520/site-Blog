@@ -17,7 +17,7 @@
     <script>
         var ExSearchConfig = {
             root: "",
-            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/4d8f6fc2ce7ba2e1cfb6799014f76849.json"
+            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/d5834be72af7a462d7ac95be897ad845.json"
         }
     </script>
     
@@ -156,55 +156,55 @@
 <p><figure class="pswp-item" style="flex: 90.6" data-width="1812" data-height="1000"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/05105f3f45d95225059ddc5c347161ff.jpg" alt="基于 GitHub Actions 的自动构建与发布" /><figcaption>基于 GitHub Actions 的自动构建与发布</figcaption></figure></p>
 <p>此前，最广泛使用的 CI 服务当属 <a href="https://travis-ci.org">Travis CI</a>；现在 GitHub 也推出了自家的 CI 服务 <a href="https://github.com/features/actions">GitHub Actions</a>。相比起 Travis 来，GitHub Actions 更加 「native」，经我测试似乎也更敏捷、快速；此外，还能直接引用别人写好的规则。本文就基于 GitHub Action 描述构建流程。</p>
 <p>当仓库收到新的更新（push）时，GitHub 会根据仓库中 <code>.github/workflows</code> 文件夹下的 YML 配置文件启动 CI 流程。一个简单的 YML 文件长这样：</p>
+<div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build</span>
 
-<pre><code>name: Build
+<span class="c1"># 指定只在 master 分支的 push 事件发生时执行</span>
+<span class="nt">on</span><span class="p">:</span>
+  <span class="nt">push</span><span class="p">:</span> 
+    <span class="nt">branches</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
 
-# 指定只在 master 分支的 push 事件发生时执行
-on:
-  push: 
-    branches:
-      - master
+<span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">build</span><span class="p">:</span>
 
-jobs:
-  build:
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
 
-    runs-on: ubuntu-latest
+    <span class="nt">steps</span><span class="p">:</span>
 
-    steps:
+    <span class="c1"># 首先拉取最新的代码，这里直接使用已有的规则</span>
+    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2</span>
 
-    # 首先拉取最新的代码，这里直接使用已有的规则
-    - uses: actions/checkout@v2
+    <span class="c1"># 安装生成环境，也是已有的规则</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Set up Python 3.7</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.7</span>
 
-    # 安装生成环境，也是已有的规则
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
+    <span class="c1"># 安装依赖包</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Deps</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">pip install -r requirements.txt</span>
 
-    # 安装依赖包
-    - name: Install Deps
-      run: |
-        pip install -r requirements.txt
+    <span class="c1"># 进行构建</span>
+    <span class="c1"># 这一步需要根据实际的构建方式修改</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span> 
+        <span class="no">make all</span>
 
-    # 进行构建
-    # 这一步需要根据实际的构建方式修改
-    - name: Build
-      run: | 
-        make all
-
-    # 把构建的结果推送到 gh-pages 分支
-    # 这里也直接使用别人写好的规则，只需要自定义几个设置项（env 与 with）
-    - name: Deploy to GitHub Pages
-      uses: docker://peaceiris/gh-pages:v2
-      env:
-        # 注意这里的 PERSONAL_TOKEN，由于默认的 GITHUB_TOKEN 无法触发
-        # 公共仓库的 Pages 构建，因此需要在账户设置中生成 TOKEN，并添加到
-        # 本仓库的 secrets 里
-        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./dist
-      with:
-        emptyCommits: false</code></pre>
+    <span class="c1"># 把构建的结果推送到 gh-pages 分支</span>
+    <span class="c1"># 这里也直接使用别人写好的规则，只需要自定义几个设置项（env 与 with）</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deploy to GitHub Pages</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docker://peaceiris/gh-pages:v2</span>
+      <span class="nt">env</span><span class="p">:</span>
+        <span class="c1"># 注意这里的 PERSONAL_TOKEN，由于默认的 GITHUB_TOKEN 无法触发</span>
+        <span class="c1"># 公共仓库的 Pages 构建，因此需要在账户设置中生成 TOKEN，并添加到</span>
+        <span class="c1"># 本仓库的 secrets 里</span>
+        <span class="nt">PERSONAL_TOKEN</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.PERSONAL_TOKEN }}</span>
+        <span class="nt">PUBLISH_BRANCH</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gh-pages</span>
+        <span class="nt">PUBLISH_DIR</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">./dist</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">emptyCommits</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</pre></div>
 <p>上面这个示例文件在 master 分支收到更改时做了这几件事：</p>
 <ol>
 <li>拉取最新的代码</li>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link><description>只坚持一种正义。我的正义。</description><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>${static_prefix}android-chrome-512x512.png</url><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link></image><language>zh-CN</language><lastBuildDate>Wed, 18 Dec 2019 09:27:18 +0806</lastBuildDate><pubDate>Wed, 18 Dec 2019 09:27:18 +0806</pubDate><item><title>泛用人形决战兵器 ─ EVA 初号机、装配完毕！</title><link>https://blog.imalan.cn/archives/421/</link><description>&lt;p&gt;朋友最近沉迷高达模型不可自拔，于是送了一个 EVA 初号机模型给我作为生日礼物，企图拉我入坑。其实我小时候拼过高达，但都是玩的盗版，这次就让我来看看万代正版的实力吧！&lt;/p&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link><description>只坚持一种正义。我的正义。</description><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>${static_prefix}android-chrome-512x512.png</url><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link></image><language>zh-CN</language><lastBuildDate>Wed, 18 Dec 2019 09:30:20 +0806</lastBuildDate><pubDate>Wed, 18 Dec 2019 09:30:20 +0806</pubDate><item><title>泛用人形决战兵器 ─ EVA 初号机、装配完毕！</title><link>https://blog.imalan.cn/archives/421/</link><description>&lt;p&gt;朋友最近沉迷高达模型不可自拔，于是送了一个 EVA 初号机模型给我作为生日礼物，企图拉我入坑。其实我小时候拼过高达，但都是玩的盗版，这次就让我来看看万代正版的实力吧！&lt;/p&gt;
 &lt;div class="photos"&gt;
 &lt;figure class="pswp-item" style="flex: 37.5" data-width="3024" data-height="4032"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/df634d55297c3b105a9a739e39aab9b2.jpg" alt="" /&gt;&lt;/figure&gt;
 &lt;figure class="pswp-item" style="flex: 66.66666666666667" data-width="4032" data-height="3024"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/ff72a0dc795036910d6432397944de22.jpg" alt="" /&gt;&lt;/figure&gt;
@@ -353,55 +353,55 @@ Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)&lt;/cod
 &lt;p&gt;&lt;figure class="pswp-item" style="flex: 90.6" data-width="1812" data-height="1000"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/05105f3f45d95225059ddc5c347161ff.jpg" alt="基于 GitHub Actions 的自动构建与发布" /&gt;&lt;figcaption&gt;基于 GitHub Actions 的自动构建与发布&lt;/figcaption&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;此前，最广泛使用的 CI 服务当属 &lt;a href="https://travis-ci.org"&gt;Travis CI&lt;/a&gt;；现在 GitHub 也推出了自家的 CI 服务 &lt;a href="https://github.com/features/actions"&gt;GitHub Actions&lt;/a&gt;。相比起 Travis 来，GitHub Actions 更加 「native」，经我测试似乎也更敏捷、快速；此外，还能直接引用别人写好的规则。本文就基于 GitHub Action 描述构建流程。&lt;/p&gt;
 &lt;p&gt;当仓库收到新的更新（push）时，GitHub 会根据仓库中 &lt;code&gt;.github/workflows&lt;/code&gt; 文件夹下的 YML 配置文件启动 CI 流程。一个简单的 YML 文件长这样：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Build&lt;/span&gt;
 
-&lt;pre&gt;&lt;code&gt;name: Build
+&lt;span class="c1"&gt;# 指定只在 master 分支的 push 事件发生时执行&lt;/span&gt;
+&lt;span class="nt"&gt;on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;push&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+    &lt;span class="nt"&gt;branches&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;master&lt;/span&gt;
 
-# 指定只在 master 分支的 push 事件发生时执行
-on:
-  push: 
-    branches:
-      - master
+&lt;span class="nt"&gt;jobs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;build&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 
-jobs:
-  build:
+    &lt;span class="nt"&gt;runs-on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ubuntu-latest&lt;/span&gt;
 
-    runs-on: ubuntu-latest
+    &lt;span class="nt"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 
-    steps:
+    &lt;span class="c1"&gt;# 首先拉取最新的代码，这里直接使用已有的规则&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/checkout@v2&lt;/span&gt;
 
-    # 首先拉取最新的代码，这里直接使用已有的规则
-    - uses: actions/checkout@v2
+    &lt;span class="c1"&gt;# 安装生成环境，也是已有的规则&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Set up Python 3.7&lt;/span&gt;
+      &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/setup-python@v1&lt;/span&gt;
+      &lt;span class="nt"&gt;with&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="nt"&gt;python-version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;3.7&lt;/span&gt;
 
-    # 安装生成环境，也是已有的规则
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
+    &lt;span class="c1"&gt;# 安装依赖包&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Install Deps&lt;/span&gt;
+      &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;|&lt;/span&gt;
+        &lt;span class="no"&gt;pip install -r requirements.txt&lt;/span&gt;
 
-    # 安装依赖包
-    - name: Install Deps
-      run: |
-        pip install -r requirements.txt
+    &lt;span class="c1"&gt;# 进行构建&lt;/span&gt;
+    &lt;span class="c1"&gt;# 这一步需要根据实际的构建方式修改&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Build&lt;/span&gt;
+      &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;|&lt;/span&gt; 
+        &lt;span class="no"&gt;make all&lt;/span&gt;
 
-    # 进行构建
-    # 这一步需要根据实际的构建方式修改
-    - name: Build
-      run: | 
-        make all
-
-    # 把构建的结果推送到 gh-pages 分支
-    # 这里也直接使用别人写好的规则，只需要自定义几个设置项（env 与 with）
-    - name: Deploy to GitHub Pages
-      uses: docker://peaceiris/gh-pages:v2
-      env:
-        # 注意这里的 PERSONAL_TOKEN，由于默认的 GITHUB_TOKEN 无法触发
-        # 公共仓库的 Pages 构建，因此需要在账户设置中生成 TOKEN，并添加到
-        # 本仓库的 secrets 里
-        PERSONAL_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./dist
-      with:
-        emptyCommits: false&lt;/code&gt;&lt;/pre&gt;
+    &lt;span class="c1"&gt;# 把构建的结果推送到 gh-pages 分支&lt;/span&gt;
+    &lt;span class="c1"&gt;# 这里也直接使用别人写好的规则，只需要自定义几个设置项（env 与 with）&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Deploy to GitHub Pages&lt;/span&gt;
+      &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;docker://peaceiris/gh-pages:v2&lt;/span&gt;
+      &lt;span class="nt"&gt;env&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="c1"&gt;# 注意这里的 PERSONAL_TOKEN，由于默认的 GITHUB_TOKEN 无法触发&lt;/span&gt;
+        &lt;span class="c1"&gt;# 公共仓库的 Pages 构建，因此需要在账户设置中生成 TOKEN，并添加到&lt;/span&gt;
+        &lt;span class="c1"&gt;# 本仓库的 secrets 里&lt;/span&gt;
+        &lt;span class="nt"&gt;PERSONAL_TOKEN&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;${{ secrets.PERSONAL_TOKEN }}&lt;/span&gt;
+        &lt;span class="nt"&gt;PUBLISH_BRANCH&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;gh-pages&lt;/span&gt;
+        &lt;span class="nt"&gt;PUBLISH_DIR&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;./dist&lt;/span&gt;
+      &lt;span class="nt"&gt;with&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="nt"&gt;emptyCommits&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;false&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;上面这个示例文件在 master 分支收到更改时做了这几件事：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;拉取最新的代码&lt;/li&gt;
