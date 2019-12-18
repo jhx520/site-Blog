@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link><description>只坚持一种正义。我的正义。</description><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>${static_prefix}android-chrome-512x512.png</url><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link></image><language>zh-CN</language><lastBuildDate>Wed, 18 Dec 2019 09:20:07 +0806</lastBuildDate><pubDate>Wed, 18 Dec 2019 09:20:07 +0806</pubDate><item><title>泛用人形决战兵器 ─ EVA 初号机、装配完毕！</title><link>https://blog.imalan.cn/archives/421/</link><description>&lt;p&gt;朋友最近沉迷高达模型不可自拔，于是送了一个 EVA 初号机模型给我作为生日礼物，企图拉我入坑。其实我小时候拼过高达，但都是玩的盗版，这次就让我来看看万代正版的实力吧！&lt;/p&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link><description>只坚持一种正义。我的正义。</description><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>${static_prefix}android-chrome-512x512.png</url><title>无文字 | 三无计划</title><link>https://blog.imalan.cn/</link></image><language>zh-CN</language><lastBuildDate>Wed, 18 Dec 2019 09:27:18 +0806</lastBuildDate><pubDate>Wed, 18 Dec 2019 09:27:18 +0806</pubDate><item><title>泛用人形决战兵器 ─ EVA 初号机、装配完毕！</title><link>https://blog.imalan.cn/archives/421/</link><description>&lt;p&gt;朋友最近沉迷高达模型不可自拔，于是送了一个 EVA 初号机模型给我作为生日礼物，企图拉我入坑。其实我小时候拼过高达，但都是玩的盗版，这次就让我来看看万代正版的实力吧！&lt;/p&gt;
 &lt;div class="photos"&gt;
 &lt;figure class="pswp-item" style="flex: 37.5" data-width="3024" data-height="4032"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/df634d55297c3b105a9a739e39aab9b2.jpg" alt="" /&gt;&lt;/figure&gt;
 &lt;figure class="pswp-item" style="flex: 66.66666666666667" data-width="4032" data-height="3024"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/ff72a0dc795036910d6432397944de22.jpg" alt="" /&gt;&lt;/figure&gt;
@@ -338,30 +338,23 @@ Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)&lt;/cod
 &lt;p&gt;已经有很多人摸索出了利用 GitHub 托管与自动构建的流程，例如我曾写过的 &lt;a href="https://blog.imalan.cn/archives/213/"&gt;使用 Travis CI 自动生成与部署 Hexo 博客&lt;/a&gt; 就能针对 Hexo 博客达到该目的。这些方法本质上是一个这样的流程：当更新文章并推送到 GitHub 时，自动通过 CI 服务发起一次构建任务，然后把生成的静态博客推送回 GitHub 上。&lt;/p&gt;
 &lt;p&gt;&lt;figure class="pswp-item" style="flex: 94.69820554649266" data-width="1161" data-height="613"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/ff2fd03960807e5d485d0771bd9f63f6.jpg" alt="使用 GitHub 与 Travis CI 自动构建" /&gt;&lt;figcaption&gt;使用 GitHub 与 Travis CI 自动构建&lt;/figcaption&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;但是，Hexo 等生成器大多要求将博客源文件存放在某个特定的目录下，让我们无法自由地组织源文件；另外，这些生成器对图片的处理十分笨拙，不能应对引用本地文件的情景；当然，它们也无法达到本文稍后要谈到的 CDN 加速效果。&lt;/p&gt;
-&lt;div class="Maverick"&gt;(&lt;a href="https://github.com/AlanDecode/Maverick"&gt;https://github.com/AlanDecode/Maverick&lt;/a&gt;) 是一个与 Hexo 类似的博客生成器，不同的是它针对源文件与图片管理做了大幅改进，可以从任何目录寻找源文件，并且可以自动处理引用本地图片的情况。那么，如何将它结合到流程中呢？
+&lt;p&gt;开源的 &lt;a href="https://github.com/AlanDecode/Maverick"&gt;Maverick&lt;/a&gt; 是一个与 Hexo 类似的博客生成器，不同的是它针对源文件与图片管理做了大幅改进，可以从任何目录寻找源文件，并且可以自动处理引用本地图片的情况。那么，如何将它结合到流程中呢？&lt;/p&gt;
+&lt;p&gt;这里，我想用啰嗦一点的方式讲解，并且穿插介绍一些技术上的基本概念。别怕，不难。&lt;/p&gt;
+&lt;h3&gt;需求梳理&lt;/h3&gt;
+&lt;p&gt;为了有的放矢地进行设计，我们先明确需求。大致上，要达到以下目的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 GitHub 管理自己的博客源文件（一堆 Markdown 文本文件），以及文件中引用的图片&lt;/li&gt;
+&lt;li&gt;在更新内容时，例如增、删、改博客文章，希望 GitHub 能察觉到并自动更新托管在 GitHub Pages 的博客网站&lt;/li&gt;
+&lt;li&gt;静态博客生成器与博客源文件应该分离开来，并且同样能够被版本管理，以及方便地更新。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;第一条比较简单，之前已经谈过了。现在先来说第二条。&lt;/p&gt;
+&lt;h3&gt;基于 GitHub Actions 的自动构建&lt;/h3&gt;
+&lt;p&gt;其实，监视仓库并在有改动时自动执行一系列动作是非常广泛的需求。软件开发工作中，经常需要对新添加的代码随时进行测试，或者进行部署，都是通过这样的自动化流程实现的。实际上这类服务还有个&lt;ruby&gt;专门&lt;rp&gt;(&lt;/rp&gt;&lt;rt&gt;莫名其妙&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;&lt;/ruby&gt;的名字：「持续集成（Continuous Integration）」，简称 CI。&lt;/p&gt;
+&lt;p&gt;&lt;figure class="pswp-item" style="flex: 90.6" data-width="1812" data-height="1000"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/05105f3f45d95225059ddc5c347161ff.jpg" alt="基于 GitHub Actions 的自动构建与发布" /&gt;&lt;figcaption&gt;基于 GitHub Actions 的自动构建与发布&lt;/figcaption&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;此前，最广泛使用的 CI 服务当属 &lt;a href="https://travis-ci.org"&gt;Travis CI&lt;/a&gt;；现在 GitHub 也推出了自家的 CI 服务 &lt;a href="https://github.com/features/actions"&gt;GitHub Actions&lt;/a&gt;。相比起 Travis 来，GitHub Actions 更加 「native」，经我测试似乎也更敏捷、快速；此外，还能直接引用别人写好的规则。本文就基于 GitHub Action 描述构建流程。&lt;/p&gt;
+&lt;p&gt;当仓库收到新的更新（push）时，GitHub 会根据仓库中 &lt;code&gt;.github/workflows&lt;/code&gt; 文件夹下的 YML 配置文件启动 CI 流程。一个简单的 YML 文件长这样：&lt;/p&gt;
 
-这里，我想用啰嗦一点的方式讲解，并且穿插介绍一些技术上的基本概念。别怕，不难。
-
-### 需求梳理
-
-为了有的放矢地进行设计，我们先明确需求。大致上，要达到以下目的：
-
-&lt;em&gt; 使用 GitHub 管理自己的博客源文件（一堆 Markdown 文本文件），以及文件中引用的图片&lt;/em&gt; 在更新内容时，例如增、删、改博客文章，希望 GitHub 能察觉到并自动更新托管在 GitHub Pages 的博客网站
-* 静态博客生成器与博客源文件应该分离开来，并且同样能够被版本管理，以及方便地更新。
-
-第一条比较简单，之前已经谈过了。现在先来说第二条。
-
-### 基于 GitHub Actions 的自动构建
-
-其实，监视仓库并在有改动时自动执行一系列动作是非常广泛的需求。软件开发工作中，经常需要对新添加的代码随时进行测试，或者进行部署，都是通过这样的自动化流程实现的。实际上这类服务还有个&lt;ruby&gt;专门&lt;rp&gt;(&lt;/rp&gt;&lt;rt&gt;莫名其妙&lt;/rt&gt;&lt;rp&gt;)&lt;/rp&gt;&lt;/ruby&gt;的名字：「持续集成（Continuous Integration）」，简称 CI。
-
-&lt;figure class="pswp-item" style="flex: 90.6" data-width="1812" data-height="1000"&gt;&lt;img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/05105f3f45d95225059ddc5c347161ff.jpg" alt="基于 GitHub Actions 的自动构建与发布" /&gt;&lt;figcaption&gt;基于 GitHub Actions 的自动构建与发布&lt;/figcaption&gt;&lt;/figure&gt;
-
-此前，最广泛使用的 CI 服务当属 &lt;a href="https://travis-ci.org"&gt;Travis CI&lt;/a&gt;；现在 GitHub 也推出了自家的 CI 服务 &lt;a href="https://github.com/features/actions"&gt;GitHub Actions&lt;/a&gt;。相比起 Travis 来，GitHub Actions 更加 「native」，经我测试似乎也更敏捷、快速；此外，还能直接引用别人写好的规则。本文就基于 GitHub Action 描述构建流程。
-
-当仓库收到新的更新（push）时，GitHub 会根据仓库中 &lt;code&gt;.github/workflows&lt;/code&gt; 文件夹下的 YML 配置文件启动 CI 流程。一个简单的 YML 文件长这样：
-
-&lt;code&gt;name: Build
+&lt;pre&gt;&lt;code&gt;name: Build
 
 # 指定只在 master 分支的 push 事件发生时执行
 on:
@@ -408,57 +401,44 @@ jobs:
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./dist
       with:
-        emptyCommits: false&lt;/code&gt;
-
-上面这个示例文件在 master 分支收到更改时做了这几件事：
-
-1. 拉取最新的代码
-2. 安装环境，例如 Hexo 所需的 Node，或者 Maverick 所需的 Python 等
-3. 安装依赖包
-4. 执行构建
-5. 把构建结果推送回 gh-pages 分支
-
-虽然后文我们要对这个流程进行一定修改，但大框架并不会变。可见，通过 GitHub Actions，在增删、修改文章时自动更新网站是可行的，只需要编写对应的配置文件即可。
-
-考虑到普适性，这里我就不展开细说这个配置文件的写法。许多静态博客生成器都是通过命令行来生成网站的，因此其实在 Build 这一步中填入对应的命令即可。
-
-### 将生成器纳入版本管理
-
-将生成器一并纳入版本管理不是必须的，因为我们总可以在生成站点时临时安装最新版的生成器。然而这样一来有几处不便：
-
-1. 无法控制要使用的生成器版本。我们当然不一定总是想要用最新版，特别是考虑到有时候生成器本身升级可能导致一些不兼容的问题
-2. 不能在升级生成器的时候触发网站更新。由于生成器并不在我们的版本管理系统中，若博客内容没有修改，即使生成器更新了也无法触发相应的网站更新
-
-Git 子模块（submodule）是解决以上问题的直接途径。Git 子模块专门用于处理一个项目依赖于别的项目的情况，在本文，也就是博客这个项目依赖于生成器项目。生成器作为子模块被引入博客项目中。
-
-这里简要介绍添加、更新、管理子模块的方法。假设现有一仓库，名叫 &lt;code&gt;ParentProject&lt;/code&gt;，作为父项目，我们要在这个仓库里引入 Maverick 作为子模块：
-
-&lt;code&gt;bash
-cd ParentProject
+        emptyCommits: false&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面这个示例文件在 master 分支收到更改时做了这几件事：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;拉取最新的代码&lt;/li&gt;
+&lt;li&gt;安装环境，例如 Hexo 所需的 Node，或者 Maverick 所需的 Python 等&lt;/li&gt;
+&lt;li&gt;安装依赖包&lt;/li&gt;
+&lt;li&gt;执行构建&lt;/li&gt;
+&lt;li&gt;把构建结果推送回 gh-pages 分支&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;虽然后文我们要对这个流程进行一定修改，但大框架并不会变。可见，通过 GitHub Actions，在增删、修改文章时自动更新网站是可行的，只需要编写对应的配置文件即可。&lt;/p&gt;
+&lt;p&gt;考虑到普适性，这里我就不展开细说这个配置文件的写法。许多静态博客生成器都是通过命令行来生成网站的，因此其实在 Build 这一步中填入对应的命令即可。&lt;/p&gt;
+&lt;h3&gt;将生成器纳入版本管理&lt;/h3&gt;
+&lt;p&gt;将生成器一并纳入版本管理不是必须的，因为我们总可以在生成站点时临时安装最新版的生成器。然而这样一来有几处不便：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;无法控制要使用的生成器版本。我们当然不一定总是想要用最新版，特别是考虑到有时候生成器本身升级可能导致一些不兼容的问题&lt;/li&gt;
+&lt;li&gt;不能在升级生成器的时候触发网站更新。由于生成器并不在我们的版本管理系统中，若博客内容没有修改，即使生成器更新了也无法触发相应的网站更新&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Git 子模块（submodule）是解决以上问题的直接途径。Git 子模块专门用于处理一个项目依赖于别的项目的情况，在本文，也就是博客这个项目依赖于生成器项目。生成器作为子模块被引入博客项目中。&lt;/p&gt;
+&lt;p&gt;这里简要介绍添加、更新、管理子模块的方法。假设现有一仓库，名叫 &lt;code&gt;ParentProject&lt;/code&gt;，作为父项目，我们要在这个仓库里引入 Maverick 作为子模块：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ParentProject
 git submodule add https://github.com/AlanDecode/Maverick.git
 
 git add .
-git commit -m "add submodule Maverick"&lt;/code&gt;
-
-此时 Maverick 就会出现在 &lt;code&gt;ParentProject&lt;/code&gt; 文件夹下，并纳入父项目的版本管理。注意，这时候子模块的版本就&lt;strong&gt;锁定&lt;/strong&gt;在了添加它时的那次提交，如果子模块有更新，这边要怎同步更新呢？
-
-&lt;code&gt;bash
-cd ParentProject/Maverick
+git commit -m &lt;span class="s2"&gt;&amp;quot;add submodule Maverick&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;此时 Maverick 就会出现在 &lt;code&gt;ParentProject&lt;/code&gt; 文件夹下，并纳入父项目的版本管理。注意，这时候子模块的版本就&lt;strong&gt;锁定&lt;/strong&gt;在了添加它时的那次提交，如果子模块有更新，这边要怎同步更新呢？&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ParentProject/Maverick
 git pull --rebase
-cd ..
+&lt;span class="nb"&gt;cd&lt;/span&gt; ..
 
 git add .
-git commit -m "update submodule Maverick"&lt;/code&gt;
-
-也就是：先进入子模块文件夹，拉取新的提交，然后切换回父项目，提交更改。这样一来父项目中的 Maverick 更新到了最新的一次提交。
-
-这样做的好处很明显。由于子项目只是作为一个引用出现在父项目中，可以很方便地升级降级，而且不会与父项目的文件混淆。这个技巧其实可以用在许多的生成器上，只要生成器本身是使用 Git 开源的。
-
-### 把这些步骤串联起来！
-
-到现在为止我们已经将需求点各个击破，但似乎有点「只见树木不见森林」。如何基于上面的各个技巧构建一套流程呢?
-
-[notice]再次提醒，为了方便各位自己尝试，我创建了一个&lt;a href="https://github.com/AlanDecode/Blog-With-GitHub-Boilerplate"&gt;示例仓库&lt;/a&gt;，请各位把这个仓库 fork 到自己那里，然后按照 README.md 的步骤完成一遍，就知道整个流程到底是怎样的了。本文更多的还是关注原理，而不是手把手教程。&lt;/div&gt;&lt;p&gt;现在，我们已经有了一个仓库，里面存放了我们的博客源文件以及图片等等，假设这些都放在 &lt;code&gt;src&lt;/code&gt; 文件夹下；以及通过子模块引入了 Maverick，放在 &lt;code&gt;Maverick&lt;/code&gt; 文件夹下。此外，还有针对站点的设置文件 &lt;code&gt;conf.py&lt;/code&gt; 放在仓库根目录下。当这个仓库收到任何更改，不论是修改源文件，还是更新子模块，还是修改配置文件，GitHub 都能探测到并根据预先设定的规则执行任务：启动一次构建，构建源文件是仓库 &lt;code&gt;src&lt;/code&gt; 文件夹下的内容，配置文件是仓库根目录下的 &lt;code&gt;conf.py&lt;/code&gt; 文件，生成的结果要推送回仓库的 gh-pages 分支。&lt;/p&gt;
+git commit -m &lt;span class="s2"&gt;&amp;quot;update submodule Maverick&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;也就是：先进入子模块文件夹，拉取新的提交，然后切换回父项目，提交更改。这样一来父项目中的 Maverick 更新到了最新的一次提交。&lt;/p&gt;
+&lt;p&gt;这样做的好处很明显。由于子项目只是作为一个引用出现在父项目中，可以很方便地升级降级，而且不会与父项目的文件混淆。这个技巧其实可以用在许多的生成器上，只要生成器本身是使用 Git 开源的。&lt;/p&gt;
+&lt;h3&gt;把这些步骤串联起来！&lt;/h3&gt;
+&lt;p&gt;到现在为止我们已经将需求点各个击破，但似乎有点「只见树木不见森林」。如何基于上面的各个技巧构建一套流程呢?&lt;/p&gt;
+&lt;div class="notice"&gt;再次提醒，为了方便各位自己尝试，我创建了一个&lt;a href="https://github.com/AlanDecode/Blog-With-GitHub-Boilerplate"&gt;示例仓库&lt;/a&gt;，请各位把这个仓库 fork 到自己那里，然后按照 README.md 的步骤完成一遍，就知道整个流程到底是怎样的了。本文更多的还是关注原理，而不是手把手教程。&lt;/div&gt;&lt;p&gt;现在，我们已经有了一个仓库，里面存放了我们的博客源文件以及图片等等，假设这些都放在 &lt;code&gt;src&lt;/code&gt; 文件夹下；以及通过子模块引入了 Maverick，放在 &lt;code&gt;Maverick&lt;/code&gt; 文件夹下。此外，还有针对站点的设置文件 &lt;code&gt;conf.py&lt;/code&gt; 放在仓库根目录下。当这个仓库收到任何更改，不论是修改源文件，还是更新子模块，还是修改配置文件，GitHub 都能探测到并根据预先设定的规则执行任务：启动一次构建，构建源文件是仓库 &lt;code&gt;src&lt;/code&gt; 文件夹下的内容，配置文件是仓库根目录下的 &lt;code&gt;conf.py&lt;/code&gt; 文件，生成的结果要推送回仓库的 gh-pages 分支。&lt;/p&gt;
 &lt;p&gt;应该相当明了吧。这个构建过程所使用的 GitHub Actions 文件，请参考 &lt;a href="https://github.com/AlanDecode/site-Blog/blob/master/.github/workflows/ci.yml"&gt;ci.yml&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;接下来聊聊 CDN 的问题。&lt;/p&gt;
 &lt;h2&gt;如何自动加上 CDN 支持&lt;/h2&gt;
