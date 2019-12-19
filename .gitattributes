@@ -1,7 +1,0 @@
-*.sh linguist-language=Markdown
-*.bat linguist-language=Markdown
-*.py linguist-language=Markdown
-*.html linguist-language=Markdown
-*.css linguist-language=Markdown
-*.scss linguist-language=Markdown
-*.js linguist-language=Markdown
