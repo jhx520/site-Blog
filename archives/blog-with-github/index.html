@@ -17,7 +17,7 @@
     <script>
         var ExSearchConfig = {
             root: "",
-            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/dcc49901969c8b365e60574dbce4b494.json"
+            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/76466fec1f2f7d77bdf1b7c6b821b48d.json"
         }
     </script>
     
@@ -115,7 +115,7 @@
 </ul>
 <p>目前，本博客与 <a href="https://wiki.imalan.cn">无知识</a> 都跑在这个流程上。这篇文章在 iPad 上写成，内容与发布部分并没有碰过代码，也没有开过终端。虽然本文的工作流是针对 Maverick 优化的，但理论上它适用于任何可以托管在 GitHub Pages 的静态博客。只不过若要完全达到本文效果还需要进一步调教。请多关注原理。</p>
 <div class="notice">用以保存与构建本博客的仓库是 <a href="https://github.com/AlanDecode/site-Blog">Alandecode/site-Blog</a>。为了方便各位自己尝试，我还创建了一个<a href="https://github.com/AlanDecode/Blog-With-GitHub-Boilerplate">示例仓库</a>，请各位把这个仓库 fork 到自己那里，然后按照 README.md 的步骤完成一遍，就知道整个流程到底是怎样的了。本文更多的还是关注原理与细节。</div><h2>为什么要用 GitHub 管理博客源文件</h2>
-<p><strong>安全、持久以及版本管理</strong>。许多写博客的人不重视这一步，总爱把源文件放在电脑上某个随意的角落，或者直接发布到博客程序中而不加备份。依我看，这都是没有远见的做法。一旦坚持得久了，老旧的文章就是一笔财富；但电脑会坏，服务器可能被误操作删库，这都会造成无法挽回的损失。除源文件（专指文本内容）外，对图片等附件的管理也有这个问题，并且更加棘手。</p>
+<p><strong>安全、持久以及版本管理</strong>许多写博客的人不重视这一步，总爱把源文件放在电脑上某个随意的角落，或者直接发布到博客程序中而不加备份。依我看，这都是没有远见的做法。一旦坚持得久了，老旧的文章就是一笔财富；但电脑会坏，服务器可能被误操作删库，这都会造成无法挽回的损失。除源文件（专指文本内容）外，对图片等附件的管理也有这个问题，并且更加棘手。</p>
 <p>更好的实践是把源文件放在诸如 Dropbox、iCloud 之类带有版本管理的服务里，以减少丢失的可能；当然，也包括 GitHub。<strong>最好不要</strong>把图片等附件托管到任何在线服务并在源文件中引用，而应该保持它们与源文件位于同处。也就是说，你的所有内容应该是自给自足的，而不依赖第三方的服务。</p>
 <blockquote><p>你其实完全没有必要使用第三方图床引用图片。大多数的编辑器都支持通过相对路径或者绝对路径引用与预览本地图片，甚至包括 GitHub。你可以在浏览器中打开这篇文章存放在 GitHub 上的 <a href="https://github.com/AlanDecode/site-Blog/blob/master/src/%E5%81%B6%E5%B0%94Geek/2019-12-17-%E5%AE%8C%E5%85%A8%E4%BD%BF%E7%94%A8-GitHub-%E5%86%99%E5%8D%9A%E5%AE%A2.md">Markdown 原文</a>，可见所有通过类似 <code>./assets/img.png</code> 的链接引入的图片都得到了正确的展示。</p>
 </blockquote>
