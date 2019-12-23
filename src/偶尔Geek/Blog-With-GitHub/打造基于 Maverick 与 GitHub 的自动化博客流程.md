@@ -142,7 +142,7 @@ Maverick 则能自动搜索并将本地图片随网站发布，这使我们能�
 
 1. 为你的网站起个名字，填写到 `site_name` 这里
 2. 修改 `author`，`email`，`description` 等选项为你的内容
-3. 其它选项也可以随意修改()
+3. 其它选项也可以随意修改（暂时不要修改 `site_prefix` ）
 
 点击页脚的 Commit changes，稍等片刻再访问 `https://<用户名>.github.io/Blog-With-GitHub-Boilerplate` 看是不是已经更新了。如果没有，请点击仓库标题下方的 Actions 按钮，在里面查看自动构建状态。
 
