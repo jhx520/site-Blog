@@ -1,8 +1,9 @@
-#!/bin/sh
+#！/bin/sh
 
 setss
 
-git add .
-git commit -m "add some changes"
-git push
+git pull
 
+git add .
+git commit -m "Update my site"
+git push
