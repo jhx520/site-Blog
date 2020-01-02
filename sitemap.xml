@@ -5,665 +5,665 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	
 
 <url>
-    <loc>https://blog.imalan.cn/links/</loc>
+    <loc>/links/</loc>
     <lastmod>2017-12-02</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2017-06-28</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/wiki-with-maverick-and-present-by-kepler/</loc>
+    <loc>/archives/wiki-with-maverick-and-present-by-kepler/</loc>
     <lastmod>2020-01-02</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/blog-with-github/</loc>
+    <loc>/archives/blog-with-github/</loc>
     <lastmod>2019-12-17</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/blog-now-powered-by-maverick/</loc>
+    <loc>/archives/blog-now-powered-by-maverick/</loc>
     <lastmod>2019-12-13</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/view-download-count-of-github-release/</loc>
+    <loc>/archives/view-download-count-of-github-release/</loc>
     <lastmod>2019-10-27</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/the-remains-of-the-day/</loc>
+    <loc>/archives/the-remains-of-the-day/</loc>
     <lastmod>2019-10-22</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/kaze-no-tani-no-naushika-manga/</loc>
+    <loc>/archives/kaze-no-tani-no-naushika-manga/</loc>
     <lastmod>2019-10-15</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/apple-watch-series-5/</loc>
+    <loc>/archives/apple-watch-series-5/</loc>
     <lastmod>2019-10-05</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/446/</loc>
+    <loc>/archives/446/</loc>
     <lastmod>2019-09-29</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/441/</loc>
+    <loc>/archives/441/</loc>
     <lastmod>2019-08-28</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/422/</loc>
+    <loc>/archives/422/</loc>
     <lastmod>2019-08-25</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/421/</loc>
+    <loc>/archives/421/</loc>
     <lastmod>2019-08-18</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/405/</loc>
+    <loc>/archives/405/</loc>
     <lastmod>2019-07-14</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/399/</loc>
+    <loc>/archives/399/</loc>
     <lastmod>2019-07-02</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/387/</loc>
+    <loc>/archives/387/</loc>
     <lastmod>2019-06-23</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/375/</loc>
+    <loc>/archives/375/</loc>
     <lastmod>2019-06-10</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/recent-books-2019-05/</loc>
+    <loc>/archives/recent-books-2019-05/</loc>
     <lastmod>2019-05-31</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/349/</loc>
+    <loc>/archives/349/</loc>
     <lastmod>2019-05-24</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/348/</loc>
+    <loc>/archives/348/</loc>
     <lastmod>2019-05-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/341/</loc>
+    <loc>/archives/341/</loc>
     <lastmod>2019-05-16</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/322/</loc>
+    <loc>/archives/322/</loc>
     <lastmod>2019-05-08</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/321/</loc>
+    <loc>/archives/321/</loc>
     <lastmod>2019-05-05</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/320/</loc>
+    <loc>/archives/320/</loc>
     <lastmod>2019-04-25</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/317/</loc>
+    <loc>/archives/317/</loc>
     <lastmod>2019-04-16</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/308/</loc>
+    <loc>/archives/308/</loc>
     <lastmod>2019-04-01</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/307/</loc>
+    <loc>/archives/307/</loc>
     <lastmod>2019-03-23</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/306/</loc>
+    <loc>/archives/306/</loc>
     <lastmod>2019-03-18</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/304/</loc>
+    <loc>/archives/304/</loc>
     <lastmod>2019-03-17</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/303/</loc>
+    <loc>/archives/303/</loc>
     <lastmod>2019-03-16</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/291/</loc>
+    <loc>/archives/291/</loc>
     <lastmod>2019-03-10</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/283/</loc>
+    <loc>/archives/283/</loc>
     <lastmod>2019-03-08</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/277/</loc>
+    <loc>/archives/277/</loc>
     <lastmod>2019-03-03</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/273/</loc>
+    <loc>/archives/273/</loc>
     <lastmod>2019-02-28</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/267/</loc>
+    <loc>/archives/267/</loc>
     <lastmod>2019-02-24</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/261/</loc>
+    <loc>/archives/261/</loc>
     <lastmod>2019-02-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/259/</loc>
+    <loc>/archives/259/</loc>
     <lastmod>2019-02-01</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/323/</loc>
+    <loc>/archives/323/</loc>
     <lastmod>2019-01-24</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/251/</loc>
+    <loc>/archives/251/</loc>
     <lastmod>2019-01-23</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/247/</loc>
+    <loc>/archives/247/</loc>
     <lastmod>2019-01-21</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/243/</loc>
+    <loc>/archives/243/</loc>
     <lastmod>2019-01-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/231/</loc>
+    <loc>/archives/231/</loc>
     <lastmod>2018-12-31</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/225/</loc>
+    <loc>/archives/225/</loc>
     <lastmod>2018-12-24</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/219/</loc>
+    <loc>/archives/219/</loc>
     <lastmod>2018-12-15</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/216/</loc>
+    <loc>/archives/216/</loc>
     <lastmod>2018-11-25</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/213/</loc>
+    <loc>/archives/213/</loc>
     <lastmod>2018-11-20</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/197/</loc>
+    <loc>/archives/197/</loc>
     <lastmod>2018-11-16</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/206/</loc>
+    <loc>/archives/206/</loc>
     <lastmod>2018-11-15</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/194/</loc>
+    <loc>/archives/194/</loc>
     <lastmod>2018-11-09</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/189/</loc>
+    <loc>/archives/189/</loc>
     <lastmod>2018-11-04</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/171/</loc>
+    <loc>/archives/171/</loc>
     <lastmod>2018-10-22</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/169/</loc>
+    <loc>/archives/169/</loc>
     <lastmod>2018-10-18</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/168/</loc>
+    <loc>/archives/168/</loc>
     <lastmod>2018-10-14</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/165/</loc>
+    <loc>/archives/165/</loc>
     <lastmod>2018-10-01</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/164/</loc>
+    <loc>/archives/164/</loc>
     <lastmod>2018-09-29</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/163/</loc>
+    <loc>/archives/163/</loc>
     <lastmod>2018-09-17</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/156/</loc>
+    <loc>/archives/156/</loc>
     <lastmod>2018-09-08</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/144/</loc>
+    <loc>/archives/144/</loc>
     <lastmod>2018-08-24</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/139/</loc>
+    <loc>/archives/139/</loc>
     <lastmod>2018-08-02</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/137/</loc>
+    <loc>/archives/137/</loc>
     <lastmod>2018-07-17</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/136/</loc>
+    <loc>/archives/136/</loc>
     <lastmod>2018-06-28</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/133/</loc>
+    <loc>/archives/133/</loc>
     <lastmod>2018-06-13</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/128/</loc>
+    <loc>/archives/128/</loc>
     <lastmod>2018-05-30</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/125/</loc>
+    <loc>/archives/125/</loc>
     <lastmod>2018-05-15</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/108/</loc>
+    <loc>/archives/108/</loc>
     <lastmod>2018-04-29</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/107/</loc>
+    <loc>/archives/107/</loc>
     <lastmod>2018-04-27</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/105/</loc>
+    <loc>/archives/105/</loc>
     <lastmod>2018-04-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/103/</loc>
+    <loc>/archives/103/</loc>
     <lastmod>2018-03-31</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/102/</loc>
+    <loc>/archives/102/</loc>
     <lastmod>2018-03-30</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/101/</loc>
+    <loc>/archives/101/</loc>
     <lastmod>2018-03-26</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/100/</loc>
+    <loc>/archives/100/</loc>
     <lastmod>2018-03-25</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/99/</loc>
+    <loc>/archives/99/</loc>
     <lastmod>2018-03-21</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/95/</loc>
+    <loc>/archives/95/</loc>
     <lastmod>2018-03-10</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/94/</loc>
+    <loc>/archives/94/</loc>
     <lastmod>2018-03-07</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/88/</loc>
+    <loc>/archives/88/</loc>
     <lastmod>2018-03-01</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/83/</loc>
+    <loc>/archives/83/</loc>
     <lastmod>2018-01-28</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/20180122sui-bibei-jing-wang-le-xia-xue/</loc>
+    <loc>/archives/20180122sui-bibei-jing-wang-le-xia-xue/</loc>
     <lastmod>2018-01-22</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/73/</loc>
+    <loc>/archives/73/</loc>
     <lastmod>2018-01-06</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/69/</loc>
+    <loc>/archives/69/</loc>
     <lastmod>2017-12-25</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/67/</loc>
+    <loc>/archives/67/</loc>
     <lastmod>2017-12-13</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/66/</loc>
+    <loc>/archives/66/</loc>
     <lastmod>2017-12-07</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/62/</loc>
+    <loc>/archives/62/</loc>
     <lastmod>2017-11-26</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/59/</loc>
+    <loc>/archives/59/</loc>
     <lastmod>2017-11-11</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/51/</loc>
+    <loc>/archives/51/</loc>
     <lastmod>2017-10-21</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/49/</loc>
+    <loc>/archives/49/</loc>
     <lastmod>2017-08-17</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/39/</loc>
+    <loc>/archives/39/</loc>
     <lastmod>2017-08-15</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/38/</loc>
+    <loc>/archives/38/</loc>
     <lastmod>2017-08-09</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/10/</loc>
+    <loc>/archives/10/</loc>
     <lastmod>2017-07-06</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/11/</loc>
+    <loc>/archives/11/</loc>
     <lastmod>2017-07-05</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/13/</loc>
+    <loc>/archives/13/</loc>
     <lastmod>2017-01-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/33/</loc>
+    <loc>/archives/33/</loc>
     <lastmod>2016-12-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/15/</loc>
+    <loc>/archives/15/</loc>
     <lastmod>2016-12-14</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/34/</loc>
+    <loc>/archives/34/</loc>
     <lastmod>2016-11-19</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/35/</loc>
+    <loc>/archives/35/</loc>
     <lastmod>2016-11-05</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
 </url>
 
 <url>
-    <loc>https://blog.imalan.cn/archives/36/</loc>
+    <loc>/archives/36/</loc>
     <lastmod>2016-11-02</lastmod>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
