@@ -7,11 +7,11 @@
     <meta name="HandheldFriendly" content="true">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="Maverick,熊猫小A,Galileo,blog" />
-    <meta name="generator" content="Maverick 1.0" />
+    <meta name="generator" content="Maverick 1.1" />
     <meta name="template" content="Galileo" />
     <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
     <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-ec40839efa.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-01513f180e.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
     <script>
@@ -101,6 +101,10 @@
                 </a>
                 
                 
+                <span class="leancloud_visitors" 
+                    id="https://blog.imalan.cn/archives/304/" 
+                    data-flag-title="记一次头疼的 Debug"> · <i class="leancloud-visitors-count"></i> Views</span>
+                
             </span>
             <div class="ga-content_body">
                 <p>这是前天（2019-03-15）的事了。手里的一个项目出了个奇怪的问题：在 Win 7 上一切正常，但是在 Win 10 上 Release 模式下<strong>随机</strong>出现不能启动的问题。Debug 模式没问题，同时日志中没有异常记录、控制台一片祥和。之前客户那边一直使用 Win 7 的环境，现在要购置新的机器，市场上适合 Win 7 的选择不多了，所以我们这边只能把项目适配到 Win 10。于是我开始着手解决这个问题。</p>
@@ -159,16 +163,7 @@
     
         <script>
             var initValine = function () {
-                new Valine({
-                    el: '#vcomments',
-                    appId: '6chFXPTjrjYnjFk9duROcboN-gzGzoHsz',
-                    appKey: 'c1CRooaFmpLs4xi7x3YLm3ma',
-                    placeholder: '来畅所欲言吧~',
-                    notify: false,
-                    visitor: false,
-                    
-                    recordIP: true
-                });
+                new Valine({"enable": true, "el": "#vcomments", "appId": "6chFXPTjrjYnjFk9duROcboN-gzGzoHsz", "appKey": "c1CRooaFmpLs4xi7x3YLm3ma", "visitor": true, "recordIP": true, "placeholder": "\u6765\u7545\u6240\u6b32\u8a00\u5427~"});
             }
         </script>
         <script defer src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js' onload="initValine()"></script>
