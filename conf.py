@@ -26,12 +26,12 @@ language = 'zh-CN'
 background_img = '${static_prefix}bg/The_Great_Wave_off_Kanagawa.jpg'
 external_links = [
     {
-        "name": "AlanDecode/Maverick",
+        "name": "Maverick",
         "url": "https://github.com/AlanDecode/Maverick",
         "brief": "🏄‍ Go My Own Way."
     },
     {
-        "name": "三無計劃 | Triple NULL",
+        "name": "三無計劃",
         "url": "https://www.imalan.cn",
         "brief": "三是虚指。至于是哪三无，我唔知。"
     },
