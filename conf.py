@@ -95,12 +95,11 @@ social_links = [
 
 valine = {
     "enable": True,
+    "el": '#vcomments',
     "appId": "6chFXPTjrjYnjFk9duROcboN-gzGzoHsz",
     "appKey": "c1CRooaFmpLs4xi7x3YLm3ma",
-    "notify": "false",
-    "visitor": "false",
-    "recordIP": "true",
-    "serverURLs": None,
+    "visitor": True,
+    "recordIP": True,
     "placeholder": "来畅所欲言吧~"
 }
 
