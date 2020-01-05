@@ -26,7 +26,6 @@ author_homepage = "https://www.imalan.cn"
 description = "只坚持一种正义。我的正义。"
 key_words = ['Maverick', '熊猫小A', 'Galileo', 'blog']
 language = 'zh-CN'
-background_img = '${static_prefix}bg/The_Great_Wave_off_Kanagawa.jpg'
 external_links = [
     {
         "name": "Maverick",
