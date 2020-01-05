@@ -128,8 +128,10 @@ head_addon = r'''
 <meta name="theme-color" content="#000000">
 <meta name="baidu-site-verification" content="9BEwwo6Ibg" />
 <style>
-header h1.brand {
-    font-size: 2.4em!important
+@media screen and (max-width: 767px) {
+    header h1.brand {
+        font-size: 2.27em!important
+    }
 }
 </style>
 '''
