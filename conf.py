@@ -6,7 +6,7 @@
 site_prefix = "/"
 source_dir = "../src/"
 build_dir = "../dist/"
-index_page_size = 10
+index_page_size = 1
 archives_page_size = 20
 template = {
     "name": "Prism",
@@ -127,6 +127,11 @@ head_addon = r'''
 <meta name="msapplication-TileColor" content="#000000">
 <meta name="theme-color" content="#000000">
 <meta name="baidu-site-verification" content="9BEwwo6Ibg" />
+<style>
+header h1.brand {
+    font-size: 2.4em!important
+}
+</style>
 '''
 
 footer_addon = r'''
