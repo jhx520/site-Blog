@@ -8,6 +8,12 @@ source_dir = "../src/"
 build_dir = "../dist/"
 index_page_size = 10
 archives_page_size = 20
+template = {
+    "name": "Prism",
+    "type": "git",
+    "url": "https://github.com/AlanDecode/Maverick-Theme-Prism.git",
+    "branch": "deploy"
+}
 enable_jsdelivr = {
     "enabled": True,
     "repo": "AlanDecode/site-Blog@gh-pages"
