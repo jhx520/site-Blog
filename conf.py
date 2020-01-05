@@ -14,6 +14,7 @@ enable_jsdelivr = {
     "repo": "AlanDecode/site-Blog@gh-pages"
 }
 category_by_folder = True
+for_manual_build_trigger = 0
 
 # 站点设置
 site_name = "无文字 | 三无计划"
