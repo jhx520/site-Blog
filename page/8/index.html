@@ -57,13 +57,6 @@
 <meta name="msapplication-TileColor" content="#000000">
 <meta name="theme-color" content="#000000">
 <meta name="baidu-site-verification" content="9BEwwo6Ibg" />
-<style>
-@media screen and (max-width: 767px) {
-    header h1.brand {
-        font-size: 2.27em!important
-    }
-}
-</style>
 
 </head>
 
@@ -82,123 +75,599 @@
 <section id="prism__post-list" class="prism-section row">
     
     <article class="yue prism-post-item col-md-8 offset-md-2">
-        <h1 class="prism-post-title"><a class="no-link" href="/archives/446/" target="_self">使用 Grid-Stride Loop 复用 CUDA 线程</a></h1>
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/95/" target="_self">把可爱的 Pio 捉到博客上吧！</a></h1>
         <div class="prism-post-time">
-            <a class="no-link" href="/archives/446/" target="_self">
+            <a class="no-link" href="/archives/95/" target="_self">
                 <time class="text-uppercase">
-                    September 29 2019
+                    March 10 2018
                 </time>
             </a>
         </div>
-        <div class="prism-content"><p>在阅读 CUDA 文档的过程中看到这一篇博文：<a href="https://devblogs.nvidia.com/cuda-pro-tip-write-flexible-kernels-grid-stride-loops/">CUDA Pro Tip: Write Flexible Kernels with Grid-Stride Loops</a>，觉得是很不错的思想（技巧），因此记录下来，并且附上一些验证数据。</p>
-<h3>In theory</h3>
-<p>问题起源：一般使用 CUDA 并行计算时，总使用一个线程对应一块数据，例如计算两向量之和：</p>
-<div class="highlight"><pre><span></span><span class="c1">// device code to compute c = a + b;</span>
-<span class="c1">// this method assumes we have enough threads to do the computation</span>
-<span class="c1">// enough means larger than the size of array a, b and c</span>
-<span class="n">__global__</span>
-<span class="kt">void</span> <span class="nf">addArray</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">c</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="c1">// assume we have 1k elements to compute, in this way</span>
-    <span class="c1">// thread 0 is responsible for c[0] = a[0] + b[0]</span>
-    <span class="c1">// thread 1 is responsible for c[1] = a[1] + b[1]</span>
-    <span class="c1">// and so on</span>
-    <span class="k">auto</span> <span class="n">index</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span>
-        <span class="n">c</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
-<span class="p">}</span>
-
-<span class="cp">#define ARRAYSIZE 1000000</span>
-<span class="cp">#define BLOCKSIZE 1024  </span><span class="c1">// can be any size, better be multiple of 32</span>
-
-<span class="n">__host__</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="c1">// ...</span>
-    <span class="c1">// calculate the minmal number of blocks to cover all data</span>
-    <span class="k">auto</span> <span class="n">numBlocks</span> <span class="o">=</span> <span class="p">(</span><span class="n">ARRAYSIZE</span> <span class="o">+</span> <span class="n">BLOCKSIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">BLOCKSIZE</span><span class="p">;</span>
-    <span class="n">addArray</span> <span class="o">&lt;&lt;&lt;</span><span class="n">numBlocks</span><span class="p">,</span> <span class="n">BLOCKSIZE</span> <span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">ARRAYSIZE</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">);</span>
-    <span class="c1">// ...</span>
-<span class="p">}</span>
-</pre></div>
-<p>如我们所知，CUDA 中线程组织结构从高到低分为 Grid、Block、Warp 三层，这三层中，每一层都有自己能容纳的最大线程数量，例如在我的设备（1080Ti）上，每个 Block 最多容纳 1024 个线程，每个 Warp 固定是 32 个线程，而每个 Grid 能容纳的数量就比较大了（2147483647, 65535, 65535）。同时还有一个条件，每个 multiprocessor 最大容纳 2048 个线程。总而言之，GPU 虽然能提供大量的线程，但并不是无限的。</p>
-<p>在不讨论显存大小的前提下，总可能出现这样的情况：程序需要的线程数量大于 GPU 可以提供的线程数量。此时上面的代码就不行了，但下面这种处理方式就可以适应：</p>
-<div class="highlight"><pre><span></span><span class="c1">// another version to compute c = a + b</span>
-<span class="c1">// this uses grid loop to reuse some threads(if needed)</span>
-<span class="n">__global__</span>
-<span class="kt">void</span> <span class="nf">addArray_gird_loop</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">c</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="c1">// total number of threads in one grid</span>
-    <span class="c1">// which is accessible to one kernel</span>
-    <span class="k">auto</span> <span class="n">stride</span> <span class="o">=</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">gridDim</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-    <span class="k">auto</span> <span class="n">index</span> <span class="o">=</span> <span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
-
-    <span class="c1">// compute using the whole grid at once</span>
-    <span class="c1">// the reuse the threads in the same grid</span>
-    <span class="c1">// assume we have 1k elements to compute, and a stride of 100</span>
-    <span class="c1">// thread 0 is responsible for c[0] = a[0] + b[0]</span>
-    <span class="c1">//                             c[100] = a[100] + b[100]...</span>
-    <span class="c1">// thread 1 is responsible for c[1] = a[1] + b[1]</span>
-    <span class="c1">//                             c[101] = a[101] + b[101]...</span>
-    <span class="c1">// and so on</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">index</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">stride</span><span class="p">)</span>
-        <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-<span class="p">}</span>
-
-<span class="cp">#define ARRAYSIZE 1000000</span>
-<span class="cp">#define BLOCKSIZE 1024  </span><span class="c1">// can be any size, better be multiple of 32</span>
-<span class="cp">#define GRIDSIZE 10  </span><span class="c1">// can be any size, better be multipel of multiprocessor count</span>
-
-<span class="n">__host__</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="c1">// ...</span>
-    <span class="n">addArray_gird_loop</span> <span class="o">&lt;&lt;&lt;</span><span class="n">GRIDSIZE</span><span class="p">,</span> <span class="n">BLOCKSIZE</span> <span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">ARRAYSIZE</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">);</span>
-    <span class="c1">// ...</span>
-<span class="p">}</span>
-</pre></div>
-<p>在这种实现中，每个线程并不只负责一块数据，而是负责从 index 开始，stride 为步长的一组数据。在 kernel 中每个 for 循环的步长（Stride）刚好是一个 Grid 的大小，因此称作（Grid-Stride Loop）。</p>
-<p>这种实现的特征是 Grid 的大小可以是任意的，因此解决了「线程不够用」的问题。应该注意到，当 Grid 的大小足够大时（大于等于上一种方法计算出的 <code>numBlocks</code>），这种方法就退化到第一种方法。</p>
-<p>另外还需要注意到，当 <code>GRIDSIZE</code> 与 <code>BLOCKSIZE</code> 都取 1 时，GPU 里实际上只有一个线程在跑，于是退化为串行程序。</p>
-<p>文首提到的文章总结了这种思路的几个好处：</p>
+        <div class="prism-content"><div class="notice">野生的 Pio 相当少见，但是一只鲜活的 Pio 可以为我们提供一整天的能量。注意不要发出任何声音，跟着我悄悄地从后面接近她……</div><p>把可爱的 Pio（就是现在左下角那只）捉到博客上吧！</p>
+<p><strong>下载地址：<a href="https://github.com/AlanDecode/Live2D-Typecho-Plugin">AlanDecode/Live2D-Typecho-Plugin</a></strong></p>
+<p>好几个月前，<a href="https://imjad.cn/">@Jad</a> 大佬写了一篇文章 ，然后一众大佬都开始把可爱的看板娘捉到自己的博客上，一时间出现 Pio 血洗个人博客的壮观景象。</p>
+<p>然后有几位大佬把 Live2D 封装成了适用于各个平台的插件，目前我知道的有：</p>
+<blockquote><p><a href="https://paugram.com/">@保罗</a> 写的 Typecho 适用的插件 <a href="https://paugram.com/coding/add-poster-girl-with-plugin.html">项目介绍</a> <a href="https://github.com/Dreamer-Paul/Pio">项目地址</a>。</p>
+<p><a href="https://daidr.me/">@DaiDR</a> 写的 WordPress 版 <a href="https://daidr.me/archives/code-176.html">项目介绍</a></p>
+<p><a href="https://www.fczbl.vip/">@小白-白</a> 写的 WordPress 版，模型是 2233 <a href="https://www.fczbl.vip/946.html">项目介绍</a></p>
+<p><a href="https://qqdie.com">@qqdie</a>写的 2233 Typecho 插件也很不错 <a href="https://qqdie.com/archives/l2d233.html">项目介绍</a></p>
+</blockquote>
+<p>后来我参照 <a href="https://haremu.com/">@后宫学长</a> 的介绍文章与上述的文章自己也试了试，都是直接在网页代码上改的，有一点点不方便，特别是主题需要更新什么的，就又要来一遍。虽说已经有了 Typecho 的插件版，不该重复造轮子，但由于已有的 Typecho 插件没有交互的功能，而且最近我突然对写 Typecho 插件有点感兴趣，所以决定自己写一个，于是参照了上面几位大佬的代码鼓捣了一个出来。</p>
+<p><figure class="pswp-item" style="flex: 60.48780487804878" data-width="496" data-height="410"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/a25c6076bd259d013516f63f3558deb1.png" alt="请输入图片描述" /><figcaption>请输入图片描述</figcaption></figure></p>
+<h4>更新</h4>
 <ul>
-<li><p><strong>伸缩性与线程复用</strong>。可扩展性是指，这种方法在理论上可以支持任意规模的并行计算，而不受设备提供的最大线程数限制；另外这种实现允许我们采用更合理的 <code>GRIDSIZE</code>，比如常推荐的，使用 multiprocessor 数量的倍数。线程复用则可以帮助程序省去线程启动与销毁的开销。</p>
+<li>现在在移动设备上不再显示</li>
+<li>船新的版本，用标签代替了按钮。这个创意来自 <a href="https://2heng.xin/">Mashiro</a></li>
+<li><del>针对透明主题增加了使消息提示框和工具按钮列表背景透明的方法，更炫酷一些。</del></li>
+<li><del>新的按钮，另外图标换成了 Font Awesome，可以在插件设置页面里面选择要不要引入。</del></li>
+<li>2018-05-27：更改了随机换装的实现方式，之前的实在是蠢。现在要添加更多的衣服的话把衣服图片扔在 <code>插件目录/model/textures</code> 下就好。这个功能参照了大佬的文章：<a href="https://haremu.com/p/349">来创建一个私有的随机图服务吧！</a> <del>果然代码基本靠抄</del></li>
+</ul>
+<h4>功能</h4>
+<ul>
+<li>返回主页按钮</li>
+<li>随机换装按钮</li>
+<li>一言（Hitokoto）按钮</li>
+<li>照相按钮</li>
+<li>隐藏按钮</li>
+<li>大小自适应。在移动设备上不显示。</li>
+<li>鼠标悬浮提示。加入更多的提示语句可以自己修改 <code>message.json</code></li>
+</ul>
+<h4>食用方法</h4>
+<ul>
+<li>下载或者 Clone 上面的 Repo，解压后把文件夹改名为 <code>Live2D</code> ，扔到 <code>/usr/plugins/</code>目录下。</li>
+<li>到插件配置面板里设置你的主页链接和模型相关的参数。</li>
+<li>这样一只可爱的 Pio 就会出现在博客的左下角。</li>
+<li><del>默认的消息提示框和按钮列表是有背景色的，如果不想要的话在解压后的文件夹里使用 <code>git checkout transparent</code> 切换到新分支～这样背景就透明了，在 handsome 透明模式上更好看。</del></li>
+</ul>
+<h4>注意事项</h4>
+<ul>
+<li>使用了 <code>JQuery</code> 库，如果你的站没有引入或者引入的是别的图标库可以在插件设置页面里面选择引入。</li>
+<li>使用前记得在插件设置面板里把该填的填了。</li>
+<li>插件里带了 3 套衣服，更多的模型……应该还蛮好找的吧……</li>
+<li>PJAX 里鼠标悬浮提示可能失效，需要在主题回调函数中添加 <code>initTips();</code>。</li>
+<li>在 Mirages 主题出现遮挡侧边栏的情况，可以在主题设置中添加如下自定义 CSS：</li>
+</ul>
+
+<pre><code>.display-nav &gt; #l2d-tools-panel{
+    display:none;
+}
+.display-nav &gt; #live2d{
+    transition: .5s ease all;
+    transform: translateX(17.5rem);
+}</code></pre>
+<hr>
+<p>本项目参照了：</p>
+<p><a href="https://github.com/journey-ad/live2d_src">https://github.com/journey-ad/live2d_src</a></p>
+<p><a href="https://github.com/galnetwen/Live2D">https://github.com/galnetwen/Live2D</a></p>
+<p><a href="https://github.com/Dreamer-Paul/Pio">https://github.com/Dreamer-Paul/Pio</a></p>
+<p><a href="https://github.com/galnetwen/Random-Image">https://github.com/galnetwen/Random-Image</a></p>
+<p>参考的文章有：</p>
+<ul>
+<li><p><a href="https://imjad.cn/archives/lab/add-dynamic-poster-girl-with-live2d-to-your-blog-02">给博客添加能动的看板娘(Live2D)-将其添加到网页上吧</a></p>
 </li>
-<li><p><strong>易于调试</strong>。如上文所述，当 <code>GRIDSIZE</code> 与 <code>BLOCKSIZE</code> 都取 1 时程序实际退化为串行程序，这为调试提供了方便（例如在 kernel 中使用 printf 可以得到顺序的结果）。</p>
+<li><p><a href="https://haremu.com/p/205">Live2D！把可爱的看板娘捕捉到你的博客去吧</a></p>
 </li>
-<li><p><strong>可移植性与可读性</strong>。这种的写法可以轻易地修改为 CPU 代码，另外还有类似 <a href="https://devblogs.nvidia.com/parallelforall/simple-portable-parallel-c-hemi-2/">Hemi</a> 这样的库专门为 Grid-Stride Loop 提供支持，带来了 C++ 11 风格的循环语法：</p>
-<div class="highlight"><pre><span></span><span class="n">HEMI_LAUNCHABLE</span>
-<span class="kt">void</span> <span class="nf">addArray</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="kt">float</span><span class="o">*</span> <span class="n">c</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">hemi</span><span class="o">::</span><span class="n">grid_stride_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
-      <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-<span class="p">}</span>
-</pre></div>
+<li><p><a href="https://paugram.com/coding/add-poster-girl-with-plugin.html">给你的博客增加动态看板娘</a></p>
 </li>
 </ul>
-<h3>In real world</h3>
-<p>理论上说 Grid-Stride Loop 一切都很美好，但是由于每个线程要进行循环，想必会影响性能，这里我给出自己的测试结果。</p>
-<p>测试设备：GeForce GTX 1080Ti</p>
-
-<pre><code>CUDA Driver Version / Runtime Version          9.0 / 9.0
-CUDA Capability Major/Minor version number:    6.1
-Maximum number of threads per multiprocessor:  2048
-Maximum number of threads per block:           1024
-Max dimension size of a thread block (x,y,z): (1024, 1024, 64)
-Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</code></pre>
-<p>首先看不使用 Grid-Stride Loop（GS Loop） 的方法中 <code>GRIDSIZE</code> 和时间相对 ARRAYSIZE 的变化：</p>
-<p><figure class="pswp-item" style="flex: 90.57788944723617" data-width="721" data-height="398"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fbae2a73d8c495f55a3c450dc010f93c.png" alt="" /></figure></p>
-<p>固定 <code>GRIDSIZE=10</code>，使用 Grid-Stride Loop 的方法：</p>
-<p><figure class="pswp-item" style="flex: 96.64879356568365" data-width="721" data-height="373"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/119fca045d06f574cbbea83497ff9c82.png" alt="" /></figure></p>
-<p>直观对比两种方法用时：</p>
-<p><figure class="pswp-item" style="flex: 90.72681704260651" data-width="724" data-height="399"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/2fe85e370fb8290b3184027d333d388f.png" alt="" /></figure></p>
-<p>可见当 ARRAYSIZE 较大时，两种方法性能有可观的差距。当然，这个测试只是理论上的，实际应用中不可能只用 10 个 Block 来计算。</p>
-<p>另外，若将显存大小纳入讨论则情况会稍有不同。向量相加这个例子中需要为相加的两个向量以及存储结果的一个向量在 GPU 上分配显存，有时会遇到这样的情况：线程还没用完，显存先用完了。这种情况与算法相关，并不是所有的程序都需要这么巨大的显存量，但需要巨大线程数的场景比比皆是。</p>
-<p>另外，如何将其扩展到高维 Tensor 还有待思考。</p>
+<p><strong>感谢各位大佬！</strong></p>
 </div>
         
         <div class="prism-action-bar">
-            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/446/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/95/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/94/" target="_self">「互联网之子：亚伦 · 斯沃茨的故事」</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/94/" target="_self">
+                <time class="text-uppercase">
+                    March 07 2018
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p><figure class="pswp-item" style="flex: 106.17647058823529" data-width="722" data-height="340"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/9b1456e7d552475a70179477f4e7f9ad.png" alt="" /></figure></p>
+<blockquote><p>在长大的过程中，我才慢慢发现：我身边的所有事，别人跟我说的所有事，那些所谓本该如此，注定如此的事，它们其实并没有非得如此，事情是可以改变的。更为重要的是，有些事既然是错的，那就应该作出改变。自从发现这点后，我似乎有点一条道儿走到黑了。
+——— 亚伦 · 斯沃茨，2010</p>
+</blockquote>
+<p>看了一部纪录片，名叫 The Internet's Own Boy : The Story of Aaron Swarts，不胜唏嘘。</p>
+<p>片子讲的是亚伦 · 斯沃茨的生平，这个人命很短，但是干的事都是响当当的大事。简单地列一下他参与的项目：</p>
+<ul>
+<li>RSS 协议（建议信息聚合）</li>
+<li>Creative Commons（知识共享）</li>
+<li>Reddit（提前于新闻发生，来自互联网的声音）</li>
+<li>Markdown（一种标记语言）</li>
+<li>……</li>
+</ul>
+<p>其中 RSS 作为一种写作的标记语言，现在被广泛采用，作为 GitHub 默认支持的标记语言；Creative Commons 是一种使用广泛的版权协议，现在无数的网站在使用它或者它的变种；Reddit 是一种类似 BBS 的社区，用户可以自由在上面发帖，内容包罗万象，从搞笑图片到 NSFW 内容应有尽有……这些项目在 2000 年左右互联网泡沫破裂后成为了新的中流砥柱。</p>
+<p>亚伦在 2011 年通过 MIT 的学校网络，从 JSTOR 数据库下载了大量的学术期刊，引起当局注意，在受到起诉后，他将面临 35 年的监禁以及上百万美元的罚款。亚伦拒绝认罪协议，并在 2013 年 1 月自缢于自己在布鲁克林的公寓中，当时他26岁。</p>
+<p>不说纪录片本身（很值得一看），片名叫做「互联网之子」，非常贴切。这个人所从事的事业，极大地促进了整个互联网的发展。他的一生（真的是一生，他很小就展露了相当的天赋）所体现的精神，与开放的互联网互联网精神高度契合。</p>
+<p>Web 2.0，强调的是这样的一种互联网时代：去中心化，内容生产的主体是所有的网民。我们已经享受一个个 App 带来的便利太久，已经忘了这些 App 的祖宗仍然是 Web：只需一个浏览器就随手可及的互联网。随着「浏览网页」这个行为一起渐渐淡去的还有像个人博客这样「老土」的概念。移动互联网时代哪里有互联网？你现在能在手机上用知乎的网页版看回答与评论吗？</p>
+<p>我是一个货真价实的「移动互联网原住民」，我开始接触网络的时代，已经是 2011 年之后，App Store 已然成形。但在我搞清楚 RSS、Creative Commons、引用通告（Pingback）这些概念之后，深深地觉得那样的互联网要酷得多。上述的一些概念终究会被人忘记，但内部蕴含的精神是永存的：信息聚合在现在，是更为强烈的需求；每个人都在生产内容，需要一种更符合时代特征的版权协议。</p>
+<p>致力于人人都能自由获取信息的亚伦 · 斯沃茨已经死去，互联网自有它的演化路径。不过我仍然写博客，这是用我自己的方式来缅怀「老派的互联网」。</p>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/94/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/88/" target="_self">一个追番列表独立页模板</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/88/" target="_self">
+                <time class="text-uppercase">
+                    March 01 2018
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p>追番功能已经有了升级版的插件，功能更完善，见<a href="https://blog.imalan.cn/archives/128/">熊猫追番 (PandaBangumi) for Typecho 发布！</a></p>
+<hr>
+<p>这是一个我 顺手（花了大半天） 撸出来的独立页模板，可以从 <a href="http://bangumi.tv/">Bangumi 番组计划</a> 拉取你的追番数据，包括收藏的剧集和观看进度，并（我觉得还算能看地）展示出来。另外也可以选择性地打开追番日历的功能，打开之后会展示每天播出的剧集，并自动加粗已经在观看的剧集。页面效果：</p>
+<p><figure class="pswp-item" style="flex: 84.375" data-width="1080" data-height="640"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/887f5a49c813d01d592c1b465b700bd5.gif" alt="bangumilist_demo" /><figcaption>bangumilist_demo</figcaption></figure></p>
+<p>这个项目首先源于友链列表里的<a href="http://www.azimiao.com/">梓喵出没</a>大佬写过一篇<a href="http://www.azimiao.com/2768.html">Bangumi的几个API及使用PHP调用的简单测试</a> ，是写在 Bangumi 出公开 API 之前的，文中的方法目前还可以用。加载动画是直接照搬的 <a href="https://www.wikimoe.com/">广树</a> 大佬的文章。加载文字抖动的 CSS 则是来自 <a href="https://paugram.com/">保罗</a> 大佬的 <a href="https://paugram.com/coding/shake-your-text.html">让你的网站文字“抖”起来</a> 。</p>
+<p>……没错，代码基本靠抄哈哈。我没有做过前端也不会 PHP，<del>全凭一腔热血</del> 。</p>
+<p>说回正事，这个模板适用于 handsome 主题，目前 4.3.1 是 OK 的，别的主题可能要自己改改。</p>
+<h3>食用方法</h3>
+<p>首先，你需要一个 <a href="http://bangumi.tv/">Bangumi 番组计划</a> 的账号，并在里面收藏你在看的番剧。关于这个站点请看：<a href="http://bangumi.tv/about">http://bangumi.tv/about</a> 。
+然后，去 GitHub 上下载两个文件：<code>Bangumi.php</code> 与 <code>getBangumi.php</code> 。</p>
+<p><a href="https://github.com/AlanDecode/BangumiList">https://github.com/AlanDecode/BangumiList</a></p>
+<p>之后在 <code>getBangumi.php</code> 的起始部分填写账号密码：</p>
+
+<pre><code>&lt;?php
+
+/********   填写这里   *********/
+
+$email="这里填写账号邮箱";
+$password="这里填写密码";
+?&gt;</code></pre>
+<p><strong>账号、密码仅供拉取数据使用，我不会收集你的信息。</strong></p>
+<p>将这两个文件放在 <strong>主题根目录下</strong>。</p>
+<p>去 Typecho 后台新建独立页面，链接随便填，自定义模板选择 <code>追番清单</code> 。如果要开启显示追番日历的功能的话，在下面自定义字段里增加一个叫 <code>showCal</code> 的字段，类型是字符，值可取 <code>top</code> 或者 <code>bottom</code>，分别对应日历列表相对追番列表的位置 。</p>
+<p>发布页面即可。</p>
+<h3>注意事项</h3>
+<ul>
+<li>非 handsome 主题的用户请自行修改。</li>
+<li>模板会向 主题目录/assets/json/bangumi.json 文件写入缓存数据，请保证这个文件可写。</li>
+<li>换新版本的话记得把原来的 主题目录/assets/json/bangumi.json 文件删掉。</li>
+</ul>
+<h3>更新记录</h3>
+<ul>
+<li>完全重写了样式，使用异步加载，添加了加载动画～</li>
+<li>增加了自定义追番日历位置的功能。</li>
+<li>增加了追番日历的功能。</li>
+</ul>
+<p>祝使用愉快。</p>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/88/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/83/" target="_self">说说最近沉迷的东西【2018-01】</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/83/" target="_self">
+                <time class="text-uppercase">
+                    January 28 2018
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p>虽说最近算是名义上的放假了，但可能还要在学校呆上一段时间。说实话没有什么干正事的动力，从一周前就基本进入了划水状态；当已经进入划水状态时逼自己干正事真的很痛苦。所以就继续划水吧。</p>
+<p>一月新番的话，因为事情还蛮多的，所以只看了几部。其中最对我胃口的是这几部。</p>
+<h4>《卫宫家今天的饭》</h4>
+<p><figure class="pswp-item" style="flex: 88.70370370370371" data-width="1916" data-height="1080"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/52f8a5c66f1d28a7b3651539ca56268a.png" alt="卫宫家的饭.png" /><figcaption>卫宫家的饭.png</figcaption></figure></p>
+<p>前段时间推荐室友看了 Fate 系列，我自己也重温了其中的某些片段，好像又找回了大一时第一次看的感觉。最中意的是《Fate/Zero》，特别喜欢对切嗣的刻画。第一次看时，到切嗣用火箭筒轰掉飞机，渐渐响起那一曲《満天》时整个人都怔在那里了。这是给我印象最深的一幕。</p>
+<p>当初看《Fate/Apocrypha》时我觉得，在看 HF 线之前还是不要再碰 Fate 系列了吧……但《卫宫家今天的饭》看了第一集就觉得炒鸡治愈。打什么圣杯战争，大家一起坐在被炉前美美地吃荞麦面吧~非常日常的剧情，非常让人舒服的作画，非常恰到好处的节奏，让我因为琐事而紧绷的神经放松了不少。这只是 13 分钟的第一集而已。期待后续。</p>
+<h4>《擅长<del>调情</del>捉弄人的高木同学》</h4>
+<p><figure class="pswp-item" style="flex: 88.88888888888889" data-width="1920" data-height="1080"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/280e38349e65b0c6cc8ea8a16a3a155c.jpg" alt="v2-7eee7e6d77484c9dee3386fec7d3d929_r.jpg" /><figcaption>v2-7eee7e6d77484c9dee3386fec7d3d929_r.jpg</figcaption></figure></p>
+<p>这番简直给单身狗无限暴击，让我想滚回去重新来一遍九年义务教育。虽然是搞笑日常，但我觉得搞笑倒还好，真的让人觉得很甜很甜。</p>
+<p>其实嘛，也不必那么羡慕。回头想想自己的初高中也类似，虽然一般自己才是捉弄别人的一方。现在想起来，可能当时真的很招人讨厌吧？（笑）没事就喜欢逗逗别人，突然吓别人一下什么的，都是为了吸引对方的注意，想起来超幼稚的。啥也不懂，啥也不会的小孩，能给的只有最浅显易懂，但又最不为人知的那点心意罢了。</p>
+<h4>《紫罗兰 · 永恒花园》</h4>
+<p>所谓<del>「世纪霸权，人类圣经」</del>哈哈。</p>
+<p>这番最让我觉得震撼的是作画，那种精良程度我觉得无出其右。这个就不多说，有兴趣看看它的一支 PV 吧：</p>
+<div class="dplayer"  data-url="https://static.imalan.cn/video/cm1.mp4"></div><p>我对原作剧情一无所知，直接看的番，看第一集的时候其实我稍稍有点失望。一开始指明是战争背景，主角又是一位被用作兵器、能力非凡，却冷冰冰的少女；虽然冷冰冰但唯独对一个人有懵懵懂懂的情愫。我本来以为是一个比较宏大的世界观，比较宏大的故事。后面的展开比我想的要“小气”一些。但就这个主题好好把故事讲下去也很值得期待。</p>
+<p>还看了大概看了几部别的，但觉得无甚可说，就略过了。</p>
+<hr>
+<p>果然还是要白一下。《白色相簿 2》还剩最后的冬马 TE 没有通，我准备留下来找时间慢慢来。好东西总是要留在最后。</p>
+<p>目前来看，CC 的四条线，雪菜、千晶、麻理、小春我最喜欢的是千晶线，作为故事来说最引人入胜。之后按顺序来是小春、麻理、雪菜线。如果再加上 Coda 的话，我目前最满意的是浮气线（所谓冬马 NE）。</p>
+<p>说冬马 NE 不是很到位，还是应该叫做浮气线。这条线，不论是对冬马党还是雪菜党来说都很虐，但我觉得这条线是最具美感的。春希把对冬马的感情放在心底藏起来，其实与冬马一见面就根本压抑不住。两个人整整一周如同原始人一样足不出户，做爱，睡觉，缠绵，然后去看雪，然后分别永不再见。冬马最终放手，春希则回到那个永远都在承受、永远都在原谅的人身边，用下半辈子去赎自己的罪。特别中意一早醒来，春希发现身边的冬马不见，急忙出去找后看见一篇雪原上身着黑衣的冬马这一幕。</p>
+<p><figure class="pswp-item" style="flex: 88.88888888888889" data-width="1920" data-height="1080"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/c441f73945a067b71cf24222208d1dda.png" alt="wa2.png" /><figcaption>wa2.png</figcaption></figure></p>
+<p>我向来觉得人一生里，总有些事非得在某些时间段做不可。这些事，不在那时做不好；这些时间，不做那事没意义。对春希来说，那段时间就应该与冬马来一场原始的、激情的、疯狂的恋爱。</p>
+<p>还剩下的冬马 TE 当然我会玩，大概会让我一个冬马党很满足，但是我自信最后我还是更喜欢浮气线。</p>
+<hr>
+<p>接下来要恢复一下，我还是尽量现充吧。</p>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/83/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/20180122sui-bibei-jing-wang-le-xia-xue/" target="_self">随笔 | 北京忘了下雪</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/20180122sui-bibei-jing-wang-le-xia-xue/" target="_self">
+                <time class="text-uppercase">
+                    January 22 2018
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><div class="Meting">
+[Music server="netease" id="28405261" type="song"/]</div><p>昨晚看预报说北京今早可能有雪。于是我怀着期待地睡了，想着今早能就着雪来开题答辩也是蛮好的。但早上起床一看……雪的影子都没有。我记得去年冬天也少雪。北京已经忘了冬天要下雪这回事了。</p>
+<p>虽然我也不是很稀罕雪这种东西，毕竟小时候看得很多了。但四季多少要有四季的样子，冬季最好的代表就是<del>白色相簿</del>雪。</p>
+<p>不只是雪，雨啦风啦雷啦都会让我觉得很舒服。在这些场景中，我最喜欢的是这样一种场景：</p>
+<blockquote><p>暴雨从早上开始下，现在看来也丝毫没有要停的意思，虽然只到下午三四点钟的样子，窗外的天空却昏暗得像傍晚。室内的灯光也昏昏黄黄，照明灯像我一样打不起精神来；不知道外面的风多大，只能听见因为年久而松动的窗框不停发出“哐当哐当”的声音。虽然很享受这些嘈杂的“噪音”，但我好像全然不顾，只用一杯热茶暖手，翻动一本发黄的旧书。若身边再有一位与我同样心境的人，那就更是妙不可言了。</p>
+</blockquote>
+<p>我印象中，这样的场景在初中的时候发生过。那时候很罕见地连着下了一周的暴雨。小城里的排水系统不堪重负，路面低洼处蓄起了好几厘米深的积水。可能对许多人来说都觉得糟透了，只是吃个饭上个学都会把鞋子裤脚弄得湿透，但我很享受。</p>
+<p>又想到偶然看到的一条微博，原文和出处我找不着了，大致是这么一句：</p>
+<blockquote><p>人在年轻时，要尽可能地去体验、见识一些超越时间空间的事物。例如用千万年时间拍打岩壁的海浪、轻而易举就能吞没巨型油轮的风暴、让人产生深深无力感的沙漠、一望无际的冰原、雨林里相互交错盘杂的巨形树根。这样一来，当感觉属于自己的地方是如此逼仄、自己的心境又是如此阴暗潮湿时，能用更宏大的视角来看待生活与生命。</p>
+</blockquote>
+<p>我写得没有原文好，但意思我传达到了。暴风雨有这样摄人心魄的力量。雪也有，雷暴也有，地震也有，海啸也有。本质上来说，是自然本身在让我敬畏。越是去探究自然，越是觉得无法理解自然，越是觉得自身之渺小，之不值一提。只好乖乖臣服于自然。</p>
+<hr>
+<p>这学期，虽然正式的课程已经早就结束了，但是仍然被课程设计啦毕设开题啦缠到现在。今早毕设开题完，觉得稍稍轻松一点。</p>
+<p>下午去唱 K，发现自己近来根本没听什么中文歌，甚至没听什么英文歌，都是日文……所以完全不可能唱得出来，有点痛苦。但前段时间弄得有些疲倦，出去只是嚎一嚎也是蛮好的。</p>
+<p>说到了雪，顺便提一下白色相簿。虽然是有一定年头的番了，但我最近才看。看了觉得……嗯……想要看后续，然后又把游戏找来玩。目前走了雪菜TE，然后倒回去再走别的线。游戏很优秀这已经是有定论了，竟然让我这个中年大叔也有点春心荡漾，就更想看下雪了。</p>
+<p>不论如何，还有两句话我想放在这篇雨雪主题的杂文里：</p>
+<blockquote><p>隐约雷鸣，阴霾天空，但盼风雨来，能留你在此；
+隐约雷鸣，阴霾天空，即使天无雨，我亦留此地。</p>
+</blockquote>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/20180122sui-bibei-jing-wang-le-xia-xue/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/73/" target="_self">使用 CloudFlare 来做 301 跳转</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/73/" target="_self">
+                <time class="text-uppercase">
+                    January 06 2018
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p><del>到「来动手吧」之前都是废话。</del></p>
+<p>更换域名之后有许多问题需要处理。比如原来散布在网上的各种链接统统变成了死链，如果就这么鲁莽地开一个新站的话，由于内容与原域名指向的内容重复，非常不利于 SEO（虽然对我这种站来说 SEO 什么的不存在的）。这种全站迁移的情况，不论是百度还是 Google 都建议用 301 永久重定向的方式来告诉搜索引擎：我的内容换地方了！</p>
+<p>本文适用于这种情况：迁移站点，但是原域名无法解析到某个服务器端做跳转（比如原域名没有备案，无法解析到国内服务器，然而穷逼又没钱不想买国外服务器……）。</p>
+<h3>几个名词解释</h3>
+<p>关于 301 重定向，维基百科的解释：</p>
+<blockquote><p><strong>301 Move Permanently</strong> 是<a href="https://www.wikiwand.com/zh/HTTP%E5%8D%8F%E8%AE%AE">HTTP协议</a>中的一个状态码（Status Code）。可以简单地理解为该资源已经被永久改变了位置，通常会发送<a href="https://www.wikiwand.com/zh/HTTP_Location">HTTP Location</a>来<a href="https://www.wikiwand.com/zh/%E9%87%8D%E5%AE%9A%E5%90%91">重定向</a>到正确的新位置。</p>
+<p>返回 301 请求码进行跳转被<a href="https://www.wikiwand.com/zh/Google">Google</a>认为是将网站地址由 HTTP 迁移到 <a href="https://www.wikiwand.com/zh/HTTPS">HTTPS</a> 的最佳方法。</p>
+</blockquote>
+<p>总的来说就是客户端在请求服务器资源时，比如一个 HTML 静态网页，服务器返回这么一个状态码告诉客户端，这个文件已经不在我这里了，你得去某某地儿找。这种方式对搜索引擎更友好，Google 在爬网页时，遇到了 301 就会自动去新位置索引，并逐渐降低原始链接的展现权重。</p>
+<p>301 重定向与添加 CNAME 记录是不同的概念。虽然最终都会把你带到一个新的资源位置，但是 CNAME 是 DNS 方面的概念，而 301 重定向是 HTTP 协议的概念。最明显的区别在于，301 重定向将改变地址栏的链接，而 CNAME 不会。</p>
+<p>某些提供 DNS 解析的服务措辞可能引起歧义。比如 DNSPOD 在添加域名解析时提供「显性URL」，可以实现 301 跳转的效果，跟别的 DNS 解析设置放一起让人有些混淆。但这实际上并不是在搞域名解析服务，DNSPOD 也只是借助自己的服务器做了一个 301 跳转罢了。并且似乎 DNSPOD 的显性 URL 是付费项目，并且不支持通配符。</p>
+<p>关于 CloudFlare，来自百度的介绍：</p>
+<blockquote><p>Cloudflare以向客户提供网站安全管理、性能优化及相关的技术支持为主要业务。通过基于反向代理的内容传递网络(ContentDeliveryNetwork,CDN)及分布式域名解析服务(DistributedDomainNameServer)，Cloudflare可以帮助受保护站点抵御包括拒绝服务攻击(DenialofService)在内的大多数网络攻击，确保该网站长期在线，同时提升网站的性能、访问速度以改善访客体验。</p>
+</blockquote>
+<p>总的来说，提供 CDN 和 DNS 服务，对许多博主来说应该都不陌生了。CloudFlare 的用法蛮多的，比如利用它来给自己的网站套上一层免费 SSL 等等，不在本文讨论范围。</p>
+<h3>来动手吧</h3>
+<p>很简单。</p>
+<p>打开 CloudFlare 网站：<a href="https://www.cloudflare.com/">https://www.cloudflare.com/</a> 。注册，登录，并点击 Add Websites，输入你要处理的域名。注意必须是顶级域名，比如 a.com 这样的。点击 Begin Scan，CloudFlare 会扫描你原域名的 DNS 记录，扫描完成后点 Continue Setup。</p>
+<p>在 DNS 列表检查是否你原域名所有的 DNS 记录都在，不在的自己补上就好。然后点 Continue。</p>
+<p>选择 Free Website 选项，点 Continue。</p>
+<p>注意这一步很重要，CloudFlare 比较烦的一项就是必须把原域名的域名服务器改成它们的，所以它才需要扫描你的所有 DNS 记录。CloudFlare 的域名服务器为：</p>
+
+<pre><code>amir.ns.cloudflare.com
+lisa.ns.cloudflare.com</code></pre>
+<p>在你的域名注册商那里就可以改，改完后点击 Continue，静待域名服务器更改生效。</p>
+<p><figure class="pswp-item" style="flex: 141.73728813559322" data-width="1338" data-height="472"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/337ada07706f4959f6f7436c5ab3562d.png" alt="" /></figure></p>
+<p>在 Overview 这一栏如上图显示 Active 即可。</p>
+<p>然后在 DNS 这一栏中查看 DNS 记录。<strong>将你要跳转的域名解析到一个有效的 IP，比如 8.8.8.8 。不要解析到国内的服务器 IP，否则依然是分分钟提示你没备案。</strong></p>
+<p>在这里，我要将 blog.imalam.me 跳转到 imalan.cn。所以如图设置：</p>
+<p><figure class="pswp-item" style="flex: 285.7456140350877" data-width="1303" data-height="228"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/774cec84d5b135849e5512f855d427ff.png" alt="" /></figure></p>
+<p>重点来了：<strong>添加 Page Rules</strong> 。</p>
+<p>Page Rules 是 CloudFlare 的一项特色服务，可以根据设定的匹配规则来对请求进行处理，其中就包括重定向，支持通配符匹配。</p>
+<p>这里举例说明，如果我要把 <a href="http://blog.imalan.me/xxxx">http://blog.imalan.me/xxxx</a> 和 <a href="https://blog.imalan.me/xxxx">https://blog.imalan.me/xxxx</a> 统统重定向到 <a href="https://imalan.cn/xxxx，那么就应该这样设置：在">https://imalan.cn/xxxx，那么就应该这样设置：在</a> Page Rules 这一栏，点击 Create Page Rule。</p>
+<p>第一项填要处理的 URL，这里我填 <code>blog.imalan.me/*</code> 。就是指不论是 HTTP 还是 HTTPS，域名是 blog.imalan.me，后面的 <em> 是通配符，匹配任意字串。点击 Add A Setting，选择 Forwarding URL，Status Code 选择 301 。在下面输入要跳转到的 URL。这里我输入：<code>https://imalan.cn/$1</code> 。<code>$1</code> 是前面 </em> 匹配出的字串，按顺序依次编号 <code>$1</code>  ,<code>$2</code> ……。结果如下：</p>
+<p><figure class="pswp-item" style="flex: 75.84507042253522" data-width="1077" data-height="710"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/4f47eea21563d1f8c99f756a8f8daebd.png" alt="" /></figure></p>
+<p>点击 Save and Deploy 就完事了。</p>
+<p>注意如果添加多条 Page Rule 要注意前后顺序，CloudFlare 对每次访问只会按顺序执行符合的第一条 Rule。</p>
+<p>CloudFlare 的其他用法以后看情况（心情）再介绍吧，祝搞机愉快。</p>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/73/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/69/" target="_self">Win10 + VS2015 编译配置 PROJ.4 库</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/69/" target="_self">
+                <time class="text-uppercase">
+                    December 25 2017
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p>PROJ.4 库是一个著名的开源地理信息投影库，遥感图像处理时常用，GDAL 中部分功能依赖这个库。这里介绍如何在 Win10 + VS2015 环境下编译并配置它。</p>
+<h3>编译源代码</h3>
+<p>首先下载源代码，PROJ.4 库的代码托管在 GitHub 上，下载链接：<a href="https://github.com/OSGeo/proj.4/archive/master.zip">https://github.com/OSGeo/proj.4/archive/master.zip</a> 。</p>
+<p>下载后解压，得到源码目录。</p>
+<p>打开源码目录找到 <code>nmake.opt</code> 文件，找到 <code>INSTDIR=C:\PROJ</code> 这一行，其中的 <code>C:\PROJ</code> 可以任意更改为你希望安装的路径，比如 <code>C:\Apps\PROJ</code> 。更改后去你指定的路径创建对应的目录，在这里就是创建<code>C:\Apps\PROJ</code> 这个文件夹。</p>
+<p>编译 PROJ 库的方法类似于 GDAL 库，很简单。</p>
+<h4>对 64 位：</h4>
+<p>打开 VS2015 x64 本机工具命令提示符，cd 到你的 PROJ.4 源码路径：</p>
+
+<pre><code>cd PATH/TO/SOURCE/OF/PROJ4</code></pre>
+<p>然后依次运行：</p>
+
+<pre><code>nmake /f makefile.vc 
+nmake /f makefile.vc install-all</code></pre>
+<h4>对 32 位：</h4>
+<p>打开 VS2015 x86 本机工具命令提示符，其它步骤与上面相同。</p>
+<p>到这里，在设定的安装路径下会出现：<code>bin</code> ，<code>include</code> ，<code>lib</code> ，<code>share</code> ，<code>test</code> 几个文件夹。</p>
+<h3>配置 VS2015</h3>
+<p>方法和配置 OpenCV、GDAL 类似，不赘述。最后记得把上面得到的 <code>bin</code> 目录添加到系统的 PATH 环境变量里，重启计算机。</p>
+<h3>测试</h3>
+<p>网上找了个例子，创建新的空 Win32 控制台程序，键入以下代码：</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;proj_api.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">projPJ</span> <span class="n">pj_merc</span><span class="p">,</span> <span class="n">pj_latlong</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">pj_merc</span> <span class="o">=</span> <span class="n">pj_init_plus</span><span class="p">(</span><span class="s">&quot;+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84</span>
+                                 <span class="o">+</span><span class="n">datum</span><span class="o">=</span><span class="n">WGS84</span> <span class="o">+</span><span class="n">units</span><span class="o">=</span><span class="n">m</span> <span class="o">+</span><span class="n">no_defs</span><span class="s">&quot;)))</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">pj_latlong</span> <span class="o">=</span> <span class="n">pj_init_plus</span><span class="p">(</span><span class="s">&quot;+proj=longlat +datum=WGS84 +no_defs&quot;</span><span class="p">)))</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mf">9.866554</span><span class="p">;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mf">7.454779</span><span class="p">;</span>
+    <span class="n">x</span> <span class="o">*=</span> <span class="n">DEG_TO_RAD</span><span class="p">;</span>
+    <span class="n">y</span> <span class="o">*=</span> <span class="n">DEG_TO_RAD</span><span class="p">;</span>
+    <span class="n">pj_transform</span><span class="p">(</span><span class="n">pj_latlong</span><span class="p">,</span> <span class="n">pj_merc</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">x</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">y</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">.</span><span class="n">precision</span><span class="p">(</span><span class="mi">12</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; , &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;)&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>按 Ctrl+F5 编译运行，控制台输出：</p>
+
+<pre><code>(-1098339.76716 , 826673.618947)
+请按任意键继续. . .</code></pre>
+<p>即配置成功。</p>
+<p>以上。</p>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/69/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/67/" target="_self">Win10+Visual Studio 2015 编译配置 GDAL 2.2.3 (64bit)</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/67/" target="_self">
+                <time class="text-uppercase">
+                    December 13 2017
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p>这里介绍如何在 Win10 + VS2015 环境下编译并配置 64 位 GDAL 库。</p>
+<h2>从源代码编译 GDAL</h2>
+<p>首先下载 GDAL 源代码：<a href="http://trac.osgeo.org/gdal/wiki/DownloadSource">http://trac.osgeo.org/gdal/wiki/DownloadSource</a>。下载后解压，得到源代码。</p>
+<p>在源代码路径中找到 <code>nmake.opt</code> 文件，用文本编辑器打开，搜索 <code>GDAL_HOME</code> ，把后面的路径 <code>"C:\warmerda\bld"</code> 改为你希望最终存储 GDAL 库文件的目录，比如 <code>C:\GDAL</code> ，并在对应位置创建目录。那么在编译安装完成后将会将包含文件、库文件、可执行文件都提取到这个目录。</p>
+<p>在开始菜单中打开 VS2015 x64 本机工具命令提示符，并 cd 到 GDAL 的源码目录，即包含了<code>makefile.vc</code> 的路径，这里假设是 <code>C:\GDALSOURCE</code> 。</p>
+
+<pre><code>cd C:\GDALSOURCE</code></pre>
+<p>依次执行以下命令：</p>
+
+<pre><code>nmake -f makefile.vc MSVC_VER=1900 WIN64=1
+nmake /f makefile.vc install MSVC_VER=1900 WIN64=1
+nmake /f makefile.vc devinstall MSVC_VER=1900 WIN64=1</code></pre>
+<p>待完成后，对应的文件将出现在 <code>GDAL_HOME</code> 指定的路径下，包含 <code>bin</code> 、<code>data</code> 、<code>html</code> 、<code>include</code> 、<code>lib</code> 这几个文件夹。</p>
+<p>这里解释以下这几行命令都是什么意思：</p>
+<ul>
+<li>第一行命令将编译 GDAL。</li>
+<li>第二行命令将提取可执行文件和 data 文件到 <code>nmake.opt</code> 文件中 <code>BINDIR</code> 、 <code>DATADIR</code> 指定的路径下，如果没有特别设置，就是 <code>GDAL_HOME</code> 下的对应目录。</li>
+<li>第三行命令将提取包含文件和库文件到 <code>nmake.opt</code> 文件中 <code>INCDIR</code> 、 <code>LIBDIR</code> 指定的路径下，如果没有特别设置，就是 <code>GDAL_HOME</code> 下的对应目录。</li>
+<li>默认情况下编译生成的是 Release 版本，如果需要 Debug 版本的库，请在以上命令后面加上 <code>DEBUG=1</code> 。</li>
+<li>另外 <code>WIN64=1</code> 指定是 64 位版本，<code>MSVC_VER=1900</code> 指定编译环境是 VS2015，即 <code>vc14</code> 。如果不声明这个参数，由于 VS2015 一些内部的改动，编译将会报错：</li>
+</ul>
+
+<pre><code>Creating library gdal_i.lib and object gdal_i.exp
+odbccp32.lib(dllload.obj) : error LNK2019: unresolved external symbol _vsnwprintf_s referenced in function StringCchPrintfW
+gdal201.dll : fatal error LNK1120: 1 unresolved externals
+NMAKE : fatal error U1077: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\BIN\amd64\link.EXE"' : return code '0x460' Stop.</code></pre>
+<p>以上内容参见 GDAL 官方说明：<a href="http://trac.osgeo.org/gdal/wiki/BuildingOnWindows">http://trac.osgeo.org/gdal/wiki/BuildingOnWindows</a> 。</p>
+<h2>配置 VS2015</h2>
+<p>类似 OpenCV 的配置，打开 VS2015，新建新的空 Win32 控制台程序。在视图—其他窗口—属性管理器中选中<code>Debug | x64</code> ，双击打开 <code>Microsoft.Cpp.x64.user</code> ，在 VC++ 目录中的包含目录、库目录中分别添加上一步骤获得的目录，比如 <code>C:\GDAL\include</code> 、<code>C:\GDAL\lib</code> ，点击应用。在链接器-输出中添加附加依赖项 <code>gdal_i.lib</code> ，点击应用，然后点击确认保存。</p>
+<h2>测试</h2>
+<p>在上面新建的工程里添加源文件 <code>mian.cpp</code> ，键入代码：</p>
+<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;gdal.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;gdal_priv.h&quot;</span><span class="cp"></span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">GDALDataset</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+    <span class="n">GDALAllRegister</span><span class="p">();</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">GDALDataset</span><span class="o">*</span><span class="p">)</span><span class="n">GDALOpen</span><span class="p">(</span><span class="s">&quot;1.tif&quot;</span><span class="p">,</span> <span class="n">GA_ReadOnly</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Failed!&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Success!&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>找一张<code>.tif</code> 格式的图片放在 <code>mian.cpp</code> 同一目录下，重命名为 <code>1.tif</code>，按 Ctrl+F5 编译并运行，如果配置没有问题控制台将输出 <code>Success!</code> 。如果提示“找不到 gdal202.dll”，是因为 GDAL 是动态编译的，运行需要对应的动态链接库。两种方法：</p>
+<ol>
+<li>去上面得到的 <code>bin</code> 目录下将 <code>gdal202.dll</code> 拷贝过来和 <code>main.cpp</code> 放在一起即可；</li>
+<li>将上面得到的 <code>bin</code> 目录的路径添加到系统环境变量 Path 中，重启电脑即可。</li>
+</ol>
+<p>我更推荐第二种方式，这样以免以后每次都去拷贝 <code>gdal202.dll</code> ，一劳永逸。桌面右键此电脑-属性-高级系统设置-环境变量-系统变量，双击 Path 变量，新建，将 <code>bin</code> 目录的路径复制进去点击确定保存。重启计算机。</p>
+<p>以上。</p>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/67/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/66/" target="_self">使用 ITK 读取 RGB 图像并获取像素值</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/66/" target="_self">
+                <time class="text-uppercase">
+                    December 07 2017
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p>入了医学图像处理的大坑。之前用 OpenCV 比较多，但 ITK 处理医学图像(CT、MRI 等等)比较常用，因此开始自学。但发现这个库和 OpenCV 的组织方式很不一样，数据结构也差异很大，所以还挺头疼的……受学习 OpenCV 的影响，第一个程序就来读取一张 RGB 图像，并输出指定位置的像素值（总觉得得到像素值才算是图像处理的 Hello World）。</p>
+<h2>实现</h2>
+<p>本文环境为 VS 2015，首先编写源代码 <code>main.cxx</code>:</p>
+<div class="highlight"><pre><span></span><span class="cm">/*这个程序接收输入参数作为文件路径，</span>
+<span class="cm">读取指定的图片数据（RGB）， </span>
+<span class="cm">并显示指定位置的像素值。（这里是[0,0]位置）</span>
+<span class="cm">*/</span>
+
+<span class="cp">#include</span> <span class="cpf">&quot;itkImage.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;itkRGBPixel.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;itkImageFileReader.h&quot;</span><span class="cp"></span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+
+    <span class="c1">//声明一些参量类型</span>
+    <span class="c1">//指定图片像素类型为RGB,unsigned char,2维平面图</span>
+    <span class="c1">//通过指定的图像类型声明图像读取器</span>
+    <span class="k">typedef</span> <span class="n">itk</span><span class="o">::</span><span class="n">RGBPixel</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">&gt;</span><span class="n">PixelType</span><span class="p">;</span>
+    <span class="k">typedef</span> <span class="n">itk</span><span class="o">::</span><span class="n">Image</span><span class="o">&lt;</span><span class="n">PixelType</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="n">ImageType</span><span class="p">;</span>
+    <span class="k">typedef</span> <span class="n">itk</span><span class="o">::</span><span class="n">ImageFileReader</span><span class="o">&lt;</span><span class="n">ImageType</span><span class="o">&gt;</span> <span class="n">ReaderType</span><span class="p">;</span>
+
+    <span class="c1">//创建图像读取器</span>
+    <span class="n">ReaderType</span><span class="o">::</span><span class="n">Pointer</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">ReaderType</span><span class="o">::</span><span class="n">New</span><span class="p">();</span>
+
+    <span class="c1">//从命令行参数获取文件路径，并设置给reader</span>
+    <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="n">reader</span><span class="o">-&gt;</span><span class="n">SetFileName</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+    <span class="n">reader</span><span class="o">-&gt;</span><span class="n">Update</span><span class="p">();</span>
+
+    <span class="c1">//声明图像object，并与读取器输出绑定</span>
+    <span class="n">ImageType</span><span class="o">::</span><span class="n">Pointer</span> <span class="n">image</span> <span class="o">=</span> <span class="n">ImageType</span><span class="o">::</span><span class="n">New</span><span class="p">();</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">reader</span><span class="o">-&gt;</span><span class="n">GetOutput</span><span class="p">();</span>
+
+    <span class="c1">//itk中访问图像数据需要通过Index，Index在这里理解成一个数组</span>
+    <span class="c1">//维数与图像维数对应</span>
+    <span class="c1">//并设置要访问的位置[0,0]</span>
+    <span class="n">ImageType</span><span class="o">::</span><span class="n">IndexType</span> <span class="n">pixcelIndex</span><span class="p">;</span>
+    <span class="n">pixcelIndex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="c1">//列数</span>
+    <span class="n">pixcelIndex</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="c1">//行数</span>
+
+    <span class="c1">//获取图像的像素数据</span>
+    <span class="n">PixelType</span> <span class="n">pixel1</span> <span class="o">=</span> <span class="n">image</span><span class="o">-&gt;</span><span class="n">GetPixel</span><span class="p">(</span><span class="n">pixcelIndex</span><span class="p">);</span>
+    <span class="n">PixelType</span><span class="o">::</span><span class="n">ValueType</span> <span class="n">red</span> <span class="o">=</span> <span class="n">pixel1</span><span class="p">.</span><span class="n">GetRed</span><span class="p">();</span>
+    <span class="n">PixelType</span><span class="o">::</span><span class="n">ValueType</span> <span class="n">green</span> <span class="o">=</span> <span class="n">pixel1</span><span class="p">.</span><span class="n">GetGreen</span><span class="p">();</span>
+    <span class="n">PixelType</span><span class="o">::</span><span class="n">ValueType</span> <span class="n">blue</span> <span class="o">=</span> <span class="n">pixel1</span><span class="p">.</span><span class="n">GetBlue</span><span class="p">();</span>
+
+    <span class="c1">//输出数据，注意，itk中的像素数据需要由专门的模块来处理</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;get pixel at [0,0]:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;R:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">itk</span><span class="o">::</span><span class="n">NumericTraits</span><span class="o">&lt;</span><span class="n">PixelType</span><span class="o">::</span><span class="n">ValueType</span><span class="o">&gt;::</span><span class="n">PrintType</span><span class="p">(</span><span class="n">red</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;G:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">itk</span><span class="o">::</span><span class="n">NumericTraits</span><span class="o">&lt;</span><span class="n">PixelType</span><span class="o">::</span><span class="n">ValueType</span><span class="o">&gt;::</span><span class="n">PrintType</span><span class="p">(</span><span class="n">green</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;B:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">itk</span><span class="o">::</span><span class="n">NumericTraits</span><span class="o">&lt;</span><span class="n">PixelType</span><span class="o">::</span><span class="n">ValueType</span><span class="o">&gt;::</span><span class="n">PrintType</span><span class="p">(</span><span class="n">blue</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>并编写 <code>CMakeLists.txt</code>:</p>
+
+<pre><code># This is the root ITK CMakeLists file.
+cmake_minimum_required(VERSION 2.8.9)
+if(COMMAND CMAKE_POLICY)
+  cmake_policy(SET CMP0003 NEW)
+endif()
+
+
+# This project is designed to be built outside the Insight source tree.
+project(GetPixelValue)
+
+# Find ITK.
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
+add_executable(GetPixelValue main.cxx )
+
+target_link_libraries(GetPixelValue ${ITK_LIBRARIES})</code></pre>
+<p>将以上两个文件保存到某个目录下，比如<code>C:/Users/Alan/Desktop/ITKTEST/src</code>下，并创建一个新目录，比如<code>C:/Users/Alan/Desktop/ITKTEST/build</code>。</p>
+<p>打开 CMake，分别填入以上两个路径，点击<code>Configure</code>，在出现的选项列表中指定<code>ITK_DIR</code>，再次点击<code>Configure</code>，显示 <code>Configuring Done</code>，再点击 <code>Generate</code>，即可在上面的<code>build</code>目录中生成工程文件。</p>
+<p><figure class="pswp-item" style="flex: 92.11026615969581" data-width="969" data-height="526"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/980aa8f055f997cc3dcd9eecf4465a6b.png" alt="sshot-2.png" /><figcaption>sshot-2.png</figcaption></figure></p>
+<p>打开工程，将 <code>GetPixelValue</code>设为启动项目，设置模式为 <code>Debug x64</code>，然后右击生成。成功后可执行文件将在<code>build</code>目录中<code>Debug</code>文件夹下。放置一张图片到这个文件夹里，比如<code>Lena.png</code>，打开命令提示符，并执行以下命令：</p>
+
+<pre><code>cd 你的 GetPixelValue.exe 对应路径
+GetPixelValue.exe Lena.png</code></pre>
+<p>命令行窗口就会输出指定的像素值：</p>
+<p><figure class="pswp-item" style="flex: 78.21782178217822" data-width="790" data-height="505"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/057dd975de0319c777dac38ecc01f828.png" alt="sshot-1.png" /><figcaption>sshot-1.png</figcaption></figure></p>
+<h2>一些结论</h2>
+<p>学习 ITK 的过程中使用 CMake 很频繁，还是要掌握的。</p>
+<p>另外，可见 ITK 中的图像读取、存储都很依赖预先声明的像素类型：<code>typedef itk::RGBPixel&lt;unsigned char&gt;PixelType;</code>，这样的设计为处理多种类型的图像数据很有帮助，因为根据成像设备的不同，医学图像多有比较特殊的位深和纬度。</p>
+<p>另外可以改变不同的 <code>index</code>，可以看出，对二维图像，ITK 存储的图像原点是左上角，<code>pixcelIndex[0]</code> 设定像素所在列数，<code>pixcelIndex[1]</code> 设定像素所在行数。</p>
+</div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/66/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
+        </div>
+        
+    </article>
+    
+    <article class="yue prism-post-item col-md-8 offset-md-2">
+        <h1 class="prism-post-title"><a class="no-link" href="/archives/62/" target="_self">被捂住的十亿张嘴</a></h1>
+        <div class="prism-post-time">
+            <a class="no-link" href="/archives/62/" target="_self">
+                <time class="text-uppercase">
+                    November 26 2017
+                </time>
+            </a>
+        </div>
+        <div class="prism-content"><p>前段时间逛万圣书园，买到了《东京本屋》这本书。一本讲东京各种书店的书，以及一些对书店从业人员的采访。读起来很有兴致，特别是其中一章，讲位于东京都新宿区的书店「模索舍」：</p>
+<blockquote><p>它的诞生和日本学生运动关系密切，还有一段时间曾被认为是“过激左翼派”场所。
+……
+踏进店门，收银台左手边的角落是最能呈现该书店特色的“新左翼系”党派机关报、右翼团体的小册子、公害或人权有关的市民运动小册子、被判死刑囚犯的支援报告、日本边缘社会“部落问题”的研究书。离店门最近的书架两侧都被比较软性的亚文化系刊物占领：曾经为我和模索舍前线的同志主题同人志、露宿指南书、台日混血儿的台湾旅游记、年轻女子“援助交际”的体验记录等等。</p>
+</blockquote>
+<p>总而言之，一家「大家只要想“表达”，什么东西都可以拿来在这儿销售」的书店，是许多自由主义者的天堂。因为在 2017 年的今天，显然即使有口有手，也不是想说什么就能说、想写什么就能写的了。</p>
+<p>Twitter 诞生时我年纪尚小，对互联网还没有什么概念。如今只能从一些纪录片<sup id="fn_ref_1"><a href="#fn_1">1</a></sup>中了解这样的开放社交网络曾为信息传播带来怎样的革命。即使互联网从诞生之日起就担负着促进全人类交流的重任，但是我想，还是 Twitter 这样的社交网络第一次让人们见识到，一条条不足 140 个字符的“推文”能形成怎样的星火燎原之势。Twitter 在大陆已经无法正常访问，其在中国的模仿者新浪微博接过了一面大旗。</p>
+<p>一个层面来说，微博做得很好。比如最近就顺利地扛过了“鹿晗公布恋情”这样的服务器大考验，前段时间相似的还有“王宝强离婚”这样的舆论大事件，形成了全民讨论的奇观，叹为观止。但是问题不出在微博。</p>
+<p>2017 年 7 月 23 日，中国性学家李银河在朋友圈发表了一段话，此前李银河因在微博发表《我们为什么应该彻底取消审查制度》一文而被微博禁言三个月：</p>
+<blockquote><p>事情为什么不可言说呢？仔细观察，其中必定有做错的事不肯承认。然而，不承认事实真相对于历史公论没有丝毫用处。</p>
+</blockquote>
+<p>目前，《我们为什么应该彻底取消审查制度》一文已被删除。2017 年 7 月 24 日，媒体《好奇心日报》联系了李银河，问其就禁言一事是否愿意接受采访，她的助理回复：“商量了一下，先不说话了。”</p>
+<p>我在微博看到了越来越多的美好。国泰民安，如此盛世。但是，为什么一提到肮脏与污秽，大家就都不「说话」了？</p>
+<p>《东京本屋》中关于模索舍的采访中有一段：</p>
+<blockquote><p>吉井(采访者)：我都不知道日本也有思想警察。
+榎本(受采访者)：有。这你都不知道啊…… 1995 年奥姆真理教事件发生时，最忙碌的就是他们呢。说及思想控制，这是现代日本的一个问题。最近也有过报道，“爆笑事件”<sup id="fn_ref_2"><a href="#fn_2">2</a></sup>事先准备的政治家相关内容未被 NHK 采用，都不能播放。这是自我审查，也是思想控制。</p>
+</blockquote>
+<p>我当然不至于期待中国变成一个没有思想控制的社会，如果有任何一个政权愚蠢到对民众脑子里想的东西不管不顾，那估计也是快完蛋了。但我觉得，在这个问题上，中国正在一条错误的路上越走越远。微博的言论审查制度，当然不止删帖：</p>
+<ul>
+<li>……</li>
+<li>2017 年 7 月，“小熊维尼”竟成为了“政治敏感词”，而被禁止发布在微博等社交平台上。原因可能是小熊维尼与领导人形象相似。</li>
+<li>同样是 7 月，李银河因在微博发表《我们为什么应该彻底取消审查制度》一文而被微博禁言三个月。</li>
+<li>2017 年 9 月，微博宣布公开招聘 1000 名“微博监督员”，举报被认为是违法和有害信息，帮助微博删帖。每月有效举报数超过 200 条，微博给予 200 人民币补贴。</li>
+<li>2017 年 11 月，北京红黄蓝幼儿园被曝虐童、性侵幼儿，多条初期爆料贴被删除，微博热搜榜关键词“红黄蓝”被删除。</li>
+<li>……</li>
+</ul>
+<p>我们大概都需要去模索舍买一本《救援笔记：被逮捕前必读》<sup id="fn_ref_3"><a href="#fn_3">3</a></sup>。</p>
+<p>今天，即使是在这种程度的半残互联网下，已经不再有完全封锁住一则新闻的可能了。当人民无法得到真相，又无法讨论时，信息就劣化成了谣言，在更为不堪的渠道里求生。一则如都市传说般的新闻，混杂了性、暴力及其它人性深处的欲望，能指望它为所谓的真善美出什么力呢？然而无法获取信息，竟仍需要把希望寄托于谣言。</p>
+<p>「以史为镜，可以知兴替」。 只消回过头去看几十年，就知道大兴文字狱是什么后果。不给予最基本的言论自由保障，没有发声渠道，十亿张嘴，生生被捂住。换来了表面上的良民，但这样的「良民」，内里如“阴燃的煤堆”，只等一个偶然，燃起大火。被抑制时，只是在为爆发蓄力。</p>
+<p>「防民之口，甚于防川」，然而治水之道，宜疏不宜堵。若要驯化十亿人民所组成的庞大力量，用一种无形的、弥散的力量来从内塑造，比用有形的权威式力量与民意硬碰硬要稳妥。很可惜的是，中国的这种力量，从来就是权威的，有形的，集中制的，不讲理的。帝制时如此，共和国时还是如此。</p>
+<p><strong>要做好准备，新浪微博<sup id="fn_ref_4"><a href="#fn_4">4</a></sup>们不会一夜之间变好。不要再叫嚷“冬天即将来临”了，我们正在漫长的冬日里。</strong></p>
+<hr><div class="footnotes"><ol><li id="fn_1">比如 BBC 电视台出品的《虚拟革命》 <a no-style href="#fn_ref_1">↩</a></li><li id="fn_2">日本一个搞笑艺人组合 <a no-style href="#fn_ref_2">↩</a></li><li id="fn_3">介绍被逮捕时如何应对、在拘留所的生活、“默秘权”的重要性、警察的追究、调查方法、家人如何对待等等 <a no-style href="#fn_ref_3">↩</a></li><li id="fn_4">Twitter 这位模仿者，如今正凭借「优秀的市场把控和卓越的商业技巧」超越 Twitter，成为另一个体量庞大的社交网络。以及，Twitter 正广泛借鉴微博的做法，在商业模式上下功夫。 <a no-style href="#fn_ref_4">↩</a></li></ol></div></div>
+        
+        <div class="prism-action-bar">
+            <div class="comment-action action-item"><a class="no-link text-uppercase" href="/archives/62/#prism__comment" target="_self"><i class="fa fa-comment"></i>评论</a></div>
         </div>
         
     </article>
@@ -235,6 +704,31 @@ Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</code><
 
                     <section id="prism__external_links">
                         <ul>
+                            
+                            <li>
+                                <a class="no-link" target="_blank" href="https://github.com/AlanDecode/Maverick" rel="noopener noreferrer nofollow">Maverick</a>：🏄‍ Go My Own Way.
+                                <span>|</span>
+                            </li>
+                            
+                            <li>
+                                <a class="no-link" target="_blank" href="https://www.imalan.cn" rel="noopener noreferrer nofollow">三無計劃</a>：三是虚指。至于是哪三无，我唔知。
+                                <span>|</span>
+                            </li>
+                            
+                            <li>
+                                <a class="no-link" target="_blank" href="https://wiki.imalan.cn" rel="noopener noreferrer nofollow">無知識</a>：熊猫小A的Wiki站点。隶属于「三无计划」。
+                                <span>|</span>
+                            </li>
+                            
+                            <li>
+                                <a class="no-link" target="_blank" href="https://lab.imalan.cn" rel="noopener noreferrer nofollow">無項目</a>：熊猫小A的实验室。隶属于「三无计划」。
+                                <span>|</span>
+                            </li>
+                            
+                            <li>
+                                <a class="no-link" target="_blank" href="https://t.me/triple_null" rel="noopener noreferrer nofollow">無消息</a>：熊猫小A的广播。隶属于「三无计划」。
+                                <span>|</span>
+                            </li>
                             
                         </ul>
                     </section>
