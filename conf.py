@@ -31,33 +31,33 @@ description = "只坚持一种正义。我的正义。"
 key_words = ['Maverick', '熊猫小A', 'Galileo', 'blog']
 language = 'zh-CN'
 background_img = '${static_prefix}bg/The_Great_Wave_off_Kanagawa.jpg'
-external_links = [
-    {
-        "name": "Maverick",
-        "url": "https://github.com/AlanDecode/Maverick",
-        "brief": "🏄‍ Go My Own Way."
-    },
-    {
-        "name": "三無計劃",
-        "url": "https://www.imalan.cn",
-        "brief": "三是虚指。至于是哪三无，我唔知。"
-    },
-    {
-        "name": "無知識",
-        "url": "https://wiki.imalan.cn",
-        "brief": "熊猫小A的Wiki站点。隶属于「三无计划」。"
-    },
-    {
-        "name": "無項目",
-        "url": "https://lab.imalan.cn",
-        "brief": "熊猫小A的实验室。隶属于「三无计划」。"
-    },
-    {
-        "name": "無消息",
-        "url": "https://t.me/triple_null",
-        "brief": "熊猫小A的广播。隶属于「三无计划」。"
-    }
-]
+# external_links = [
+    # {
+        # "name": "Maverick",
+        # "url": "https://github.com/AlanDecode/Maverick",
+        # "brief": "🏄‍ Go My Own Way."
+    # },
+    # {
+        # "name": "三無計劃",
+        # "url": "https://www.imalan.cn",
+        # "brief": "三是虚指。至于是哪三无，我唔知。"
+    # },
+    # {
+        # "name": "無知識",
+        # "url": "https://wiki.imalan.cn",
+        # "brief": "熊猫小A的Wiki站点。隶属于「三无计划」。"
+    # },
+    # {
+        # "name": "無項目",
+        # "url": "https://lab.imalan.cn",
+        # "brief": "熊猫小A的实验室。隶属于「三无计划」。"
+    # },
+    # {
+        # "name": "無消息",
+        # "url": "https://t.me/triple_null",
+        # "brief": "熊猫小A的广播。隶属于「三无计划」。"
+    # }
+# ]
 nav = [
     {
         "name": "首页",
