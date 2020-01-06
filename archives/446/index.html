@@ -11,9 +11,10 @@
     <meta name="template" content="Galileo" />
     <link rel="alternate" type="application/rss+xml" title="无文字 | 三无计划 &raquo; RSS 2.0" href="/feed/index.xml" />
     <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="/feed/atom/index.xml" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-47943f640b.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-cb5d1c5fdc.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700&display=swap">
     <script>
         var ExSearchConfig = {
             root: "",
@@ -194,11 +195,11 @@ Maximum number of threads per block:           1024
 Max dimension size of a thread block (x,y,z): (1024, 1024, 64)
 Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</code></pre>
 <p>首先看不使用 Grid-Stride Loop（GS Loop） 的方法中 <code>GRIDSIZE</code> 和时间相对 ARRAYSIZE 的变化：</p>
-<p><figure class="pswp-item" style="flex: 90.57788944723617" data-width="721" data-height="398"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fbae2a73d8c495f55a3c450dc010f93c.png" alt="" /></figure></p>
+<p><figure style="flex: 90.57788944723617" ><a target="_blank" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fbae2a73d8c495f55a3c450dc010f93c.png"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fbae2a73d8c495f55a3c450dc010f93c.png" alt="" /></a></figure></p>
 <p>固定 <code>GRIDSIZE=10</code>，使用 Grid-Stride Loop 的方法：</p>
-<p><figure class="pswp-item" style="flex: 96.64879356568365" data-width="721" data-height="373"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/119fca045d06f574cbbea83497ff9c82.png" alt="" /></figure></p>
+<p><figure style="flex: 96.64879356568365" ><a target="_blank" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/119fca045d06f574cbbea83497ff9c82.png"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/119fca045d06f574cbbea83497ff9c82.png" alt="" /></a></figure></p>
 <p>直观对比两种方法用时：</p>
-<p><figure class="pswp-item" style="flex: 90.72681704260651" data-width="724" data-height="399"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/2fe85e370fb8290b3184027d333d388f.png" alt="" /></figure></p>
+<p><figure style="flex: 90.72681704260651" ><a target="_blank" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/2fe85e370fb8290b3184027d333d388f.png"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/2fe85e370fb8290b3184027d333d388f.png" alt="" /></a></figure></p>
 <p>可见当 ARRAYSIZE 较大时，两种方法性能有可观的差距。当然，这个测试只是理论上的，实际应用中不可能只用 10 个 Block 来计算。</p>
 <p>另外，若将显存大小纳入讨论则情况会稍有不同。向量相加这个例子中需要为相加的两个向量以及存储结果的一个向量在 GPU 上分配显存，有时会遇到这样的情况：线程还没用完，显存先用完了。这种情况与算法相关，并不是所有的程序都需要这么巨大的显存量，但需要巨大线程数的场景比比皆是。</p>
 <p>另外，如何将其扩展到高维 Tensor 还有待思考。</p>
@@ -276,7 +277,7 @@ Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</code><
                     <script>
                         var site_build_date = "2017-06-29T12:00+08:00"
                     </script>
-                    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-0502e826c1.js"></script>
+                    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-dc4baa7cf4.js"></script>
                 </footer>
             </div>
         </div>
