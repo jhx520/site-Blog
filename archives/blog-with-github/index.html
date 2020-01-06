@@ -98,7 +98,7 @@
                 
             </span>
             <div class="ga-content_body">
-                <p><figure style="flex: 100.0" ><a target="_blank" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/13452d991bfec0ed426cd0615bc53703.png"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/13452d991bfec0ed426cd0615bc53703.png" alt="" /></a></figure></p>
+                <p><figure style="flex: 100.0" ><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/13452d991bfec0ed426cd0615bc53703.png" alt="" /></figure></p>
 <p>这篇文章分享我目前的博客工作流：基于 GitHub 与 <a href="https://github.com/AlanDecode/Maverick">Maverick</a> 获得一站式的博客体验。借助这个自动化流程，能够达到：</p>
 <ul>
 <li>超酷超方便的图片管理（当然了，Maverick 嘛）</li>
@@ -135,7 +135,7 @@
 <p>这两类仓库都可以绑定自定义域名，方法相同，在仓库中创建 <code>CNAME</code> 文件或者在设置中绑定就行。此外，<strong>私有仓库也可以开启 Pages 服务</strong>，这十分适合用来发布博客，设想在 master 分支中存储源文件，是只自己可见的；将生成的网站发布到 gh-pages 分支，是公众可见的。这是兼具安全与便捷性的方案。</p>
 <h2>如何使用 GitHub 自动构建与发布博客</h2>
 <p>已经有很多人摸索出了利用 GitHub 托管与自动构建的流程，例如我曾写过的 <a href="https://blog.imalan.cn/archives/213/">使用 Travis CI 自动生成与部署 Hexo 博客</a> 就能针对 Hexo 博客达到该目的。这些方法本质上是一个这样的流程：当更新文章并推送到 GitHub 时，自动通过 CI 服务发起一次构建任务，然后把生成的静态博客推送回 GitHub 上。</p>
-<p><figure style="flex: 94.69820554649266" ><a target="_blank" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/ff2fd03960807e5d485d0771bd9f63f6.jpg"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/ff2fd03960807e5d485d0771bd9f63f6.jpg" alt="使用 GitHub 与 Travis CI 自动构建" /></a><figcaption>使用 GitHub 与 Travis CI 自动构建</figcaption></figure></p>
+<p><figure style="flex: 94.69820554649266" ><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/ff2fd03960807e5d485d0771bd9f63f6.jpg" alt="使用 GitHub 与 Travis CI 自动构建" /><figcaption>使用 GitHub 与 Travis CI 自动构建</figcaption></figure></p>
 <p>但是，Hexo 等生成器大多要求将博客源文件存放在某个特定的目录下，让我们无法自由地组织源文件；另外，这些生成器对图片的处理十分笨拙，不能应对引用本地文件的情景；当然，它们也无法达到本文稍后要谈到的 CDN 加速效果。</p>
 <p>开源的 <a href="https://github.com/AlanDecode/Maverick">Maverick</a> 是一个与 Hexo 类似的博客生成器，不同的是它针对源文件与图片管理做了大幅改进，可以从任何目录寻找源文件，并且可以自动处理引用本地图片的情况。那么，如何将它结合到流程中呢？</p>
 <p>这里，我想用啰嗦一点的方式讲解，并且穿插介绍一些技术上的基本概念。别怕，不难。</p>
@@ -149,7 +149,7 @@
 <p>第一条比较简单，之前已经谈过了。现在先来说第二条。</p>
 <h3>基于 GitHub Actions 的自动构建</h3>
 <p>其实，监视仓库并在有改动时自动执行一系列动作是非常广泛的需求。软件开发工作中，经常需要对新添加的代码随时进行测试，或者进行部署，都是通过这样的自动化流程实现的。实际上这类服务还有个<ruby>专门<rp>(</rp><rt>莫名其妙</rt><rp>)</rp></ruby>的名字：「持续集成（Continuous Integration）」，简称 CI。</p>
-<p><figure style="flex: 90.6" ><a target="_blank" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/05105f3f45d95225059ddc5c347161ff.jpg"><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/05105f3f45d95225059ddc5c347161ff.jpg" alt="基于 GitHub Actions 的自动构建与发布" /></a><figcaption>基于 GitHub Actions 的自动构建与发布</figcaption></figure></p>
+<p><figure style="flex: 90.6" ><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/05105f3f45d95225059ddc5c347161ff.jpg" alt="基于 GitHub Actions 的自动构建与发布" /><figcaption>基于 GitHub Actions 的自动构建与发布</figcaption></figure></p>
 <p>此前，最广泛使用的 CI 服务当属 <a href="https://travis-ci.org">Travis CI</a>；现在 GitHub 也推出了自家的 CI 服务 <a href="https://github.com/features/actions">GitHub Actions</a>。相比起 Travis 来，GitHub Actions 更加 「native」，经我测试似乎也更敏捷、快速；此外，还能直接引用别人写好的规则。本文就基于 GitHub Action 描述构建流程。</p>
 <p>当仓库收到新的更新（push）时，GitHub 会根据仓库中 <code>.github/workflows</code> 文件夹下的 YML 配置文件启动 CI 流程。一个简单的 YML 文件长这样：</p>
 <div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build</span>
@@ -331,44 +331,6 @@ git commit -m <span class="s2">&quot;update submodule Maverick&quot;</span>
                     </script>
                     <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-dc4baa7cf4.js"></script>
                 </footer>
-            </div>
-        </div>
-    </div>
-        
-        
-        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="pswp__bg"></div>
-        <div class="pswp__scroll-wrap">
-            <div class="pswp__container">
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-            </div>
-            <div class="pswp__ui pswp__ui--hidden">
-                <div class="pswp__top-bar">
-                    <div class="pswp__counter"></div>
-                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                    <button class="pswp__button pswp__button--share" title="Share"></button>
-                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                    <div class="pswp__preloader">
-                        <div class="pswp__preloader__icn">
-                          <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                    <div class="pswp__share-tooltip"></div> 
-                </div>
-                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-                </button>
-                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-                </button>
-                <div class="pswp__caption">
-                    <div class="pswp__caption__center"></div>
-                </div>
             </div>
         </div>
     </div>
