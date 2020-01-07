@@ -21,7 +21,7 @@ category_by_folder = True
 for_manual_build_trigger = 2
 
 # 站点设置
-site_name = "无文字 | 三无计划"
+site_name = "無文字 | 三無計劃"
 site_logo = "${static_prefix}android-chrome-512x512.png"
 site_build_date = "2017-06-29T12:00+08:00"
 author = "熊猫小A"
@@ -112,8 +112,10 @@ head_addon = r'''
 <meta http-equiv="x-dns-prefetch-control" content="on">
 <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
 <link rel="dns-prefetch" href="//blog.imalan.cn" />
+<!--
 <link rel="stylesheet" href="${static_prefix}brand_font/embed.css" />
 <style>.brand{font-family:FZCuJinLFW,serif;font-weight: normal!important;}</style>
+-->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}apple-touch-icon.png?v=PY43YeeEKx">
