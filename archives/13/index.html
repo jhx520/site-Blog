@@ -113,7 +113,7 @@
 <p>这部分类似我之前<a href="https://sspai.com/36548">一篇文章</a>里叙述的过程，配合动作 Match Text 使用简单的正则表达式<code>\d{4,11}</code>，并取第一个结果即可。</p>
 <h3>调用 API 获得返回结果</h3>
 <p>使用 Workflow 内置 Get Contents of URL 动作，Method 就是 GET。但是这里要注意， Headers 里要填上对应的 key 和 value。URL 中的 ID 就是上一步里得到的 MV ID。</p>
-<p><figure style="flex: 56.596701649175415" ><img class="lazyload" width="1510" height="1334" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/f8a02435e512fecdaa2f34500d7b2345.jpg" alt="006tLtW4jw1fbvxa83iamj315y112dog.jpg" /><figcaption>006tLtW4jw1fbvxa83iamj315y112dog.jpg</figcaption></figure></p>
+<p><figure style="flex: 56.596701649175415" ><img class="lazyload" width="1510" height="1334" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/f8a02435e512fecdaa2f34500d7b2345.jpg" /><figcaption>006tLtW4jw1fbvxa83iamj315y112dog.jpg</figcaption></figure></p>
 <h3>解析返回结果</h3>
 <p>在上一步的末尾接上一个 Quick Look，可以看出返回的是 JSON 格式的数据块。格式如下：</p>
 

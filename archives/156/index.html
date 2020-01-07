@@ -100,7 +100,7 @@
             </span>
             <div class="ga-content_body">
                 <p>看到一张 GIF，可把我笑坏了，最后那只汪也太不给面子了吧哈哈哈哈~</p>
-<p><figure style="flex: 88.96797153024912" ><img class="lazyload" width="500" height="281" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/d81f60bcf8502b9570f955292b36ca1a.gif" alt="最后那只汪也太不给面子了吧" /><figcaption>最后那只汪也太不给面子了吧</figcaption></figure></p>
+<p><figure style="flex: 88.96797153024912" ><img class="lazyload" width="500" height="281" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/d81f60bcf8502b9570f955292b36ca1a.gif" /><figcaption>最后那只汪也太不给面子了吧</figcaption></figure></p>
 <p>好的，据说大约有 98% 的人承认被这样的 GIF 套路过，还有 2% 的人被套路了却不承认（我瞎编的数）。机智如你，看到这样的 GIF 还是会傻乎乎地一直盯着看，为什么呢？</p>
 <p>你可能注意到了：这是因为 GIF 图片是可以无限循环的。GIF 图实则可看做是一个反复轮播的图片序列，序列中的每一幅图称作「一帧」，只要巧妙地设置起始帧与末尾帧就能使整个 GIF 无缝循环到天荒地老。这个特性在制作上面的整人图时有奇效，但在某些应用场景中却不然。</p>
 <p>许多写文章的同学知道有「一图胜千言」的说法，在文章中引入动态内容（比如视频、GIF）来辅助表达可以达到事半功倍的效果，例如少数派的<a href="https://sspai.com/post/47022">这篇文章</a>，利用 GIF 把浏览器的新特性展现得清清楚楚。可是当 GIF 过长，或者没有明显的起始、结束标志（就像文首那样）时读者可能会产生一种焦虑感：这个 GIF 什么时候完？<strong>我到底是不是已经看完一遍了</strong>？</p>
@@ -121,17 +121,17 @@
 <li>Make GIF 的输入是一个图片列表，它可以将这个列表中的图片合成为一个 GIF。</li>
 </ul>
 <p>不难画出完整的流程图：</p>
-<p><figure style="flex: 16.886543535620053" ><img class="lazyload" width="640" height="1895" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/189a4e874d66e3d83ad98e39c818fe0f.png" alt="" /></figure></p>
+<p><figure style="flex: 16.886543535620053" ><img class="lazyload" width="640" height="1895" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/189a4e874d66e3d83ad98e39c818fe0f.png" /></figure></p>
 <h3>分析与改进</h3>
 <p>按照以上流程图制作的动作固然可以使用，但是有一个很大的缺点：它要求使用者相册中有一张纯色图片以备使用，这……太不优雅了。再说，如果你分享给你女朋友，她却发现不能直接用还要有什么纯色图，她哪里去找什么纯色图？你怎么这么敷衍？你是不是不爱她了？</p>
 <p>一种解决思路是：运行前检测使用者设备上有没有这个纯色图片，若有，那就继续运行，若没有，则利用 Get Contents of URL 临时下载，并存储备用。存储的位置若可能的话，最好不要是相册，以免污染别人的照片库。很自然的，iCloud Drive 是一个绝佳选择。因此，流程图的前半部分变成了：</p>
-<p><figure style="flex: 64.51612903225806" ><img class="lazyload" width="640" height="496" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/0a108ea4d0d466a637bad4dcd95e7bf0.png" alt="e34c1bdec04fe1173971f3f3be3124d9" /><figcaption>e34c1bdec04fe1173971f3f3be3124d9</figcaption></figure></p>
+<p><figure style="flex: 64.51612903225806" ><img class="lazyload" width="640" height="496" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/0a108ea4d0d466a637bad4dcd95e7bf0.png" /><figcaption>e34c1bdec04fe1173971f3f3be3124d9</figcaption></figure></p>
 <p>好的，这次女朋友不会夺命三问了。但是等等……若是女朋友手机没网或者提供这个纯色图片的服务器挂了呢？虽然确实不是你的问题，但是女朋友仍然有可能迁怒于你，怕怕。我们要把隐患扼杀在摇篮中。</p>
 <p>究其原因，一切都是因为这个动作需要引用外部的资源：一张纯色图。如果它能直接内置到动作里就好了。能不能办到？当然可以。</p>
 <p>捷径应用里内置了一个动作：Base64 Encode，有编程经验的同学应该就明白了。简单地说，Base64<sup id="fn_ref_2"><a href="#fn_2">2</a></sup>可以把一个二进制文件转换为一串纯文本，也能从文本中解码出原来的文件。既然动作不能存储图片文件，但存储文本却是可以的呀！因此在最顶部放一个 text 块，里面填写上纯色图的 Base64 编码，运行时再从这里解码得到纯色图片即可。应该说到这里，这个动作完成度算是比较高了。</p>
-<p><figure style="flex: 117.05426356589147" ><img class="lazyload" width="604" height="258" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/64231ad7a9923f56a4dae2abb0b41d84.png" alt="c51256aadd2c1a45161e1e0343b5a442" /><figcaption>c51256aadd2c1a45161e1e0343b5a442</figcaption></figure></p>
+<p><figure style="flex: 117.05426356589147" ><img class="lazyload" width="604" height="258" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/64231ad7a9923f56a4dae2abb0b41d84.png" /><figcaption>c51256aadd2c1a45161e1e0343b5a442</figcaption></figure></p>
 <p>再来看看带进度条的 GIF：</p>
-<p><figure style="flex: 88.33922261484099" ><img class="lazyload" width="500" height="283" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/85d5470c2f739bb08d3222cf13d1769a.GIF" alt="IMG_0207" /><figcaption>IMG_0207</figcaption></figure></p>
+<p><figure style="flex: 88.33922261484099" ><img class="lazyload" width="500" height="283" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/85d5470c2f739bb08d3222cf13d1769a.GIF" /><figcaption>IMG_0207</figcaption></figure></p>
 <p>不能整人了，不开心￣へ￣。</p>
 <h2>延伸</h2>
 <p>动作的制作与优化上面就聊完了。这部分是一些额外的讨论和抛砖引玉的内容。</p>
@@ -144,7 +144,7 @@
 <p>听上去很绕。但我们只需要知道，这个步骤的输出一般会是一个列表。Add to Variable 这个步骤的作用可归结于<strong>暂存多个变量，以待后续处理</strong>。为什么这么说？因为「列表」其实是一种特殊的变量——存储变量的变量。</p>
 <h4>暂存变量</h4>
 <p>以前使用过这个应用的玩家可能知道，应用中有一个叫做 List 的步骤，可以在运行过程中保存几个变量以供后续处理。在本例中，两次 Add to Variable 然后拼接为新的一帧这一段完全可以这么改写：</p>
-<p><figure style="flex: 37.03319502074689" ><img class="lazyload" width="714" height="964" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/350c387a379a4ca776d799294b6104b2.jpg" alt="IMG_0226" /><figcaption>IMG_0226</figcaption></figure></p>
+<p><figure style="flex: 37.03319502074689" ><img class="lazyload" width="714" height="964" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/350c387a379a4ca776d799294b6104b2.jpg" /><figcaption>IMG_0226</figcaption></figure></p>
 <p>那么 Add to Variable 还有什么存在的意义？</p>
 <p>你是否注意到，虽然 List 这个动作在这里的效果要比 Add to Variable 强，使得动作看起来更简洁，但它有一个特点：容量是固定的<sup id="fn_ref_3"><a href="#fn_3">3</a></sup>。在制作这个动作时只为它预留了两个位置，一个用来放进度条，一个用来放图片帧，那就不能再运行过程中存储更多的东西了。</p>
 <p>当需要暂存的内容个数不定时，List 动作就力不从心了，这时就轮到 Add to Variable 上场。不论有两个、五个还是十个一百个变量，Add to Variable 都能老老实实地帮你存好。本文中要处理的 GIF 帧数不一，因此即使经过上图的改写，与进度条拼接后的帧仍然要使用 Add to Variable 暂存最后再合成 GIF<sup id="fn_ref_4"><a href="#fn_4">4</a></sup>。</p>
