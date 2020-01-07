@@ -13,6 +13,7 @@
     <link rel="alternate" type="application/atom+xml" title="无文字 | 三无计划 &raquo; ATOM 1.0" href="/feed/atom/index.xml" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-e255dd166a.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700&display=swap">
     <script>
@@ -98,7 +99,7 @@
                 
             </span>
             <div class="ga-content_body">
-                <p><figure style="flex: 106.17647058823529" ><img src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/9b1456e7d552475a70179477f4e7f9ad.png" alt="" /></figure></p>
+                <p><figure style="flex: 106.17647058823529" ><img class="lazyload" width="722" height="340" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/9b1456e7d552475a70179477f4e7f9ad.png" alt="" /></figure></p>
 <blockquote><p>在长大的过程中，我才慢慢发现：我身边的所有事，别人跟我说的所有事，那些所谓本该如此，注定如此的事，它们其实并没有非得如此，事情是可以改变的。更为重要的是，有些事既然是错的，那就应该作出改变。自从发现这点后，我似乎有点一条道儿走到黑了。
 ——— 亚伦 · 斯沃茨，2010</p>
 </blockquote>
@@ -193,11 +194,9 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
-    
+    <script defer src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js" onload="lazyload();"></script>
+
     <!--katex-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>
     <script>
     mathOpts = {
@@ -210,6 +209,9 @@
     };
     </script>
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/auto-render.min.js" onload="renderMathInElement(document.body, mathOpts);"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
 
     
 <script>
