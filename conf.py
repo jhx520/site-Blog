@@ -3,7 +3,7 @@
 """
 
 # For Maverick
-site_prefix = "/"
+site_prefix = "https://blog.imalan.cn/"
 source_dir = "../src/"
 build_dir = "../dist/"
 index_page_size = 10
