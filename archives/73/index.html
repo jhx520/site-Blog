@@ -126,16 +126,16 @@
 <pre><code>amir.ns.cloudflare.com
 lisa.ns.cloudflare.com</code></pre>
 <p>在你的域名注册商那里就可以改，改完后点击 Continue，静待域名服务器更改生效。</p>
-<p><figure style="flex: 141.73728813559322" ><img class="lazyload" width="1338" height="472" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/337ada07706f4959f6f7436c5ab3562d.png" /></figure></p>
+<p><figure style="flex: 141.73728813559322" ><img width="1338" height="472" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/337ada07706f4959f6f7436c5ab3562d.png" /></figure></p>
 <p>在 Overview 这一栏如上图显示 Active 即可。</p>
 <p>然后在 DNS 这一栏中查看 DNS 记录。<strong>将你要跳转的域名解析到一个有效的 IP，比如 8.8.8.8 。不要解析到国内的服务器 IP，否则依然是分分钟提示你没备案。</strong></p>
 <p>在这里，我要将 blog.imalam.me 跳转到 imalan.cn。所以如图设置：</p>
-<p><figure style="flex: 285.7456140350877" ><img class="lazyload" width="1303" height="228" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/774cec84d5b135849e5512f855d427ff.png" /></figure></p>
+<p><figure style="flex: 285.7456140350877" ><img width="1303" height="228" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/774cec84d5b135849e5512f855d427ff.png" /></figure></p>
 <p>重点来了：<strong>添加 Page Rules</strong> 。</p>
 <p>Page Rules 是 CloudFlare 的一项特色服务，可以根据设定的匹配规则来对请求进行处理，其中就包括重定向，支持通配符匹配。</p>
 <p>这里举例说明，如果我要把 <a href="http://blog.imalan.me/xxxx">http://blog.imalan.me/xxxx</a> 和 <a href="https://blog.imalan.me/xxxx">https://blog.imalan.me/xxxx</a> 统统重定向到 <a href="https://imalan.cn/xxxx，那么就应该这样设置：在">https://imalan.cn/xxxx，那么就应该这样设置：在</a> Page Rules 这一栏，点击 Create Page Rule。</p>
 <p>第一项填要处理的 URL，这里我填 <code>blog.imalan.me/*</code> 。就是指不论是 HTTP 还是 HTTPS，域名是 blog.imalan.me，后面的 <em> 是通配符，匹配任意字串。点击 Add A Setting，选择 Forwarding URL，Status Code 选择 301 。在下面输入要跳转到的 URL。这里我输入：<code>https://imalan.cn/$1</code> 。<code>$1</code> 是前面 </em> 匹配出的字串，按顺序依次编号 <code>$1</code>  ,<code>$2</code> ……。结果如下：</p>
-<p><figure style="flex: 75.84507042253522" ><img class="lazyload" width="1077" height="710" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/4f47eea21563d1f8c99f756a8f8daebd.png" /></figure></p>
+<p><figure style="flex: 75.84507042253522" ><img width="1077" height="710" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/4f47eea21563d1f8c99f756a8f8daebd.png" /></figure></p>
 <p>点击 Save and Deploy 就完事了。</p>
 <p>注意如果添加多条 Page Rule 要注意前后顺序，CloudFlare 对每次访问只会按顺序执行符合的第一条 Rule。</p>
 <p>CloudFlare 的其他用法以后看情况（心情）再介绍吧，祝搞机愉快。</p>
@@ -206,8 +206,6 @@ lisa.ns.cloudflare.com</code></pre>
             </div>
         </div>
     </div>
-
-    <script defer src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js" onload="lazyload();"></script>
 
     <!--katex-->
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>

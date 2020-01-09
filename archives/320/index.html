@@ -104,7 +104,7 @@
                 <p>This post is about clustering. I will make a short introduction of traditional methods, then talk about a magical algorithm published by Alex Rodriguez and Alessandro Laio on <a href="https://science.sciencemag.org/content/344/6191/1492.full">Science magazine</a>, 2014. I call it magical because it's simple yet powerful, and super intuitive. The principle behind it is really semantic.</p>
 <p>Clustering, as a kind of unsupervised learning method, aims to divide dataset into some pieces (i.e. "classes"), making the <strong>intraclass difference</strong><sup id="fn_ref_1"><a href="#fn_1">1</a></sup> as small as possible while the <strong>interclass difference</strong><sup id="fn_ref_2"><a href="#fn_2">2</a></sup> as large as possible.</p>
 <p>For example, the picture bellow shows 5000 points scattered on a 2-D plane, we humans can easily assign them into 15 groups, because there is an obvious distributing pattern of these points. The question is, how could computers finish this job?</p>
-<p><figure style="flex: 50.0" ><img class="lazyload" width="100" height="100" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/54ba94e700b9b152723d423398fcef4d.png" /><figcaption>5000 points scattered on a 2-D plane</figcaption></figure></p>
+<p><figure style="flex: 50.0" ><img width="100" height="100" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/54ba94e700b9b152723d423398fcef4d.png" /><figcaption>5000 points scattered on a 2-D plane</figcaption></figure></p>
 <h2>Traditional methods</h2>
 <p>In the past few decades many algorithms have been developed just to finish this "simple" task, some of them are quite delicate and beautiful. However, depending on the rationale behind them, they all have some shortcomings like any other algorithm does. They are either slow or too complicated to implement, or just cannot finish the job.</p>
 <p>The <strong>C-Means</strong> algorithm might be the most famous one of its kind. We randomly choose some points as cluster centers at first, then we assign points into some clusters by their "distance" to cluster centers, then calculate new centers to replace old ones. This procedure is accomplished by repeating those steps several times, until cluster centers do not move anymore. This method is inspirational, and many similar methods have been developed, such as <strong>Fuzzy C-Means</strong>, which uses a fuzzy matrix to weight the target function. This kind of algorithms are easy to implement and are simple to understand, but as been mentioned above, the initial cluster centers are very important, and results vary under different initial state. That makes these algorithms not robust enough, thus not reliable in some cases.</p>
@@ -207,7 +207,7 @@
 <span class="n">end</span>
 </pre></div>
 <p>You can see the core part contains less than 50 lines of code, it is so concise that I even doubted myself. But the result reassured me：</p>
-<p><figure style="flex: 117.54756871035941" ><img class="lazyload" width="1112" height="473" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/91e42a37259c862eff50b74848c93363.jpg" /><figcaption>Result of FSFDP algorithm</figcaption></figure></p>
+<p><figure style="flex: 117.54756871035941" ><img width="1112" height="473" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/91e42a37259c862eff50b74848c93363.jpg" /><figcaption>Result of FSFDP algorithm</figcaption></figure></p>
 <p>Cluster centers are drawn using blue circles on the right-hand figure. And we can clearly see 15 points with high $\rho$ and $\delta$ one the left-hand figure. This algorithm is not iterative, the most time consuming step is sorting. This is inevitable though, because the sorting result is necessary for calculating $\delta$.</p>
 <hr>
 <p>Dataset in this post could be downloaded <a href="/resources/s1.txt">here</a>, just load it in Matlab. It includes coordinates of 5000 2-D points.</p>
@@ -286,8 +286,6 @@
             </div>
         </div>
     </div>
-
-    <script defer src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js" onload="lazyload();"></script>
 
     <!--katex-->
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>
