@@ -30,8 +30,7 @@ excerpt: “在互联网上寻找栖息之地”
 
 几经周折，{{最近:2018-11-02}}我将这个主题从最初版本完全重写，本想新开一个坑，但由于其实整体的样式没有太多改变，因此还是合进了 RAW。
 
-[notice]
-主题升级方式请看：[如何升级](https://github.com/AlanDecode/Typecho-Theme-RAW/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98#%E5%A6%82%E4%BD%95%E5%8D%87%E7%BA%A7)[/notice]
+[notice]主题升级方式请看：[如何升级](https://github.com/AlanDecode/Typecho-Theme-RAW/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98#%E5%A6%82%E4%BD%95%E5%8D%87%E7%BA%A7)[/notice]
 
 ## 相关文章
 
@@ -52,7 +51,7 @@ excerpt: “在互联网上寻找栖息之地”
 
 ## 外观
 
-[photos des="两种版式"]
+[photos]
 ![三栏布局][7]
 ![两栏布局][8]
 [/photos]
@@ -180,7 +179,7 @@ excerpt: “在互联网上寻找栖息之地”
 使用普通的 Markdown 语法插入的图片会加入灯箱效果，点击图片可弹出显示。**无需更改太多语法就能实现更多排版**~ 在文章编辑器顶部添加了「图集」按钮，然后在插入的 photos 短代码中间使用常用的 Markdown 语法插入图片即可实现排版（注意图片之间不要空行，只换行是 OK 的）。你还可以在标签中添加图集描述。例如（以下代码块中为了演示，使用【】替换了 []，实际上通过按钮插入的是 []）：
 
 ```html
-【photos des="摄于 2018 夏、秋"】
+【photos】
 ![](./assets/IMG_0073.jpeg)
 ![](./assets/IMG_0053.jpeg)
 【/photos】
@@ -194,7 +193,7 @@ excerpt: “在互联网上寻找栖息之地”
 [/photos]
 
 ```html
-【photos des="摄于 2018 夏、秋"】
+【photos】
 ![](./assets/IMG_0039.jpeg)
 ![](./assets/IMG_0051.jpeg)
 ![](./assets/IMG_0005.jpeg)
@@ -239,21 +238,21 @@ excerpt: “在互联网上寻找栖息之地”
 **如果本项目对你有所帮助，请考虑捐助我  ↓↓↓**
 
 
-  [1]: https://www.ihewro.com/archives/489/
-  [2]: https://get233.com/archives/mirages-intro.html
-  [3]: https://github.com/txperl/Moricolor-for-Typecho
-  [4]: https://qqdie.com/archives/yodu.html
-  [5]: https://shawnzeng.com/wordpress-theme-giligili.html
-  [7]: ./assets/292252931.png
-  [8]: ./assets/805561084.png
-  [9]: ./assets/3355332004.png
-  [10]: ./assets/536532529.png
-  [11]: ./assets/2210136586.png
-  [12]: ./assets/4155078433.png
-  [13]: ./assets/3355332004.png
-  [14]: ./assets/4082739026.png
-  [15]: ./assets/848047210.png
-  [16]: ./assets/84876627.png
-  [17]: ./assets/1330253377.png
-  [18]: ./assets/3797434843.jpg
-  [19]: ./assets/3258923284.jpg
+[1]: https://www.ihewro.com/archives/489/
+[2]: https://get233.com/archives/mirages-intro.html
+[3]: https://github.com/txperl/Moricolor-for-Typecho
+[4]: https://qqdie.com/archives/yodu.html
+[5]: https://shawnzeng.com/wordpress-theme-giligili.html
+[7]: ./assets/292252931.png
+[8]: ./assets/805561084.png
+[9]: ./assets/3355332004.png
+[10]: ./assets/536532529.png
+[11]: ./assets/2210136586.png
+[12]: ./assets/4155078433.png
+[13]: ./assets/3355332004.png
+[14]: ./assets/4082739026.png
+[15]: ./assets/848047210.png
+[16]: ./assets/84876627.png
+[17]: ./assets/1330253377.png
+[18]: ./assets/3797434843.jpg
+[19]: ./assets/3258923284.jpg
