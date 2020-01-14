@@ -11,7 +11,7 @@
     <meta name="template" content="Galileo" />
     <link rel="alternate" type="application/rss+xml" title="無文字 | 三無計劃 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
     <link rel="alternate" type="application/atom+xml" title="無文字 | 三無計劃 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-1c8f2638f2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-e255dd166a.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
     <script>
         var ExSearchConfig = {
             root: "",
-            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/95f87b437e6a9575061dd805e8f8c427.json"
+            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/200dd1700cb1c92ebcdc0afb43508a6c.json"
         }
     </script>
     
@@ -96,7 +96,7 @@
                 
                 
                 <span class="leancloud_visitors" 
-                    id="/archives/446/" 
+                    id="https://blog.imalan.cn/archives/446/" 
                     data-flag-title="使用 Grid-Stride Loop 复用 CUDA 线程"> · <i class="leancloud-visitors-count"></i> Views</span>
                 
             </span>
@@ -198,11 +198,11 @@ Maximum number of threads per block:           1024
 Max dimension size of a thread block (x,y,z): (1024, 1024, 64)
 Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</code></pre>
 <p>首先看不使用 Grid-Stride Loop（GS Loop） 的方法中 <code>GRIDSIZE</code> 和时间相对 ARRAYSIZE 的变化：</p>
-<p><figure style="flex: 90.57788944723617" ><img width="721" height="398" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fbae2a73d8c495f55a3c450dc010f93c.png" /></figure></p>
+<p><figure style="flex: 90.57788944723617" ><img class="lazyload" width="721" height="398" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fbae2a73d8c495f55a3c450dc010f93c.png" /></figure></p>
 <p>固定 <code>GRIDSIZE=10</code>，使用 Grid-Stride Loop 的方法：</p>
-<p><figure style="flex: 96.64879356568365" ><img width="721" height="373" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/119fca045d06f574cbbea83497ff9c82.png" /></figure></p>
+<p><figure style="flex: 96.64879356568365" ><img class="lazyload" width="721" height="373" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/119fca045d06f574cbbea83497ff9c82.png" /></figure></p>
 <p>直观对比两种方法用时：</p>
-<p><figure style="flex: 90.72681704260651" ><img width="724" height="399" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/2fe85e370fb8290b3184027d333d388f.png" /></figure></p>
+<p><figure style="flex: 90.72681704260651" ><img class="lazyload" width="724" height="399" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/2fe85e370fb8290b3184027d333d388f.png" /></figure></p>
 <p>可见当 ARRAYSIZE 较大时，两种方法性能有可观的差距。当然，这个测试只是理论上的，实际应用中不可能只用 10 个 Block 来计算。</p>
 <p>另外，若将显存大小纳入讨论则情况会稍有不同。向量相加这个例子中需要为相加的两个向量以及存储结果的一个向量在 GPU 上分配显存，有时会遇到这样的情况：线程还没用完，显存先用完了。这种情况与算法相关，并不是所有的程序都需要这么巨大的显存量，但需要巨大线程数的场景比比皆是。</p>
 <p>另外，如何将其扩展到高维 Tensor 还有待思考。</p>
@@ -285,6 +285,8 @@ Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</code><
             </div>
         </div>
     </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js" onload="lazyload();"></script>
 
     <!--katex-->
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>

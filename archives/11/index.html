@@ -11,7 +11,7 @@
     <meta name="template" content="Galileo" />
     <link rel="alternate" type="application/rss+xml" title="無文字 | 三無計劃 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
     <link rel="alternate" type="application/atom+xml" title="無文字 | 三無計劃 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-1c8f2638f2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-e255dd166a.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
     <script>
         var ExSearchConfig = {
             root: "",
-            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/95f87b437e6a9575061dd805e8f8c427.json"
+            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/200dd1700cb1c92ebcdc0afb43508a6c.json"
         }
     </script>
     
@@ -96,12 +96,12 @@
                 
                 
                 <span class="leancloud_visitors" 
-                    id="/archives/11/" 
+                    id="https://blog.imalan.cn/archives/11/" 
                     data-flag-title="解决 Hackintosh 上 iMessage 的注册问题、三码注入问题"> · <i class="leancloud-visitors-count"></i> Views</span>
                 
             </span>
             <div class="ga-content_body">
-                <p><figure style="flex: 90.9090909090909" ><img width="1560" height="858" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/b64f9ccffcf25807d354abaae419ccab.jpg" /></figure></p>
+                <p><figure style="flex: 90.9090909090909" ><img class="lazyload" width="1560" height="858" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/b64f9ccffcf25807d354abaae419ccab.jpg" /></figure></p>
 <p>在 Hackintosh 上激活 iMessage 费了我好多时间，结果问题出在一个小文件上。</p>
 <p>iMessage 的注册是尝试正常使用 Hackintosh 过程中的大坑之一。在 Hackintosh 上使用 iMessage 不是一个简单的登陆过程，系统需要与服务器验证有关本机的一些特殊信息，其中非常重要的有所谓的三码：MLB、ROM、 SmUUID，我习惯再多加一个 Serial Number。这些信息一般存储在一个叫做 NVRAM 的模块中。</p>
 <p>其中，MLB 即指 Board Serial Number，SN 是本机序列号，ROM 的值有许多说法，一些人认为这就是网卡的 Mac 地址，SmUUID 是根据你的机器信息生成的唯一值。</p>
@@ -110,11 +110,11 @@
 <p>符合要求的三码如何获得我没有找到统一的说法，可以自行上网搜索一下。这里说一说注入的问题。</p>
 <h2>如何正确注入三码</h2>
 <p>我自己是使用 Clover 引导启动。在获得有效的三码之后，使用 Clover Configurator 打开你的 config.plist。在 RT Variables 页（如下图），保证下面的几行空白，BooterConfig 和 CsrActiveConfig 不要动，在 ROM 和 MLB 中填入你获得的值。</p>
-<p><figure style="flex: 128.85638297872342" ><img width="969" height="376" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/0cd6449c725f5405b07369bc23b14b5b.jpg" /></figure></p>
+<p><figure style="flex: 128.85638297872342" ><img class="lazyload" width="969" height="376" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/0cd6449c725f5405b07369bc23b14b5b.jpg" /></figure></p>
 <p>在 SMBIOS 页，不要改动其余的信息，仅改动三码部分：Serial Number、SmUUID、Board Serial Number，对应填进去就可以。</p>
-<p><figure style="flex: 186.89138576779027" ><img width="998" height="267" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/270db04790c2d4aec295f6afb38de3f7.jpg" /></figure></p>
+<p><figure style="flex: 186.89138576779027" ><img class="lazyload" width="998" height="267" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/270db04790c2d4aec295f6afb38de3f7.jpg" /></figure></p>
 <p>在 System Parameters 页，Custom UUID 和 SmUUID 相同，Inject Kexts 选择 Yes，<strong>勾选 Inject System ID</strong>。保存退出。</p>
-<p><figure style="flex: 362.86764705882354" ><img width="987" height="136" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/bbc6b589ec08f5303685a22d6fc55357.jpg" /></figure></p>
+<p><figure style="flex: 362.86764705882354" ><img class="lazyload" width="987" height="136" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/bbc6b589ec08f5303685a22d6fc55357.jpg" /></figure></p>
 <p>重启几次使用 imessageDubug 看看这几项值是否已经符合要求，一般来说如果安装过程没有出现问题，那么三码这样注入即可，现在登录 iMessage 应该能够成功激活。</p>
 <h2>仍然无法注入？</h2>
 <p>我遇到了这种问题，尝试了上面的流程很多遍之后 iMessageDebug 输出我的 MLB 和 ROM 仍然是 failed。网上找了一大圈也没有找到解决方案，最后发现是一个 efi 文件出了问题。</p>
@@ -190,6 +190,8 @@
             </div>
         </div>
     </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js" onload="lazyload();"></script>
 
     <!--katex-->
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>

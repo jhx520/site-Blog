@@ -11,7 +11,7 @@
     <meta name="template" content="Galileo" />
     <link rel="alternate" type="application/rss+xml" title="無文字 | 三無計劃 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
     <link rel="alternate" type="application/atom+xml" title="無文字 | 三無計劃 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-1c8f2638f2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-e255dd166a.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
@@ -19,7 +19,7 @@
     <script>
         var ExSearchConfig = {
             root: "",
-            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/95f87b437e6a9575061dd805e8f8c427.json"
+            api: "https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/200dd1700cb1c92ebcdc0afb43508a6c.json"
         }
     </script>
     
@@ -96,7 +96,7 @@
                 
                 
                 <span class="leancloud_visitors" 
-                    id="/archives/66/" 
+                    id="https://blog.imalan.cn/archives/66/" 
                     data-flag-title="使用 ITK 读取 RGB 图像并获取像素值"> · <i class="leancloud-visitors-count"></i> Views</span>
                 
             </span>
@@ -180,13 +180,13 @@ add_executable(GetPixelValue main.cxx )
 target_link_libraries(GetPixelValue ${ITK_LIBRARIES})</code></pre>
 <p>将以上两个文件保存到某个目录下，比如<code>C:/Users/Alan/Desktop/ITKTEST/src</code>下，并创建一个新目录，比如<code>C:/Users/Alan/Desktop/ITKTEST/build</code>。</p>
 <p>打开 CMake，分别填入以上两个路径，点击<code>Configure</code>，在出现的选项列表中指定<code>ITK_DIR</code>，再次点击<code>Configure</code>，显示 <code>Configuring Done</code>，再点击 <code>Generate</code>，即可在上面的<code>build</code>目录中生成工程文件。</p>
-<p><figure style="flex: 92.11026615969581" ><img width="969" height="526" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/980aa8f055f997cc3dcd9eecf4465a6b.png" /><figcaption>sshot-2.png</figcaption></figure></p>
+<p><figure style="flex: 92.11026615969581" ><img class="lazyload" width="969" height="526" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/980aa8f055f997cc3dcd9eecf4465a6b.png" /><figcaption>sshot-2.png</figcaption></figure></p>
 <p>打开工程，将 <code>GetPixelValue</code>设为启动项目，设置模式为 <code>Debug x64</code>，然后右击生成。成功后可执行文件将在<code>build</code>目录中<code>Debug</code>文件夹下。放置一张图片到这个文件夹里，比如<code>Lena.png</code>，打开命令提示符，并执行以下命令：</p>
 
 <pre><code>cd 你的 GetPixelValue.exe 对应路径
 GetPixelValue.exe Lena.png</code></pre>
 <p>命令行窗口就会输出指定的像素值：</p>
-<p><figure style="flex: 78.21782178217822" ><img width="790" height="505" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/057dd975de0319c777dac38ecc01f828.png" /><figcaption>sshot-1.png</figcaption></figure></p>
+<p><figure style="flex: 78.21782178217822" ><img class="lazyload" width="790" height="505" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/057dd975de0319c777dac38ecc01f828.png" /><figcaption>sshot-1.png</figcaption></figure></p>
 <h2>一些结论</h2>
 <p>学习 ITK 的过程中使用 CMake 很频繁，还是要掌握的。</p>
 <p>另外，可见 ITK 中的图像读取、存储都很依赖预先声明的像素类型：<code>typedef itk::RGBPixel&lt;unsigned char&gt;PixelType;</code>，这样的设计为处理多种类型的图像数据很有帮助，因为根据成像设备的不同，医学图像多有比较特殊的位深和纬度。</p>
@@ -258,6 +258,8 @@ GetPixelValue.exe Lena.png</code></pre>
             </div>
         </div>
     </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js" onload="lazyload();"></script>
 
     <!--katex-->
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>
