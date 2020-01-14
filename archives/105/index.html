@@ -11,7 +11,7 @@
     <meta name="template" content="Galileo" />
     <link rel="alternate" type="application/rss+xml" title="無文字 | 三無計劃 &raquo; RSS 2.0" href="https://blog.imalan.cn/feed/index.xml" />
     <link rel="alternate" type="application/atom+xml" title="無文字 | 三無計劃 &raquo; ATOM 1.0" href="https://blog.imalan.cn/feed/atom/index.xml" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-e255dd166a.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/galileo-1c8f2638f2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/ExSearch/ExSearch-182e5a8868.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet">
@@ -96,7 +96,7 @@
                 
                 
                 <span class="leancloud_visitors" 
-                    id="https://blog.imalan.cn/archives/105/" 
+                    id="/archives/105/" 
                     data-flag-title="CUDA 中的数组(Array)与纹理存储(Texture)介绍与使用"> · <i class="leancloud-visitors-count"></i> Views</span>
                 
             </span>
@@ -106,7 +106,7 @@
 <h2>纹理存储器（Texture Memory）</h2>
 <h3>纹理存储器是什么</h3>
 <p>首先明确：纹理存储器是一种只读存储器，由 GPU 用于纹理渲染的图形专用单元发展而来。它同样位于显存中，但是在访问时有许多优秀的特性，例如可通过纹理缓存加速读取。相对同样具有缓存功能的常数存储器（Constant Memory），纹理存储器可以绑定更大的数据，并且支持一维、二维、三维纹理，并可以通过浮点数寻址。由于纹理存储器转为图像纹理渲染而设计，它特别适合图像处理、查找表等，对随机访问与非对齐访问有良好的加速效果，并且可以按需在返回时同时进行滤波等操作。一个很直观的例子，下面的矩阵中 1,2,3,4 四个数据在行优先的线性存储中并不具有相邻的物理地址，因此连续索引这些数据效率是低下的；但是纹理存储可以在读取其中某个数据时将临近的值载入缓存（Cache），这样下次访问时，则可以直接命中缓存，减少对 Global Memory 的访问，从而提高效率。</p>
-<p><figure style="flex: 50.27075812274368" ><img class="lazyload" width="557" height="554" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/482033fc1e4efd3fbcc0e94674d2f969.png" /><figcaption>textures_cuda</figcaption></figure></p>
+<p><figure style="flex: 50.27075812274368" ><img width="557" height="554" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/482033fc1e4efd3fbcc0e94674d2f969.png" /><figcaption>textures_cuda</figcaption></figure></p>
 <p>对程序员来说，纹理存储是透明的，程序员无需关心内部实现。</p>
 <p>在 CUDA 内核函数（Kernel Code）中访问纹理存储器称作纹理拾取（Texture Fetching），作为纹理存储的特性，纹理拾取与普通的访问某一显存地址的数据有很大不同。纹理拾取时采用的坐标可以不同于数据在存储中的真实地址，二者间的转换通过纹理参照系（Texture Reference）来约定，将显存中的数据与约定的纹理参照系关联的操作称为纹理绑定（Texture Binding）。可以与纹理绑定的数据有两种：显存中的线性内存（Linear Memory）和CUDA数组（Array）。线性内存只能与一维纹理绑定，CUDA 数组则可绑定一维、二维、三维纹理。</p>
 <p>关于纹理缓存，它有两个作用。首先纹理缓存中的数据可被复用，当访问的数据已经位于缓存中时，访问该数据将命中缓存，减少对 Global Memory 的访问；其次纹理存储可以将拾取坐标附近的几个像元缓存起来，并可以在拾取时进行插值。</p>
@@ -257,9 +257,9 @@
 </pre></div>
 <h3>结果</h3>
 <p>当 <code>tex_mat.filterMode = cudaFilterModePoint;</code> 时输出：</p>
-<p><figure style="flex: 78.75751503006012" ><img class="lazyload" width="786" height="499" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fb9a09bc92ec21f669024318c3b6779b.png" /><figcaption>filtpoint</figcaption></figure></p>
+<p><figure style="flex: 78.75751503006012" ><img width="786" height="499" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/fb9a09bc92ec21f669024318c3b6779b.png" /><figcaption>filtpoint</figcaption></figure></p>
 <p>当 <code>tex_mat.filterMode = cudaFilterModeLinear;</code> 时输出：</p>
-<p><figure style="flex: 71.93158953722335" ><img class="lazyload" width="715" height="497" data-src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/b9df65c6b89a806ea5cfc821f99b153a.png" /><figcaption>filtlinear</figcaption></figure></p>
+<p><figure style="flex: 71.93158953722335" ><img width="715" height="497" src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/archives/assets/b9df65c6b89a806ea5cfc821f99b153a.png" /><figcaption>filtlinear</figcaption></figure></p>
 
             </div>
         </article>
@@ -327,8 +327,6 @@
             </div>
         </div>
     </div>
-
-    <script defer src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js" onload="lazyload();"></script>
 
     <!--katex-->
     <script defer src="https://cdn.jsdelivr.net/gh/AlanDecode/site-Blog@gh-pages/assets/katex.min.js"></script>
