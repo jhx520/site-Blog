@@ -23,19 +23,20 @@
         }
     </script>
     
-<title>三刀魚</title>
+<title>Checkra1n 越狱指南 - 三刀魚</title>
 <meta name="author" content="Anony" />
-<meta name="description" content="你保护世界，我保护你。" />
-<meta property="og:title" content="三刀魚" />
-<meta property="og:description" content="你保护世界，我保护你。" />
+<meta name="description" content="疑难解惑，不是教程！" />
+<meta property="og:title" content="Checkra1n 越狱指南 - 三刀魚" />
+<meta property="og:description" content="疑难解惑，不是教程！" />
 <meta property="og:site_name" content="三刀魚" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="/" />
-<meta property="og:image" content="三刀魚" />
-<meta name="twitter:title" content="三刀魚" />
-<meta name="twitter:description" content="你保护世界，我保护你。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/archives/Checkra1n/" />
+<meta property="og:image" content="" />
+<meta property="article:published_time" content="2020-02-11T20:34:00-00.00" />
+<meta name="twitter:title" content="Checkra1n 越狱指南 - 三刀魚" />
+<meta name="twitter:description" content="疑难解惑，不是教程！" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/logo.png" />
+<meta name="twitter:image" content="" />
 
 
     
@@ -65,68 +66,104 @@
             <div class="wrapper">
                 
 <main>    
-    
+    <section class="ga-section ga-content">
+        <article class="yue">
+            <h1 class="ga-post_title">Checkra1n 越狱指南</h1>
+            <span class="ga-post_meta ga-mono">
+                <span>Anony</span>
+                <time>
+                    2020-02-11
+                </time>
+                
+                in <a no-style class="category" href="/category/折腾/">
+                    折腾
+                </a>
+                
+                
+                <span class="leancloud_visitors" 
+                    id="/archives/Checkra1n/" 
+                    data-flag-title="Checkra1n 越狱指南"> · <i class="leancloud-visitors-count"></i> Views</span>
+                
+            </span>
+            <div class="ga-content_body">
+                <h3>起因</h3>
+<p>首先来说一下我的设备情况，18年9月买的 iPhone 8P，本来是准备留在 iOS 12.4 养老，但是由于去年买了耳机（AirPods Pro），所有功能起步适配 iOS 13.2，所以没办法，考虑再三，最终还是选择升级系统。</p>
+<h3>计划</h3>
+<ul>
+<li><strong>原本：</strong><u>U盘 + macOS 10.14</u></li>
+<li><strong>现在：</strong><u>Windows + 虚拟机</u></li>
+</ul>
+<h3>准备</h3>
+<ul>
+<li><p><strong>环境：</strong>Windows</p>
+</li>
+<li><p><strong>虚拟机：</strong>VMware 15.5 Pro （已上传至云盘 <a href="https://pukobaggstuacnz-my.sharepoint.com/personal/jhx520_qqu_me/_layouts/15/download.aspx?SourceUrl=%2Fpersonal%2Fjhx520%5Fqqu%5Fme%2FDocuments%2FVMware%20MacOS%2Fvmware%2Dpro15%2Ezip">点击下载</a>）</p>
+</li>
+<li><p><strong>镜像：</strong>ubuntu 18.03 （推荐使用网易开源镜像站 <a href="http://mirrors.163.com/ubuntu-releases/18.04/ubuntu-18.04.3-desktop-amd64.iso">点击下载</a>）</p>
+</li>
+<li><strong>越狱工具：</strong>Checkra1n （<a href="https://checkra.in/">点击跳转</a>）</li>
+</ul>
+<h3>疑难</h3>
+<ul>
+<li><p>VMware 在装载系统时，<strong>不能全屏显示</strong>，不建议使用 VMware Tools，解决办法：</p>
+<div class="highlight"><pre><span></span>sudo apt-get install open-vm-tools
+sudo apt-get install open-vm*
+reboot
+</pre></div>
+</li>
+<li><p>密钥无法导入，出现 “ <strong>gpgkeys: protocol `https' not supported</strong> ” 错误，解决办法：</p>
+<div class="highlight"><pre><span></span>sudo apt install gnupg-curl
+</pre></div>
+</li>
+<li><p>执行 sudo apt-get update 时出现 ” <strong>无法获得锁 /var/lib/apt/lists/lock - open （11: 资源暂时不可用）</strong>“ 错误，解决办法：</p>
+<div class="highlight"><pre><span></span>sudo rm /var/lib/apt/lists/lock
+</pre></div>
+</li>
+</ul>
+<h3>小结</h3>
+<p>其实两者并没有什么效率可言，纯属个人习惯，且不随身携带 U盘，所以还是喜欢直接进入 Windows，这样操作起来也方便些，截至写稿前，Checkra1n Win 并没有发布。</p>
 
-<section id="ga-post_list" class="ga-section" data-title="Posts">
-    <ul>
-        
-        <li>
-            <article class="yue">
-                <h1>原生 Telegram 解锁</h1>
-                
-                    <blockquote>包括 iOS、Android、Mac、Windows</blockquote>
-                
-                <footer>
-                    <span class="ga-read_more"><a class="ga-highlight" href="/archives/telegram/">阅读全文</a></span>
-                    <time class="ga-mono">
-                        2020-02-15
-                    </time>
-                </footer>
-            </article>
-        </li>
-        
-        <li>
-            <article class="yue">
-                <h1>Checkra1n 越狱指南</h1>
-                
-                    <blockquote>疑难解惑，不是教程！</blockquote>
-                
-                <footer>
-                    <span class="ga-read_more"><a class="ga-highlight" href="/archives/Checkra1n/">阅读全文</a></span>
-                    <time class="ga-mono">
-                        2020-02-11
-                    </time>
-                </footer>
-            </article>
-        </li>
-        
-    </ul>
+            </div>
+        </article>
+        <div id="ga-tags">
+    
+    <span class="ga-tag">
+        <a class="ga-highlight" href="/tag/iOS/">#iOS</a>
+    </span>
+    
+    <span class="ga-tag">
+        <a class="ga-highlight" href="/tag/越狱/">#越狱</a>
+    </span>
+    
+</div>
+    </section>
+
+    
+<section id="ga-content_pager">
+
+    <div class="next">
+        <a class="ga-highlight" href="/archives/telegram/">原生 Telegram 解锁</a>
+        <p class="yue">包括 iOS、Android、Mac、Windows</p>
+    </div>
+
+
+    <div class="prev">
+        <h3>没有了</h3>
+        <p class="yue">这是最旧的文章</p>
+    </div>
+
 </section>
 
-<section class="ga-section ga-mono" id="ga-pager">
-    
-    <span>Page 1 of 1</span>
-    
-</section>
 
-<section id="ga-external_links" class="ga-section" data-title="Links">
-    <ul>
-        
-        <li>
-            <a class="ga-highlight" target="_blank" href="http://anony.pp.ua">三刀魚</a>：🏄‍ Go My Own Way.
-        </li>
-        
-        <li>
-            <a class="ga-highlight" target="_blank" href="https://weigame.pp.ua">小游戏</a>：放松小游戏
-        </li>
-        
-        <li>
-            <a class="ga-highlight" target="_blank" href="https://onedrive.pp.ua">云盘</a>：Anony的云盘
-        </li>
-        
-    </ul>
-</section>
-
+    
+        <script>
+            var initValine = function () {
+                new Valine({"enable": true, "el": "#vcomments", "appId": "uM4TdSOqBxnHFm3gcy0VRcVC-gzGzoHsz", "appKey": "S8PiDx66GTKdtjwmQ5dMnCK6", "visitor": true, "recordIP": true, "placeholder": "\u8bf7\u4e0d\u541d\u8d50\u6559"});
+            }
+        </script>
+        <script defer src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js' onload="initValine()"></script>
+        <div id="vcomments"></div>
+    
 
 </main>
 
