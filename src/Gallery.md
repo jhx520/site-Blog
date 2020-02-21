@@ -14,6 +14,6 @@ tags:
 
 ### 壁纸库
 
-![](F:\site-Blog\src\static\IMG_1614.JPG)
+![](./static/IMG_1614.JPG)
 
-![](F:\site-Blog\src\static\IMG_1615.JPG)
+![](./static/IMG_1615.JPG)
