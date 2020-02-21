@@ -21,6 +21,3 @@ tags:
 | ![](F:\site-Blog\src\头像\519ce177f5af9bc1ff27f7411a49c2ff.JPG) | ![](F:\site-Blog\src\头像\bbecd4d90482d142815de318b73b6bf2.JPG) |
 
 ### 壁纸库
- ![](F:\site-Blog\src\壁纸\IMG_1614.JPG) | ![](F:\site-Blog\src\壁纸\IMG_1615.JPG) 
- - | -
- ![](F:\site-Blog\src\壁纸\IMG_1620.JPG) | ![](F:\site-Blog\src\壁纸\IMG_1621.JPG) 
