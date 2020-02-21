@@ -28,4 +28,6 @@ tags:
 ## 📬 联系我呀
 
 - 邮件：1046880355@qq.com
-- 微信：[Anony](https://cdn.jsdelivr.net/gh/smallwhispers/Wiki@gh-pages/archives/assets/56e8cbb397884ff7cabbce8651adf046.jpg)
+- 微信：[Anony](../static/wechat.jpg)
+
+![](./static/wechat.jpg)
