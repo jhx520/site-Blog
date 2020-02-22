@@ -6,7 +6,7 @@ date: 2020-02-15 20:18
 status: publish
 author: Anony
 categories: 
-  - 折腾
+  - 教程
 tags: 
   - 解锁
   - TG
