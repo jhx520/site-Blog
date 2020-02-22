@@ -12,7 +12,13 @@ tags:
   - 收集
 ---
 
-### 壁纸库
-![](https://i.loli.net/2018/09/01/5b8a59551a4d8.jpg)|![](https://i.loli.net/2018/09/01/5b8a6ab761262.jpg)|![](https://i.loli.net/2018/09/01/5b8a5994b6e28.jpg)
-- | - | -
-![](https://i.loli.net/2018/09/01/5b8a5994b6e28.jpg)|![](https://i.loli.net/2018/09/01/5b8a5c8c34439.jpg)|![](https://i.loli.net/2018/09/01/5b8a59d5c50f3.jpg)
+### 头像库
+[photos] 
+![](./static/2ac7b65ebccae3cd868cb33445485fdf.JPG)
+![](./static/8d454307880329eb964eb0e7a87d86e4.JPG)
+[/photos] 
+
+[photos] 
+![](./static/ca8f1467268bc7e8e93225ee29580b89.JPG)
+![](./static/f7d9710dec01615ca9158edef0280b05.JPG)
+[/photos] 
