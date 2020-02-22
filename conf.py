@@ -98,13 +98,15 @@ head_addon = r'''
 <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><div class="aplayer" data-id="2440040711" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-volume="0.6" ></div>
 '''
 
 footer_addon = ''
 
 body_addon = r'''
-<script>var meting_api='http://api.mizore.cn/meting/api.php?server=:server&type=:type&id=:id'</script><script src="http://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="http://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+  new Darkmode().showWidget();
+</script>
 '''
 
 valine = {
