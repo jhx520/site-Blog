@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>三刀魚</title><link>/</link><description>你保护世界，我保护你。</description><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/logo.png</url><title>三刀魚</title><link>/</link></image><language>zh-CN</language><lastBuildDate>Sat, 22 Feb 2020 05:55:34 +0806</lastBuildDate><pubDate>Sat, 22 Feb 2020 05:55:34 +0806</pubDate><item><title>Checkra1n 越狱指南</title><link>/archives/Checkra1n/</link><description>&lt;h3&gt;起因&lt;/h3&gt;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>三刀魚</title><link>/</link><description>你保护世界，我保护你。</description><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/logo.png</url><title>三刀魚</title><link>/</link></image><language>zh-CN</language><lastBuildDate>Sat, 22 Feb 2020 05:59:22 +0806</lastBuildDate><pubDate>Sat, 22 Feb 2020 05:59:22 +0806</pubDate><item><title>Checkra1n 越狱指南</title><link>/archives/Checkra1n/</link><description>&lt;h3&gt;起因&lt;/h3&gt;
 &lt;p&gt;首先来说一下我的设备情况，18年9月买的 iPhone 8P，本来是准备留在 iOS 12.4 养老，但是由于去年买了耳机（AirPods Pro），所有功能起步适配 iOS 13.2，所以没办法，考虑再三，最终还是选择升级系统。&lt;/p&gt;
 &lt;h3&gt;计划&lt;/h3&gt;
 &lt;ul&gt;
@@ -55,7 +55,7 @@ reboot
 </description><author>1046880355@qq.com (Anony)</author><guid isPermaLink="true">/archives/telegram/</guid><pubDate>Sat, 15 Feb 2020 20:18:00 +0806</pubDate></item><item><title>电脑科学上网</title><link>/archives/sstap/</link><description>&lt;h4&gt;前言&lt;/h4&gt;
 &lt;p&gt;最近博主许多同学询问起了关于电脑科学上网的问题，接踵而至，为此博主写下此篇教程(对于老司机来说，本篇可略过，针对小白)，虽然现在 V2Ray 吃香，但是体验之后，依旧喜欢 SSTAP&lt;/p&gt;
 &lt;h3&gt;预览&lt;/h3&gt;
-&lt;p&gt;&lt;figure  size-undefined&gt;&lt;img width="-1" height="-1" src="F:\site-Blog\src\教程\assets\sstap.PNG" /&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure style="flex: 39.56661316211878" &gt;&lt;img width="493" height="623" src="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/archives/assets/f3be62cdcc845b165fb9d192cab2725c.PNG" /&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;h3&gt;简述&lt;/h3&gt;
 &lt;p&gt;所谓科学上网，这里不多做解释，通过它，我们可以上 Google、YouTube、Twitter、instagram等国外网站&lt;/p&gt;
 &lt;h3&gt;说明&lt;/h3&gt;
@@ -67,8 +67,6 @@ reboot
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;安装：&lt;/strong&gt;下载好之后，可以看到以.exe为结尾的安装包，点击运行，一路回车安装即可，安装完毕之后，打开刚刚安装选择的路径，删除update目录，以防止后续提示更新&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;添加：&lt;/strong&gt;代理旁边附有&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;㊉ 即添加代理，这里提供三种方式添加，一般别人给出的是链接，我们选择第三种方式，直接粘贴节点链接添加即可&lt;/p&gt;
 &lt;/li&gt;
@@ -77,7 +75,7 @@ reboot
 &lt;li&gt;&lt;p&gt;ϟ 测试当前代理延迟&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;ul&gt;
+&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;模式：&lt;/strong&gt;提供6种模式可供选择，可根据自己需求来定位，值得说明的是&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;全局是指整个网络ip都走服务器，也就是无论上什么网，都是以国外的网络来访问，唯一缺点就是访问国内站点时速度会被限制&lt;/p&gt;
@@ -93,7 +91,7 @@ reboot
 &lt;/ul&gt;
 &lt;h3&gt;小记&lt;/h3&gt;
 &lt;p&gt;本篇教程到此也就结束了，关于节点，需要大家自行寻找，博主提供一个&lt;a href="https://lpssxs.com/"&gt;机场地址&lt;/a&gt;，目前已关闭注册，联系博主可进行内部注册与购买，简易使用教程如下：&lt;/p&gt;
-&lt;p&gt;&lt;figure  size-undefined&gt;&lt;img width="-1" height="-1" src="F:\site-Blog\src\教程\assets\IMG_1470.JPG" /&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure style="flex: 28.469592336823347" &gt;&lt;img width="2556" height="4489" src="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/archives/assets/b7c68db52c23447bd136ad47d0c17c35.JPG" /&gt;&lt;/figure&gt;&lt;/p&gt;
 </description><author>1046880355@qq.com (Anony)</author><guid isPermaLink="true">/archives/sstap/</guid><pubDate>Fri, 21 Feb 2020 22:18:00 +0806</pubDate></item><item><title>MV 《我爱他》</title><link>/archives/MV1/</link><description>&lt;p&gt;&lt;strong&gt;🎈情不知所起，奈何情深🎈&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;iframe data-ratio="0.625" src="//player.bilibili.com/player.html?aid=79414096&amp;cid=135901672&amp;page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"&gt; &lt;/iframe&gt;
 不是一个音乐控，但看到这个 MV 的时候，说不上的感觉，就是很喜欢~&lt;/p&gt;
