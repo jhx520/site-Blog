@@ -102,12 +102,7 @@ head_addon = r'''
 
 footer_addon = ''
 
-body_addon = r'''
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
-<script>
-  new Darkmode().showWidget();
-</script>
-'''
+body_addon = ''
 
 valine = {
     "enable": True,
