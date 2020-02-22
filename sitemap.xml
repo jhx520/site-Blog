@@ -5,7 +5,7 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	
 
 <url>
-    <loc>/Gallery/</loc>
+    <loc>/gallery/</loc>
     <lastmod>2020-02-22</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
