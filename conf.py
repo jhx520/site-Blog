@@ -69,7 +69,7 @@ nav = [
         "target": "_self"
     },
     {
-        "name": "图廊",
+        "name": "相册",
         "url": "${site_prefix}gallery/",
         "target": "_self"
     }
