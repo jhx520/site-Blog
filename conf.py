@@ -99,13 +99,17 @@ head_addon = r'''
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
 <link rel="stylesheet" href="${static_prefix}1.css" />
+<link rel="stylesheet" href="${static_prefix}2.css" />
 '''
 
 footer_addon = r'''
-<div class="shaky">(｡･∀･)ﾉﾞ♥</div>
+<div class="shaky">我是谁的小可爱 (｡･∀･)ﾉﾞ♥</div>
 '''
 
 body_addon = r'''
+<div class='stars'></div>
+<div class='stars2'></div>
+<div class='stars3'></div>
 <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
 <script>
     var sf = new Snowflakes({
