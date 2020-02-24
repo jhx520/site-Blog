@@ -23,6 +23,7 @@ for_manual_build_trigger = 2
 # 站点设置
 site_name = "三刀魚"
 site_logo = "${static_prefix}logo.png"
+background_img = "${static_prefix}bj.jpg"
 site_build_date = "2020-02-08T12:00+08:00"
 author = "Anony"
 email = "1046880355@qq.com"
@@ -106,25 +107,6 @@ footer_addon = r'''
 '''
 
 body_addon = r'''
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
-<script>
-var options = {
-  bottom: '64px', // default: '32px'
-  right: 'unset', // default: '32px'
-  left: '32px', // default: 'unset'
-  time: '0.5s', // default: '0.3s'
-  mixColor: '#DEDEDE', // default: '#fff'
-  backgroundColor: '#fff',  // default: '#fff'
-  buttonColorDark: '#100f2c',  // default: '#100f2c'
-  buttonColorLight: '#fff', // default: '#fff'
-  saveInCookies: false, // default: true,
-  label: '🌓', // default: ''
-  autoMatchOsTheme: true // default: true
-}
-const darkmode = new Darkmode(options);
-darkmode.showWidget();
-  new Darkmode().showWidget();
-</script>
 <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
 <script>
     var sf = new Snowflakes({
