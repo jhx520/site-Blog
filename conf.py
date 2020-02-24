@@ -105,7 +105,17 @@ footer_addon = r'''
 <div class="shaky">(｡･∀･)ﾉﾞ♥</div>
 '''
 
-body_addon = ''
+body_addon = r'''
+<script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
+<script>
+    var sf = new Snowflakes({
+    color: "#FFFFFF",
+    count: 66,
+    minOpacity: 0.3,
+    maxOpacity: 1
+});
+</script>
+'''
 
 valine = {
     "enable": True,
