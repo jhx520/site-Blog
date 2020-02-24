@@ -23,7 +23,6 @@ for_manual_build_trigger = 2
 # 站点设置
 site_name = "三刀魚"
 site_logo = "${static_prefix}logo.png"
-background_img = "${static_prefix}bj.jpg"
 site_build_date = "2020-02-08T12:00+08:00"
 author = "Anony"
 email = "1046880355@qq.com"
@@ -107,6 +106,12 @@ footer_addon = r'''
 '''
 
 body_addon = r'''
+<script src="${static_prefix}activate-power-mode.js"></script>
+<script>
+    POWERMODE.colorful = true; // ture 为启用礼花特效
+    POWERMODE.shake = false; // false 为禁用震动特效
+    document.body.addEventListener('input', POWERMODE);
+</script>
 <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
 <script>
     var sf = new Snowflakes({
