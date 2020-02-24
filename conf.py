@@ -102,7 +102,7 @@ head_addon = r'''
 '''
 
 footer_addon = r'''
-<div class="shaky">我是谁的小可爱 (｡･∀･)ﾉﾞ♥</div>
+<div class="shaky">欢迎各位同学୧(๑•̀⌄•́๑)૭</div>
 '''
 
 body_addon = r'''
@@ -120,6 +120,15 @@ body_addon = r'''
     minOpacity: 0.3,
     maxOpacity: 1
 });
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?9f55f0ad8d1ef06dd6141095e6c14611";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
 </script>
 '''
 
