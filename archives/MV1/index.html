@@ -183,21 +183,23 @@
     <script src="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/assets/ExSearch/ExSearch-493cb9cd89.js"></script>
 
     
+<!-- 点击烟花特效 -->
+<canvas class="fireworks" 
+        style="position: fixed; left: 0px; top: 0px; z-index: 99999999; pointer-events: none; width: 1158px; height: 916px;" 
+        width="2316" 
+        height="1832">
+</canvas>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/anime.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/fireworks.js"></script>
+<!-- 点击烟花特效 -->
+<!-- 评论输入特效 -->
 <script src="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/activate-power-mode.js"></script>
 <script>
     POWERMODE.colorful = true; // ture 为启用礼花特效
     POWERMODE.shake = false; // false 为禁用震动特效
     document.body.addEventListener('input', POWERMODE);
 </script>
-<script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
-<script>
-    var sf = new Snowflakes({
-    color: "#FFFFFF",
-    count: 66,
-    minOpacity: 0.3,
-    maxOpacity: 1
-});
-</script>
+<!-- 评论输入特效 -->
 <script>
 var _hmt = _hmt || [];
 (function() {
