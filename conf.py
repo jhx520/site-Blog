@@ -98,16 +98,50 @@ head_addon = r'''
 <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
-<div class="aplayer" data-id="2440040711" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-volume="0.6" ></div>
 '''
 
-footer_addon = ''
+footer_addon = r'''
+<?php
+        $counterFile = "counter.txt";
+        function displayCounter($counterFile) {
+        $fp = fopen($counterFile,"rw");
+        $num = fgets($fp,4096);
+        $num += 1;
+        print "您是第 " . $num . " 位同学";
+        exec( "rm -rf $counterFile");
+        exec( "echo $num > $counterFile");
+                }
+        if (!file_exists($counterFile)) {
+            exec( "echo 0 > $counterFile");
+            }
+        displayCounter($counterFile);
+?>
+'''
 
 body_addon = r'''
-<script>var meting_api='http://api.mizore.cn/meting/api.php?server=:server&type=:type&id=:id'</script>
-<script src="http://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
-<script src="http://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script>
+<script src="http://xiaowiba.com/live2d_models/L2Dwidget.min.js"></script>
+<script src="http://xiaowiba.com/live2d_models/L2Dwidget.0.min.js"></script>
+<script>
+    L2Dwidget.init({
+        "model":{
+            "scale":1,"hHeadPos":0.5,"vHeadPos":0.618,
+            "jsonPath":"http://xiaowiba.com/live2d_models/live2d-widget-model-hijiki/assets/hijiki.model.json"
+        },
+        "display":{
+            "superSample":2,"width":100,"height":220,"position":"right","hOffset":20,"vOffset":-20
+        },
+        "mobile":{
+            "show":false,"scale":0.5
+        },
+        "react":{
+            "opacityDefault":0.7,"opacityOnHover":0.2
+        }
+    });
+</script>
+<div id="live2d-widget">
+    <canvas id="live2dcanvas" width="200" height="440" 
+    style="position: fixed; opacity: 1; right: 0px; bottom: 0; z-index: 99999; pointer-events: none;"></canvas>
+</div>
 '''
 
 valine = {
