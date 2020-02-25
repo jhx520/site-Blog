@@ -26,6 +26,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+    <loc>/archives/geshigongchang/</loc>
+    <lastmod>2020-02-26</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+</url>
+
+<url>
     <loc>/archives/MV1/</loc>
     <lastmod>2020-02-22</lastmod>
     <changefreq>always</changefreq>
