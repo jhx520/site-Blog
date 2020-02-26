@@ -14,7 +14,7 @@ function switchNightMode(){
 
 (function(){
     if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
-        if(new Date().getHours() > 22 || new Date().getHours() < 6){
+        if(new Date().getHours() > 13 || new Date().getHours() < 6){
         document.querySelector('link[title="dark"]').disabled = true;
         document.querySelector('link[title="dark"]').disabled = false;
         document.cookie = "night=1;path=/"
