@@ -330,10 +330,17 @@
 }
 
 
-.cover{
-    position:fixed;
-    top: 0px;
-    left: 0px;
-    outline:5000px solid rgba(0, 0, 0, 0.3);
-    z-index: 99999;
+/* 设置白天模式背景颜色默认值*/
+:root {
+  --bg-color: #000000;
+  ...
+}
+/* 设置暗夜模式背景颜色默认值 */
+@media (prefers-color-scheme: dark) {
+  --bg-color: #121212;
+  ...
+}
+* {
+  background: var(--bg-color);
+  ...
 }
