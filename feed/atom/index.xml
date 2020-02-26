@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><id>/</id><title>三刀魚</title><updated>2020-02-26T04:13:54.315457+08:06</updated><author><name>Anony</name><email>1046880355@qq.com</email></author><link href="/" rel="alternate"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><logo>https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/logo.png</logo><subtitle>我欲乘风向北行，雪落轩辕大如席</subtitle><entry><id>/archives/Checkra1n/</id><title>Checkra1n 越狱指南</title><updated>2020-02-26T04:13:54.315657+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h3&gt;起因&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><id>/</id><title>三刀魚</title><updated>2020-02-26T04:32:10.054419+08:06</updated><author><name>Anony</name><email>1046880355@qq.com</email></author><link href="/" rel="alternate"/><generator uri="https://lkiesow.github.io/python-feedgen" version="0.9.0">python-feedgen</generator><logo>https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/logo.png</logo><subtitle>我欲乘风向北行，雪落轩辕大如席</subtitle><entry><id>/archives/Checkra1n/</id><title>Checkra1n 越狱指南</title><updated>2020-02-26T04:32:10.054566+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h3&gt;起因&lt;/h3&gt;
 &lt;p&gt;首先来说一下我的设备情况，18年9月买的 iPhone 8P，本来是准备留在 iOS 12.4 养老，但是由于去年买了耳机（AirPods Pro），所有功能起步适配 iOS 13.2，所以没办法，考虑再三，最终还是选择升级系统。&lt;/p&gt;
 &lt;h3&gt;计划&lt;/h3&gt;
 &lt;ul&gt;
@@ -35,7 +35,7 @@ reboot
 &lt;/ul&gt;
 &lt;h3&gt;小结&lt;/h3&gt;
 &lt;p&gt;其实两者并没有什么效率可言，纯属个人习惯，且不随身携带 U盘，所以还是喜欢直接进入 Windows，这样操作起来也方便些，截至写稿前，Checkra1n Win 并没有发布。&lt;/p&gt;
-</content><link href="/archives/Checkra1n/" rel="alternate"/><published>2020-02-11T20:34:00+08:06</published></entry><entry><id>/archives/telegram/</id><title>原生 Telegram 解锁</title><updated>2020-02-26T04:13:54.315633+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h3&gt;介绍&lt;/h3&gt;
+</content><link href="/archives/Checkra1n/" rel="alternate"/><published>2020-02-11T20:34:00+08:06</published></entry><entry><id>/archives/telegram/</id><title>原生 Telegram 解锁</title><updated>2020-02-26T04:32:10.054546+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h3&gt;介绍&lt;/h3&gt;
 &lt;p&gt;&lt;figure style="flex: 33.68347338935574" &gt;&lt;img width="1443" height="2142" src="https://cdn.jsdelivr.net/gh/jhx520/site-Blog@gh-pages/archives/assets/78c6adc85302506f46dd98c469df0969.png" /&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;h3&gt;准备&lt;/h3&gt;
 &lt;ul&gt;
@@ -52,7 +52,7 @@ reboot
 &lt;li&gt;Web：&lt;strong&gt;Settings→Show Sensitive Content&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;重启手机客户端&lt;/li&gt;
 &lt;/ol&gt;
-</content><link href="/archives/telegram/" rel="alternate"/><published>2020-02-15T20:18:00+08:06</published></entry><entry><id>/archives/sstap/</id><title>电脑科学上网</title><updated>2020-02-26T04:13:54.315589+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h4&gt;前言&lt;/h4&gt;
+</content><link href="/archives/telegram/" rel="alternate"/><published>2020-02-15T20:18:00+08:06</published></entry><entry><id>/archives/sstap/</id><title>电脑科学上网</title><updated>2020-02-26T04:32:10.054525+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h4&gt;前言&lt;/h4&gt;
 &lt;p&gt;最近博主许多同学询问起了关于电脑科学上网的问题，接踵而至，为此博主写下此篇教程(对于老司机来说，本篇可略过，针对小白)，虽然现在 V2Ray 吃香，但是体验之后，依旧喜欢 SSTAP&lt;/p&gt;
 &lt;h3&gt;简述&lt;/h3&gt;
 &lt;p&gt;所谓科学上网，这里不多做解释，通过它，我们可以上 Google、YouTube、Twitter、instagram等国外网站&lt;/p&gt;
@@ -89,10 +89,10 @@ reboot
 &lt;/ul&gt;
 &lt;h3&gt;小记&lt;/h3&gt;
 &lt;p&gt;本篇教程到此也就结束了，关于节点，需要大家自行寻找，博主提供一个&lt;a href="https://lpssxs.com/"&gt;机场地址&lt;/a&gt;，目前已关闭注册，联系博主可进行内部注册与购买&lt;/p&gt;
-</content><link href="/archives/sstap/" rel="alternate"/><published>2020-02-21T22:18:00+08:06</published></entry><entry><id>/archives/MV1/</id><title>MV 《我爱他》</title><updated>2020-02-26T04:13:54.315560+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;p&gt;&lt;strong&gt;🎈情不知所起，奈何情深🎈&lt;/strong&gt;&lt;/p&gt;
+</content><link href="/archives/sstap/" rel="alternate"/><published>2020-02-21T22:18:00+08:06</published></entry><entry><id>/archives/MV1/</id><title>MV 《我爱他》</title><updated>2020-02-26T04:32:10.054502+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;p&gt;&lt;strong&gt;🎈情不知所起，奈何情深🎈&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;iframe data-ratio="0.625" src="//player.bilibili.com/player.html?aid=91226984&amp;cid=155776443&amp;page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"&gt; &lt;/iframe&gt;
 不是一个音乐控，但看到这个 MV 的时候，说不上的感觉，就是很喜欢~&lt;/p&gt;
-</content><link href="/archives/MV1/" rel="alternate"/><published>2020-02-22T10:07:00+08:06</published></entry><entry><id>/archives/geshigongchang/</id><title>视频镜像颠倒</title><updated>2020-02-26T04:13:54.315509+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h3&gt;前言&lt;/h3&gt;
+</content><link href="/archives/MV1/" rel="alternate"/><published>2020-02-22T10:07:00+08:06</published></entry><entry><id>/archives/geshigongchang/</id><title>视频镜像颠倒</title><updated>2020-02-26T04:32:10.054462+00:00</updated><author><name>Anony</name><email>1046880355@qq.com</email><uri>http://139931.xyz</uri></author><content>&lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;以前是真的不会做视频，就感觉视频剪辑对我来说，很遥远。虽然一直很想学，却一直没坚持下来，起因是阿媛让我帮她将视频中的画面，进行左右反转（类似镜面原理）。&lt;/p&gt;
 &lt;h3&gt;准备&lt;/h3&gt;
 &lt;ul&gt;
