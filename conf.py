@@ -99,7 +99,9 @@ head_addon = r'''
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
 <link rel="stylesheet" href="${static_prefix}1.css" />
-<link rel="stylesheet" href="${static_prefix}style.css" />
+body {
+background-color: #000000;
+}
 '''
 
 footer_addon = r'''
@@ -107,14 +109,6 @@ footer_addon = r'''
 '''
 
 body_addon = r'''
-<div class="switch-wrapper">
-  <div class="string"></div>
-  <div class="switch">
-	<div class="knot"></div>
-	<div class="tassel"></div>
-	<div class="gap"></div>
-  </div>
-</div>
 <!-- 点击烟花特效 -->
 <canvas class="fireworks" 
         style="position: fixed; left: 0px; top: 0px; z-index: 99999999; pointer-events: none; width: 1158px; height: 916px;" 
