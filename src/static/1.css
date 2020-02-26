@@ -328,3 +328,12 @@
     transform: translate(1.3px, 1px) rotate(-0.5deg)
   }
 }
+
+
+.cover{
+    position:fixed;
+    top: 0px;
+    left: 0px;
+    outline:5000px solid rgba(0, 0, 0, 0.3);
+    z-index: 99999;
+}

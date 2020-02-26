@@ -99,7 +99,6 @@ head_addon = r'''
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
 <link rel="stylesheet" href="${static_prefix}1.css" />
-<body bgcolor="#000000">
 '''
 
 footer_addon = r'''
@@ -107,6 +106,7 @@ footer_addon = r'''
 '''
 
 body_addon = r'''
+<div class="cover"></div>
 <!-- 点击烟花特效 -->
 <canvas class="fireworks" 
         style="position: fixed; left: 0px; top: 0px; z-index: 99999999; pointer-events: none; width: 1158px; height: 916px;" 
@@ -133,6 +133,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
+<script type="text/javascript" src="${static_prefix}1.js"></script>
 '''
 
 valine = {
