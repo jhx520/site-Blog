@@ -99,8 +99,7 @@ head_addon = r'''
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
 <link rel="stylesheet" href="${static_prefix}1.css" />
-<link href="${static_prefix}dark.css" rel="alternate stylesheet" type="text/css" title="dark">
-<link href="${static_prefix}dark.css" rel="<?php if($_COOKIE['night'] != '1'){echo 'alternate ';} ?>stylesheet" type="text/css" title="dark">
+<link rel="stylesheet" href="${static_prefix}dark.css" />
 '''
 
 footer_addon = r'''
@@ -134,7 +133,6 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
-<script type="text/javascript" src="${static_prefix}1.js"></script>
 '''
 
 valine = {
