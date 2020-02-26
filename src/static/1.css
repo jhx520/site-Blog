@@ -328,19 +328,3 @@
     transform: translate(1.3px, 1px) rotate(-0.5deg)
   }
 }
-
-
-/* 设置白天模式背景颜色默认值*/
-:root {
-  --bg-color: #000000;
-  ...
-}
-/* 设置暗夜模式背景颜色默认值 */
-@media (prefers-color-scheme: dark) {
-  --bg-color: #121212;
-  ...
-}
-* {
-  background: var(--bg-color);
-  ...
-}

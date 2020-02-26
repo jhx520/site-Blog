@@ -99,7 +99,8 @@ head_addon = r'''
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
 <link rel="stylesheet" href="${static_prefix}1.css" />
-<div class="cover"></div>
+<link href="${static_prefix}dark.css" rel="alternate stylesheet" type="text/css" title="dark">
+<link href="${static_prefix}dark.css" rel="<?php if($_COOKIE['night'] != '1'){echo 'alternate ';} ?>stylesheet" type="text/css" title="dark">
 '''
 
 footer_addon = r'''
