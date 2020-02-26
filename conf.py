@@ -132,6 +132,7 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
+<script type="text/javascript" src="${static_prefix}2.js"></script>
 '''
 
 valine = {
