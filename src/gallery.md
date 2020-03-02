@@ -12,7 +12,7 @@ tags:
 ### AirPods Pro 开箱
 
 [photos] 
- ![](https://i.loli.net/2020/02/23/Fzcyv6MTreIHg8P.jpg)
+![](https://i.loli.net/2020/02/23/Fzcyv6MTreIHg8P.jpg)
 ![](https://i.loli.net/2020/02/23/fpOdhBXH4VATCuP.jpg) 
 [/photos] 
 

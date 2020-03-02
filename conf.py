@@ -99,7 +99,6 @@ head_addon = r'''
 <link rel="apple-touch-icon" sizes="180x180" href="${static_prefix}logo.png">
 <link rel="shortcut icon" href="${static_prefix}favicon.ico">
 <link rel="stylesheet" href="${static_prefix}1.css" />
-<link rel="stylesheet" type="text/css" href="${static_prefix}dark.css" />
 '''
 
 footer_addon = r'''
